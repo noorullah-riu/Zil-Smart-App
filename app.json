@@ -1,0 +1,64 @@
+{
+  "expo": {
+    "name": "ZIL Smart App",
+    "slug": "zil",
+    "version": "1.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/hi-tech.png",
+    "splash": {
+      "image": "./src/assets/hiTechSq.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.hcc.smartapp.zil",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ],
+        "CFBundleAllowMixedLocalizations": true,
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "App requires geolocation to improve the quality of the service",
+        "NSLocationAlwaysUsageDescription": "App requires geolocation to improve the quality of the service",
+        "NSLocationWhenInUseUsageDescription": "App requires geolocation to improve the quality of the service",
+        "NSCameraUsageDescription": "The picture will be used to inform the state of the packages during delivery",
+        "NSUserActivityTypes": [
+          "INSendMessageIntent"
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/hiTechSq.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.hcc.smartapp.zil",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.INTERNET"
+      ],
+      "versionCode": 21
+    },
+    "web": {
+      "favicon": "./src/assets/hiTechSq.png"
+    },
+    "plugins": [
+      "expo-file-system"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6b6330c7-d8f8-4d87-ade6-c1d4e45e04e4"
+      }
+    }
+  }
+}
