@@ -1,0 +1,6 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -workspace /Users/aliraza/Documents/Development/Office/HCC_LABS/Zil-Smart-App/ios/ZILSmartApp.xcworkspace -configuration Debug -scheme ZILSmartApp -destination id=E75DBAF8-041E-4FA1-BF56-44D022940330
+
+User defaults from command line:
+    IDEPackageSupportUseBuiltinSCM = YES
+
