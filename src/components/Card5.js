@@ -2,9 +2,7 @@ import React from "react";
 import {
   StyleSheet,
   Image,
-  SafeAreaView,
   View,
-  ScrollView,
   TouchableOpacity,
   Dimensions,
 } from "react-native";
@@ -13,10 +11,8 @@ import colors from "./colors";
 import AppRow from "./AppRow";
 import AppColumn from "../components/AppColumn";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SimpleLineIcons } from "@expo/vector-icons";
-
-const { width, height } = Dimensions.get("screen");
 import MapView from "react-native-maps";
+const { width, height } = Dimensions.get("screen");
 
 const Card5 = ({
   navigation,
@@ -29,9 +25,7 @@ const Card5 = ({
   item,
   route,
 }) => {
-  // console.log("updated route",route)
   const onPress = () => {
-    console.log(route,"---------route");
     storeCustomerDetails(item);
     {
       route === "order" || route === "quotation" || route === "PurchaseReqList"
@@ -42,18 +36,18 @@ const Card5 = ({
             customerCode: code,
             item: item,
           })
-          : route === "CustomersList"
-          ? navigation.navigate("Sales", {
-              customerName: name,
-              customerCode: code,
-              item: item,
-            })
-            : route === "Sales Invoice"
-            ? navigation.navigate("Sales", {
-                customerName: name,
-                customerCode: code,
-                item: item,
-              })
+        : route === "CustomersList"
+        ? navigation.navigate("Sales", {
+            customerName: name,
+            customerCode: code,
+            item: item,
+          })
+        : route === "Sales Invoice"
+        ? navigation.navigate("Sales", {
+            customerName: name,
+            customerCode: code,
+            item: item,
+          })
         : route === "AddActivity"
         ? navigation.navigate("AddActivity", {
             customerName: name,
@@ -78,7 +72,6 @@ const Card5 = ({
   const renderMaps = () => {
     return (
       <>
-        console.log("here");
         <View style={styles.container}>
           <MapView style={styles.map} />
         </View>
