@@ -3,7 +3,7 @@ import {
   StyleSheet,
   SafeAreaView,
   View,
-TouchableOpacity,
+  TouchableOpacity,
   FlatList,
   Alert,
   ActivityIndicator,
@@ -43,17 +43,16 @@ const InventoryItems = ({ navigation, route }) => {
     setprogressVisible(true);
     const response = await allCustomersApi.getAllSAPItems();
 
-    console.log("customersList", response.data.data);
+    // console.log("customersList", response.data.data);
     if (!response.ok)
       return Alert.alert("Couldn't retrieve the customers List");
     setCustomers(response.data.data);
     setprogressVisible(false);
   };
 
-  const nav =(msg)=>{
-    if(msg)navigation.navigate("Inventory",{code:msg});
-  }
-
+  const nav = (msg) => {
+    if (msg) navigation.navigate("Inventory", { code: msg });
+  };
 
   return (
     <SafeAreaView>
@@ -64,21 +63,21 @@ const InventoryItems = ({ navigation, route }) => {
         navigation={navigation}
         headerTitle="Items List"
       />
-         <SearchBar
+      <SearchBar
         searchPhrase={searchPhrase}
         setSearchPhrase={setSearchPhrase}
         clicked={clicked}
         setClicked={setClicked}
-      />  
+      />
 
-         <ItemCardNew
-          searchPhrase={searchPhrase}
-          data={customers}
+      <ItemCardNew
+        searchPhrase={searchPhrase}
+        data={customers}
         //   route={myroute}
-          setClicked={setClicked}
-          navigation={navigation}
-        /> 
-            <ProgressDialog
+        setClicked={setClicked}
+        navigation={navigation}
+      />
+      <ProgressDialog
         visible={progressVisible}
         title="Loading Items" //"Posting Data"
         message="Please wait..."

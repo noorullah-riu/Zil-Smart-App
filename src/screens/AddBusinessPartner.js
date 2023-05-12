@@ -1,14 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppText from "../components/AppText";
-
-const { width } = Dimensions.get("screen");
-import * as FileSystem from "expo-file-system";
-
 import {
   View,
   ScrollView,
   StyleSheet,
-  Dimensions,
   SafeAreaView,
   TextInput,
   TouchableOpacity,
@@ -20,7 +15,6 @@ import colors from "../components/colors";
 import sizes from "../components/sizes";
 import AppButton from "../components/AppButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import postActivityApi from "../api/postActivity";
 import RNPickerSelect from "react-native-picker-select";
 import allCustomersApi from "../api/allCustomers";
 import { ProgressDialog } from "react-native-simple-dialogs";
@@ -57,7 +51,6 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const [Phone1, setPhone1] = useState({});
   const [Phone2, setPhone2] = useState({});
   const [CardForeignName, setCardForeignName] = useState({});
-  const [CardType, setCardType] = useState({});
   const [WTCode, setWTCode] = useState({});
   const [WTName, setWTName] = useState({});
   const [AcctName, setAcctName] = useState({});
@@ -84,7 +77,8 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const [IndCode, setindCode] = useState({});
   const [IndCodeForBp, setindCodeForBp] = useState({});
   const [IndName, setindName] = useState({});
-  const [CardName, setcardName] = useState({});
+  const [cardName, setCardName] = useState("");
+  const [cardType, setCardType] = useState("");
   const [PaymentGroup, setpaymentGroup] = useState({});
   const [ShipAddress, setShipAddress] = useState({});
   const [PriceCode, setPriceCode] = useState({});
@@ -127,167 +121,139 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const [ConsolidatingBP, setConsolidatingBP] = useState({});
   const [ConsolidatingBPType, setConsolidatingBPType] = useState({});
   const [AccountReceivable, setAccountReceivable] = useState({});
-  const [DownPaymentClearingAccount, setDownPaymentClearingAccount] = useState({});
+  const [DownPaymentClearingAccount, setDownPaymentClearingAccount] = useState(
+    {}
+  );
   const [DownPaymentInterimAccount, setDownPaymentInterimAccount] = useState(
     {}
   );
 
   const createobj = () => {
     let obj = {
-      MainParty: isSelected,
-      SubPartyOf: coBusinessPartner,
-      CompanyName: companyName,
-      City: city,
-      CustomerName: name,
-      Mobile: mobile,
-      Email: email,
-      Fax: fax,
-      PhAreaCode: areaCode,
-      ResidentialNo: residentialNo,
-      OfficePh: officePh,
-      warehouseAddress: warehouseAddress,
-      MailingAddress: address,
-      PaymentTerms: paymentTerms,
-      ApprovedCreditDays: creditDays,
-      ApprovedCreditLimit: ApprovedCreditLimit,
+      // MainParty: isSelected,
+      // SubPartyOf: coBusinessPartner,
+      // CompanyName: companyName,
+      // CustomerName: name,
+      // Email: email,
+      // ResidentialNo: residentialNo,
+      // Fax: fax,
+      // OfficePh: officePh,
+      // warehouseAddress: warehouseAddress,
+      // PhAreaCode: areaCode,
+      // MailingAddress: address,
+      // PaymentTerms: paymentTerms,
+      // ApprovedCreditDays: creditDays,
+      // ApprovedCreditLimit: ApprovedCreditLimit,
+
+      // City: city, in addresslistforbillto, ship to
+      // Mobile: mobile, in contact person list
+
       CustomerLegalEntity: entity1,
-      Natureofbusiness: entity,
-      cardCode: CardCode,
-      accountBalance: AccountBalance,
-      creditLimit: CreditLimit,
-      remainingLimit: RemainingLimit,
-      totalDiscount: TotalDiscount,
-      phone1: Phone1,
-      phone2: Phone2,
-      cardForeignName: CardForeignName,
-      cardType: CardType,
-      wtCode: WTCode,
-      wtName: WTName,
-      acctName: AcctName,
-      rate: Rate,
-      acctCode: AcctCode,
-      whsName: WhsName,
-      whsCode: WhsCode,
-      groupNum: GroupNum,
-      listName: listName,
-      listNum: listNum,
-      pricelistNum: PricelistNum,
-      industory: Industory,
-      customerLegalEntity: CustomerLegalEntity,
-      territryID: territryID,
-      Name: Name,
-      code: Code,
-      ocrCode: OcrCode,
-      ocrName: OcrName,
-      descript: DiscRel,
-      parent: parent,
-      groupName: GroupName,
-      currCode: CurrCode,
-      chkName: ChkName,
-      indCode: IndCode,
-      indCodeForBp: IndCodeForBp,
-      indName: IndName,
-      cardName: CardName,
-      paymentGroup: PaymentGroup,
-      shipAddress: ShipAddress,
-      priceCode: PriceCode,
-      priceName: PriceName,
-      groupCode: GroupCode,
-      groupCodeS: GroupCodeS,
-      mailAddres: MailAddres,
-      cashCustomer: CashCustomer,
-      discRel: DiscRel,
-      isSpecial: IsSpecial,
-      ecVatGroup: EcVatGroup,
-      vatRate: VatRate,
-      u_Adv_IT: U_Adv_IT,
-      u_alwbrmtx: U_alwbrmtx,
-      addressCode: AddressCode,
-      u_MRP_TAX_Rate: U_MRP_TAX_Rate,
-      u_Adv_IT_Rate: U_Adv_IT_Rate,
-      creditLine: CreditLine,
-      balance: Balance,
-      cnic: CNIC,
-      pdC_Cheque_Received: PDC_Cheque_Received,
-      u_WhsCode: U_WhsCode,
-      cellNo: CellNo,
-      ntn: NTN,
-      strn: STRN,
-      notes: Notes,
-      customerGroup: CustomerGroup,
-      objectCode: ObjectCode,
-      series: Series,
-      seriesName: SeriesName,
-      nextNumber: NextNumber,
-      beginStr: BeginStr,
-      remark: Remark,
-      numSize: NumSize,
-      slpCode: SlpCode,
-      slpCodeForBP: SlpCodeForBP,
-      slpName: SlpName,
-      u_SalesType: U_SalesType,
-      paymentTerm: PaymentTerm,
-      effectiveDiscount: EffectiveDiscount,
-      consolidatingBP: ConsolidatingBP,
-      consolidatingBPType: ConsolidatingBPType,
-      accountReceivable: AccountReceivable,
-      downPaymentClearingAccount: DownPaymentClearingAccount,
-      downPaymentInterimAccount: DownPaymentInterimAccount,
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      //   addressListForBillTo: [
-      //     {
-      //       addressID: "string",
-      //       address2: "string",
-      //       address3: "string",
-      //       block: "string",
-      //       streetNo: "string",
-      //       city: "string",
-      //       country: "string",
-      //       state: "string",
-      //       branchLocation: "string",
-      //       whsCode: "string",
-      //     },
-      //   ],
-      //   addressListForShipTo: [
-      //     {
-      //       addressID: "string",
-      //       address2: "string",
-      //       address3: "string",
-      //       block: "string",
-      //       streetNo: "string",
-      //       city: "city",
-      //       country: "string",
-      //       state: "string",
-      //       branchLocation: "string",
-      //       whsCode: "string",
-      //     },
-      //   ],
-      //   contactPersonList: [
-      //     {
-      //       firstName: "string",
-      //       middleName: "string",
-      //       lastName: "string",
-      //       title: "string",
-      //       position: "string",
-      //       address: "string",
-      //       mobilePhone: "string",
-      //     },
-      //   ],
+
+      // Natureofbusiness: entity,
+      // cardCode: CardCode, uncomment later
+      // fishy
+      // accountBalance: AccountBalance,
+      // creditLimit: CreditLimit,
+      // remainingLimit: RemainingLimit,
+      // totalDiscount: TotalDiscount,
+      // phone1: Phone1,
+      // phone2: Phone2,
+      // cardForeignName: CardForeignName,infinite null value
+
+      cardType: cardType,
+
+      // wtCode: WTCode,
+      // wtName: WTName,
+      // acctName: AcctName, ??? infinite value
+      // rate: Rate,
+      // acctCode: AcctCode,infinite null value
+      // whsName: WhsName,
+      // whsCode: WhsCode,
+      // groupNum: GroupNum,
+      // listName: listName,
+      // listNum: listNum,
+      // pricelistNum: PricelistNum,
+      // industory: Industory,
+      // customerLegalEntity: CustomerLegalEntity,
+      // territryID: territryID,
+      // Name: Name, // extra, infinite null value
+      // code: Code,
+      // ocrCode: OcrCode,
+      // ocrName: OcrName,
+      // descript: DiscRel,
+      // parent: parent,
+      // groupName: GroupName,
+      // currCode: CurrCode,
+      // chkName: ChkName,
+      // indCode: IndCode,
+      // indCodeForBp: IndCodeForBp,
+      // indName: IndName,
+
+      cardName: cardName,
+
+      // paymentGroup: PaymentGroup,
+      // shipAddress: ShipAddress,
+      // priceCode: PriceCode,
+      // priceName: PriceName,
+      // groupCode: GroupCode,
+      // groupCodeS: GroupCodeS,
+      // mailAddres: MailAddres,
+      // cashCustomer: CashCustomer,
+      // discRel: DiscRel,
+      // isSpecial: IsSpecial,
+      // ecVatGroup: EcVatGroup,
+      // vatRate: VatRate,
+      // u_Adv_IT: U_Adv_IT,
+      // u_alwbrmtx: U_alwbrmtx,
+      // addressCode: AddressCode, getting infinite null vals
+      // u_MRP_TAX_Rate: U_MRP_TAX_Rate,
+      // u_Adv_IT_Rate: U_Adv_IT_Rate,
+      // creditLine: CreditLine,
+      // balance: Balance, getting 0's, extra
+      // cnic: CNIC,
+      // pdC_Cheque_Received: PDC_Cheque_Received,
+      // u_WhsCode: U_WhsCode,
+      // cellNo: CellNo,
+      // ntn: NTN,
+      // strn: STRN,
+      // notes: Notes,
+      // customerGroup: CustomerGroup,
+      // objectCode: ObjectCode,
+      // series: Series,
+      // seriesName: SeriesName,
+      // nextNumber: NextNumber,
+      // beginStr: BeginStr, // extra
+      // remark: Remark,
+      // numSize: NumSize,
+      // slpCode: SlpCode,
+      // slpCodeForBP: SlpCodeForBP,
+      // slpName: SlpName,
+      // u_SalesType: U_SalesType,
+      // paymentTerm: PaymentTerm,
+      // effectiveDiscount: EffectiveDiscount,
+      // consolidatingBP: ConsolidatingBP,
+      // consolidatingBPType: ConsolidatingBPType,
+      // accountReceivable: AccountReceivable, infinite null value
+      // downPaymentClearingAccount: DownPaymentClearingAccount,
+      // downPaymentInterimAccount: DownPaymentInterimAccount,
+      series: 78,
+      slpCodeForBP: 10,
     };
-    console.log(obj);
+    // console.log("createobj1::", obj);
     postPartner(obj);
   };
 
   useEffect(() => {
-    getUserDetails();
+    // getUserDetails();
   }, []);
   const getAllCustomers = async (code, territory) => {
-    console.log("------yy------code", code);
-    console.log("-------ttt-----territory", territory);
+    // console.log("getAllCustomers, slpcode", code);
+    // console.log("getAllCustomers,territory", territory);
     setprogressVisible(true);
     const response = await allCustomersApi.getAllCustomers(code, territory);
     setprogressVisible(false);
-    console.log("customersList", response.data);
+    // console.log("customersList", response.data);
 
     // let objs = [response.data.Data];
     // setfullCustomers(objs);
@@ -296,6 +262,8 @@ const AddBusinessPartner = ({ navigation, route }) => {
     //1
     var CardCode = [];
     response.data.Data.map((item) => {
+      // console.log("item.CardCode", item.CardCode);
+
       CardCode.push({ cardCode: item.CardCode });
     });
     setCardCode(CardCode);
@@ -362,6 +330,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
 
     var AcctName = [];
     response.data.Data.map((item) => {
+      // console.log("item.AcctName", item.AcctName);
       AcctName.push({ acctName: item.AcctName });
     });
     setAcctName(AcctName);
@@ -374,6 +343,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
 
     var AcctCode = [];
     response.data.Data.map((item) => {
+      // console.log("item.AcctCode", item.AcctCode);
       AcctCode.push({ acctCode: item.AcctCode });
     });
     setAcctCode(AcctCode);
@@ -436,6 +406,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
 
     var Name = [];
     response.data.Data.map((item) => {
+      // console.log("item.Name", item.Name);
       Name.push({ Name: item.Name });
     });
     setName(Name);
@@ -728,6 +699,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
 
     var SlpCodeForBP = [];
     response.data.Data.map((item) => {
+      // console.log("slpCode", item.slpCode);
       SlpCodeForBP.push({ slpCodeForBP: item.SlpCodeForBP });
     });
     setSlpCodeForBP(SlpCodeForBP);
@@ -772,6 +744,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
 
     var AccountReceivable = [];
     response.data.Data.map((item) => {
+      // console.log("item.AccountReceivable", item.AccountReceivable);
       AccountReceivable.push({ accountReceivable: item.AccountReceivable });
     });
     setAccountReceivable(AccountReceivable);
@@ -803,7 +776,9 @@ const AddBusinessPartner = ({ navigation, route }) => {
   };
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
-    console.log("--------check this----jsonValue", jsonValue);
+    console.log("user_Details", JSON.parse(jsonValue));
+    const jsonValue1 = await AsyncStorage.getItem("@customer_Details");
+    console.log("customer_Details", JSON.parse(jsonValue1));
     if (!customers.length > 0)
       getAllCustomers(
         JSON.parse(jsonValue).salePersonCode,
@@ -822,13 +797,12 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const postPartner = async (obj) => {
     setprogressVisible(true);
     const response = await postOrder.PostPartner(obj);
-    console.log("saleOrder response:", response.data);
+    console.log("saleOrder response:", response.data, response.data.Message);
     setprogressVisible(false);
 
     if (response.data.code === 0) {
       Alert.alert("Success", "Successfully Posted Partner!", [{ text: "OK" }]);
       navigation.navigate("Home");
-      setCartItem([]);
     } else {
       Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
     }
@@ -887,7 +861,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         )}
         <View style={styles.row}>
           <View style={styles.childView}>
-            <AppText style={styles.label}>Company name*</AppText>
+            <AppText style={styles.label}>Company name</AppText>
             <TextInput
               style={styles.input}
               placeholder="Enter Customer Name"
@@ -896,7 +870,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.childView}>
-            <AppText style={styles.label}>City*</AppText>
+            <AppText style={styles.label}>City</AppText>
             <TextInput
               style={styles.input}
               placeholder="Enter Customer Name"
@@ -908,7 +882,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
 
         <View style={styles.row}>
           <View style={styles.childView}>
-            <AppText style={styles.label}>Customer Name*</AppText>
+            <AppText style={styles.label}>Customer Name</AppText>
             <TextInput
               style={styles.input}
               placeholder="Enter Customer Name"
@@ -917,7 +891,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.childView}>
-            <AppText style={styles.label}>Mobile*</AppText>
+            <AppText style={styles.label}>Mobile</AppText>
             <TextInput
               style={styles.input}
               placeholder="Enter Mobile"
@@ -980,7 +954,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.childView}>
-            <AppText style={styles.label}>Warehouse Address*</AppText>
+            <AppText style={styles.label}>Warehouse Address</AppText>
             <TextInput
               style={styles.input}
               placeholder="Enter Warehouse Address"
@@ -1002,7 +976,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         <View
           style={{ marginHorizontal: sizes.base_margin, marginVertical: 10 }}
         >
-          <AppText style={styles.label}>Payment Terms*</AppText>
+          <AppText style={styles.label}>Payment Terms</AppText>
           <View style={styles.picker}>
             <RNPickerSelect
               onValueChange={(value, indx) => setPaymentTerms(value)}
@@ -1023,7 +997,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
 
         <View style={styles.row}>
           <View style={styles.childView}>
-            <AppText style={styles.label}>Approved Credit Days*</AppText>
+            <AppText style={styles.label}>Approved Credit Days</AppText>
             <TextInput
               style={styles.input}
               keyboardType="numeric"
@@ -1033,7 +1007,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
             />
           </View>
           <View style={styles.childView}>
-            <AppText style={styles.label}>Approved Credit Limit*</AppText>
+            <AppText style={styles.label}>Approved Credit Limit</AppText>
             <TextInput
               style={styles.input}
               keyboardType="numeric"
@@ -1043,28 +1017,59 @@ const AddBusinessPartner = ({ navigation, route }) => {
             />
           </View>
         </View>
-
         <View
           style={{ marginHorizontal: sizes.base_margin, marginVertical: 10 }}
         >
-          <AppText style={styles.label}>Customer Legal Entity* </AppText>
+          <AppText style={styles.label}>Card Type </AppText>
           <View style={styles.picker}>
             <RNPickerSelect
-              name={"Legal Entity"}
-              onValueChange={(value, indx) => setEntity1(value)}
+              name={"Card Type"}
+              onValueChange={(value, indx) => setCardType(value)}
               items={[
-                { label: "Sole Proprietor", value: "Sole Proprietor" },
-                { label: "Partnership", value: "Partnership" },
-                { label: "Company", value: "Company" },
-                { label: "Unregistered", value: "Unregistered" },
+                { label: "Vendor", value: "S" },
+                { label: "Customer", value: "C" },
+                { label: "Lead", value: "L" },
               ]}
               useNativeAndroidPickerStyle={false}
               style={pickerStyle}
             />
           </View>
         </View>
+        <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
+          <AppText style={styles.label}>Card Name</AppText>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Card Name"
+            value={cardName}
+            onChangeText={(value) => setCardName(value)}
+          />
+        </View>
         <View
           style={{ marginHorizontal: sizes.base_margin, marginVertical: 10 }}
+        >
+          <AppText style={styles.label}>Customer Legal Entity </AppText>
+          <View style={styles.picker}>
+            <RNPickerSelect
+              name={"Legal Entity"}
+              onValueChange={(value, indx) => setEntity1(value)}
+              items={[
+                { label: "Company", value: "C" },
+                { label: "Private", value: "P" },
+                { label: "Government", value: "G" },
+                { label: "Employee", value: "E" },
+              ]}
+              useNativeAndroidPickerStyle={false}
+              style={pickerStyle}
+            />
+          </View>
+        </View>
+
+        <View
+          style={{
+            marginHorizontal: sizes.base_margin,
+            marginVertical: 10,
+            marginBottom: 50,
+          }}
         >
           <AppText style={styles.label}>Nature of business*</AppText>
           <View style={styles.picker}>
@@ -1087,7 +1092,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
       </ScrollView>
       <ProgressDialog
         visible={progressVisible}
-        title="Loading Data"
+        title="Adding Business Partner"
         message="Please wait..."
       />
       <View style={styles.buttonContainer}>
@@ -1118,7 +1123,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   picker: {
-    padding: 15,
+    padding: 10,
     borderWidth: 1,
     marginTop: 10,
     borderColor: colors.white,
