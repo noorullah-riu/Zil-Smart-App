@@ -832,7 +832,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 70 }}
       >
-        <View style={{ marginHorizontal: sizes.base_margin, marginTop: 10 }}>
+        {/* <View style={{ marginHorizontal: sizes.base_margin, marginTop: 10 }}>
           <View style={styles.checkboxContainer}>
             <AppText style={styles.label}>Main Party*</AppText>
             <Checkbox
@@ -1016,7 +1016,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
               onChangeText={(value) => setApprovedCreditLimit(value)}
             />
           </View>
-        </View>
+        </View> */}
         <View
           style={{ marginHorizontal: sizes.base_margin, marginVertical: 10 }}
         >
@@ -1063,7 +1063,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
             />
           </View>
         </View>
-
+        {/* 
         <View
           style={{
             marginHorizontal: sizes.base_margin,
@@ -1088,7 +1088,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
               style={pickerStyle}
             />
           </View>
-        </View>
+        </View> */}
       </ScrollView>
       <ProgressDialog
         visible={progressVisible}
