@@ -70,7 +70,7 @@ const Orders = ({ navigation }) => {
     setprogressVisible(false);
     setIsFetching(false);
     if (!response.ok)
-      return Alert.alert("Couldn't retrieve the customers pendng List");
+      return Alert.alert("Couldn't retrieve the customers List");
     if (response.data.data) setOrdersList(response.data.data);
     else {
       Alert.alert("No approved sale orders found!");

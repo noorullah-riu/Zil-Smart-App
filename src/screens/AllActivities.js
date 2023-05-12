@@ -134,12 +134,12 @@ const AllActivities = ({navigation}) => {
         return (
             <AppRow style={styles.headingView}>
                 <AppText style={styles.t1}>Closed Activities List</AppText>
-                <TouchableOpacity onPress={handleMapView1}>
+            {/*     <TouchableOpacity onPress={handleMapView1}>
                     <AppRow>
                         <Entypo name="location" size={24} color={colors.secondary}/>
                         <AppText style={styles.t2}>View on Map</AppText>
                     </AppRow>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </AppRow>
         );
     };
