@@ -216,9 +216,10 @@ const PostOrder = ({ route, navigation }) => {
     sosq["salePersonCode"] = user.salePersonCode; //
     sosq["customerCode"] = customer.CardCode;
     sosq["customerName"] = customer.CardName;
-    (sosq["deliveryDate"] = "02-02-2021"), //date;
-      (sosq["series"] = 89);
+    sosq["deliveryDate"] = date; //"13-05-2023"), //date;
+      (sosq["series"] = 165);
     sosq["remarks"] = remarks;
+
     sosq["docDueDate"] = todaysdate;
     sosq["docDate"] = todaysdate;
     sosq["vatGroup"] = vatGroup; //
