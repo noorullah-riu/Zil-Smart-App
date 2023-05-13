@@ -36,44 +36,44 @@ const Home = ({ navigation }) => {
   const getStat1 = async (slp) => {
     // alert(slp);
     const response = await allActivitiesApi.getStats1(slp);
-    console.log("response from getStat1 api", response.data);
+    // console.log("response from getStat1 api", response.data);
     if (!response.ok) return Alert.alert("Couldn't retrieve stats");
     if (response.data.data) {
-      console.log(response.data.data, "+++1++");
+      // console.log(response.data.data, "+++1++");
       setstat1(response.data.data[0]);
     }
   };
   const getStat2 = async (slp) => {
     const response = await allActivitiesApi.getStats2(slp);
-    console.log("response from getStat2 api", response.data);
+    // console.log("response from getStat2 api", response.data);
     if (!response.ok) return Alert.alert("Couldn't retrieve stats");
     if (response.data.data) {
-      console.log(response.data.data, "+++2++");
+      // console.log(response.data.data, "+++2++");
       setstat2(response.data.data);
     }
   };
   const getStat3 = async (slp) => {
     const response = await allActivitiesApi.getStats3(slp);
-    console.log("response from getStat3 api", response.data);
+    // console.log("response from getStat3 api", response.data);
     if (!response.ok) return Alert.alert("Couldn't retrieve stats");
     if (response.data.data) {
-      console.log(response.data.data, "+++3++");
+      // console.log(response.data.data, "+++3++");
       setstat3(response.data.data);
     }
   };
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
     setUserId(JSON.parse(jsonValue).Id);
-    console.log(
-      "getUserDetails in AllActivities screen",
-      JSON.parse(jsonValue).salePersonCode
-    );
+    // console.log(
+    //   "getUserDetails in AllActivities screen",
+    //   JSON.parse(jsonValue).salePersonCode
+    // );
 
     getStat1(JSON.parse(jsonValue).salePersonCode);
     getStat2(JSON.parse(jsonValue).salePersonCode);
     getStat3(JSON.parse(jsonValue).salePersonCode);
 
-   // getAllActivities(JSON.parse(jsonValue).Id);
+    // getAllActivities(JSON.parse(jsonValue).Id);
   };
 
   useEffect(() => {
@@ -176,9 +176,9 @@ const Home = ({ navigation }) => {
     .map((value, index) => ({
       y: value.quantity,
       x: value.month,
-   //   label: value.lab,
+      //   label: value.lab,
     }));
-  console.log(pieData);
+  // console.log(pieData);
 
   const barData = stat3
     .filter((value) => value.quantity)
@@ -193,11 +193,9 @@ const Home = ({ navigation }) => {
       <View style={{ paddingTop: 0 }}>
         <View style={styles.dateView}>
           <AppText style={styles.p1}>
-            Total Sales of Month  {stat1?.month}
+            Total Sales of Month {stat1?.month}
           </AppText>
-          <AppText style={styles.p12}>
-             {stat1?.quantity || 0} - PKR
-          </AppText>
+          <AppText style={styles.p12}>{stat1?.quantity || 0} - PKR</AppText>
         </View>
         <View style={styles.cartcontainer0}>
           <View style={{}}>
@@ -205,21 +203,21 @@ const Home = ({ navigation }) => {
               Previous {stat3?.length} month's Sale Quantity
             </AppText>
           </View>
-{/* 
+          {/* 
           <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
             <VictoryBar
               style={{ data: { fill: "#c43a31" } }}
               data={barData}
             />
           </VictoryChart> */}
-            <VictoryGroup colorScale={[colors.secondary, colors.tertiary]}>
+          <VictoryGroup colorScale={[colors.secondary, colors.tertiary]}>
             <VictoryBar
               data={barData}
               alignment="start"
               style={{ labels: { fill: "#aaa", fontSize: 8 } }}
               labels={({ datum }) => `${datum.x}: ${datum.y} `}
             />
-          </VictoryGroup> 
+          </VictoryGroup>
         </View>
 
         <View style={styles.dateView2}>
