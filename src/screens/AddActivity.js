@@ -53,7 +53,6 @@ const AddActivity = ({ navigation, route }) => {
     var hours = new Date().getHours(); //Current Hours
     var min = new Date().getMinutes(); //Current Minutes
 
-    // setCurrentTime( year + "-" + month + "-" + date);hours + ":" + min
 
     setCurrentTime(hours + ":" + min);
 
