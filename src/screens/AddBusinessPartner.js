@@ -16,6 +16,7 @@ import AppButton from "../components/AppButton";
 import RNPickerSelect from "react-native-picker-select";
 import { ProgressDialog } from "react-native-simple-dialogs";
 import postOrder from "../api/postOrder";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const AddBusinessPartner = ({ navigation, route }) => {
   const [progressVisible, setprogressVisible] = useState(false);
@@ -29,6 +30,41 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const [cardForeignName, setCardForeignName] = useState("");
   const [cardName, setCardName] = useState("");
   const [cardType, setCardType] = useState("");
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Vendor", value: "S" },
+    { label: "Customer", value: "C" },
+    { label: "Lead", value: "L" },
+  ]);
+
+  const [open2, setOpen2] = useState(false);
+  const [value2, setValue2] = useState(null);
+  const [items2, setItems2] = useState([
+    { label: "Company", value: "C" },
+    { label: "Private", value: "P" },
+    { label: "Government", value: "G" },
+    { label: "Employee", value: "E" },
+  ]);
+  const [open3, setOpen3] = useState(false);
+  const [value3, setValue3] = useState(null);
+  const [items3, setItems3] = useState([
+    { label: "02 Days", value: 11 },
+    { label: "03 Days", value: 9 },
+    { label: "04 Days", value: 10 },
+    { label: "07 Days", value: 5 },
+    { label: "10 Days", value: 7 },
+    { label: "100% Advance", value: 14 },
+    { label: "15 Days", value: 1 },
+    { label: "20 Days", value: 2 },
+    { label: "25 Days", value: 6 },
+    { label: "30 Days", value: 3 },
+    { label: "40 Days", value: 8 },
+    { label: "45 Days", value: 4 },
+    { label: "60 Days", value: 1 },
+    { label: "Advance", value: 1 },
+  ]);
 
   const createobj = () => {
     let obj = {
@@ -89,7 +125,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         >
           <AppText style={styles.label}>Card Type*</AppText>
           <View style={styles.picker}>
-            <RNPickerSelect
+            {/*      <RNPickerSelect
               name={"Card Type"}
               onValueChange={(value, indx) => setCardType(value)}
               items={[
@@ -99,6 +135,18 @@ const AddBusinessPartner = ({ navigation, route }) => {
               ]}
               useNativeAndroidPickerStyle={false}
               style={pickerStyle}
+            /> */}
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              listMode="MODAL"
+              onSelectItem={item => {
+                setCardType(item.value)
+              }}
             />
           </View>
         </View>
@@ -116,7 +164,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         >
           <AppText style={styles.label}>Customer Legal Entity*</AppText>
           <View style={styles.picker}>
-            <RNPickerSelect
+            {/*     <RNPickerSelect
               name={"Legal Entity"}
               onValueChange={(value, indx) => setEntity1(value)}
               items={[
@@ -127,6 +175,18 @@ const AddBusinessPartner = ({ navigation, route }) => {
               ]}
               useNativeAndroidPickerStyle={false}
               style={pickerStyle}
+            /> */}
+            <DropDownPicker
+              open={open2}
+              value={value2}
+              items={items2}
+              setOpen={setOpen2}
+              setValue={setValue2}
+              setItems={setItems2}
+              listMode="MODAL"
+              onSelectItem={item => {
+                setEntity1(item.value)
+              }}
             />
           </View>
         </View>
@@ -196,7 +256,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         >
           <AppText style={styles.label}>Payment Terms</AppText>
           <View style={styles.picker}>
-            <RNPickerSelect
+            {/*   <RNPickerSelect
               onValueChange={(value, indx) => setPaymentTerms(value)}
               items={[
                 { label: "02 Days", value: 11 },
@@ -220,6 +280,18 @@ const AddBusinessPartner = ({ navigation, route }) => {
               }}
               useNativeAndroidPickerStyle={false}
               style={pickerStyle}
+            /> */}
+            <DropDownPicker
+              open={open3}
+              value={value3}
+              items={items3}
+              setOpen={setOpen3}
+              setValue={setValue3}
+              setItems={setItems3}
+              listMode="MODAL"
+              onSelectItem={item => {
+                setEntity1(item.value)
+              }}
             />
           </View>
         </View>

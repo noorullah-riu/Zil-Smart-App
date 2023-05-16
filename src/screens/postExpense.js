@@ -20,6 +20,7 @@ import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
 import postExpenseApi from "../api/postExpense";
 import AppRow from "../components/AppRow";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const PostExpense = ({ navigation }) => {
   const [remarks, setRemarks] = useState("");
@@ -34,6 +35,13 @@ const PostExpense = ({ navigation }) => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [isPickerShow, setIsPickerShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Cheque", value: "Cheque" },
+    { label: "Cash", value: "Cash" },
+  ]);
 
   useEffect(() => {
     getUserDetails();
@@ -117,7 +125,7 @@ const PostExpense = ({ navigation }) => {
                 justifyContent: "center",
               }}
             >
-              <RNPickerSelect
+       {/*        <RNPickerSelect
                 style={{ inputAndroid: { color: "black" } }}
                 placeholder={{
                   label: "Select Payment Type",
@@ -130,7 +138,19 @@ const PostExpense = ({ navigation }) => {
                   { label: "Cheque", value: "Cheque" },
                   { label: "Cash", value: "Cash" },
                 ]}
-              />
+              /> */}
+                    <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              listMode="MODAL"
+              onSelectItem={item => {
+                setPaymentType(item.value)
+              }}
+            />
             </View>
           </View>
         </AppRow>
