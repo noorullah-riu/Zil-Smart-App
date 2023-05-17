@@ -56,7 +56,7 @@ const LoginScreen = ({ navigation }) => {
       Customer.Password
     );
 
-    // setprogressVisible(true);
+     setprogressVisible(true);
     const res = await loginCompanyUserApi.loginCompanyUser(
       Customer.UserCode,
       Customer.Password
