@@ -66,10 +66,7 @@ const LoginScreen = ({ navigation }) => {
       Alert.alert("Error!", res.data.message, [
         { text: "OK", onPress: () => setprogressVisible(false) },
       ]);
-    } else if (
-      res.data !== null &&
-      res.data.userDetails.typeOfUser === "Sales"
-    ) {
+    } else if (res.data !== null && res.data.userDetails.typeOfUser === "HOD") {
       setprogressVisible(false);
       storeUserDetails(res.data.userDetails);
       navigation.navigate("AppDrawerNav");
