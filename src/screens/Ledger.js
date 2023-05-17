@@ -14,10 +14,7 @@ import AppHeader from "../components/AppHeader";
 import SaleReportCard from "../components/LedgerReportCard";
 import ledgerReportApi from "../api/ledgerReport";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import DatePicker from "react-native-datepicker";
-
 import DateTimePicker from "@react-native-community/datetimepicker";
-
 import sizes from "../components/sizes";
 import colors from "../components/colors";
 import AppButton from "../components/AppButton";
@@ -25,7 +22,6 @@ import AppRow from "../components/AppRow";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Print from "expo-print";
 import { shareAsync } from "expo-sharing";
-import * as MediaLibrary from "expo-media-library";
 import { ProgressDialog } from "react-native-simple-dialogs";
 
 const Ledger = ({ navigation, route }) => {
@@ -434,40 +430,6 @@ const Ledger = ({ navigation, route }) => {
 
   const [html2, setHtml2] = useState(``);
 
-  const html3 = `</table>
-<p style="text-indent: 0pt;text-align: left;"><br/></p>
-<h2 style="padding-top: 3pt;text-indent: 0pt;text-align: right;">Summary</h2>
-<p style="text-indent: 0pt;text-align: left;"><br/></p>
-<table style="border-collapse:collapse;margin-left:379.8pt" cellspacing="0">
-    <tr style="height:21pt">
-        <td style="width:85pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p style="text-indent: 0pt;text-align: left;"><br/></p>
-            <p class="s3" style="padding-left: 6pt;text-indent: 0pt;text-align: left;">Total<span class="s4"> </span>Credit
-            </p></td>
-        <td style="width:95pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p style="text-indent: 0pt;text-align: left;"><br/></p>
-            <p class="s3" style="padding-right: 3pt;text-indent: 0pt;text-align: right;">23,881,713.78</p></td>
-    </tr>
-    <tr style="height:18pt">
-        <td style="width:85pt;border-left-style:solid;border-left-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s3" style="padding-top: 4pt;padding-left: 6pt;text-indent: 0pt;text-align: left;">Total<span
-                    class="s4"> </span>Debit</p></td>
-        <td style="width:95pt;border-left-style:solid;border-left-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s3" style="padding-top: 4pt;padding-right: 3pt;text-indent: 0pt;text-align: right;">
-                32,789,303.60</p></td>
-    </tr>
-    <tr style="height:15pt">
-        <td style="width:85pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s3" style="padding-top: 4pt;padding-left: 6pt;text-indent: 0pt;text-align: left;">Total<span
-                    class="s4"> </span>Balance</p></td>
-        <td style="width:95pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s3" style="padding-top: 4pt;padding-right: 3pt;text-indent: 0pt;text-align: right;">
-                8,907,589.82</p></td>
-    </tr>
-</table>
-</body>
-</html>`;
-
   const createAndSavePDF = async () => {
     setloading(true);
     try {
@@ -481,31 +443,8 @@ const Ledger = ({ navigation, route }) => {
         await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
         await Sharing.shareAsync(uri);
       } else {
-        //   const downloadDir = SAF.getUriForDirectoryInRoot('Download');
-   /*      const permission = await MediaLibrary.requestPermissionsAsync();
-        if (permission.granted) {
-          const asset = await MediaLibrary.createAssetAsync(uri);
-          const album = await MediaLibrary.getAlbumAsync("Download");
-
-          if (album == null) {
-            const a = await MediaLibrary.createAlbumAsync(
-              "Download",
-              asset,
-              false
-            );
-          } else {
-            const b = await MediaLibrary.addAssetsToAlbumAsync(
-              [asset],
-              album,
-              false
-            );
-          }
-          //   console.log(a,"a");
-        } */
         setloading(false);
         navigation.navigate("PdfView", { uril: htm });
-        // setloading(false);
-        // alert("Downloaded");
       }
     } catch (error) {
       console.error(error);
@@ -529,45 +468,12 @@ const Ledger = ({ navigation, route }) => {
     );
     console.log(response.data, "---------- data here of ledger");
     setReports1(response.data.data);
-
     var html = ``;
     var totalCredit = 0;
     var totalDebit = 0;
     response.data?.data?.map((item) => {
       totalCredit += item.credit;
       totalDebit += item.debit;
-      /*     html =
-        html +
-        `<tr style="height:15pt">
-        <td style="width:68pt;border-top-style:solid;border-top-width:2pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s5"
-               style="text-align: center;">
-              ${item.postingDate.split("T")[0]}</p></td>
-        <td style="width:84pt;border-top-style:solid;border-top-width:2pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s6" style="padding-left: 5pt;text-indent: 0pt;text-align: left;"><span>
-            </span> <span class="s5">${item.baseRef}</span></p></td>
-        <td style="width:78pt;border-top-style:solid;border-top-width:2pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s5" style="padding-top: 3pt;padding-right: 5pt;text-indent: 0pt;text-align: right;">${
-              item.credit
-            }</p>
-        </td>
-        <td style="width:84pt;border-top-style:solid;border-top-width:2pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s5" style="padding-top: 3pt;padding-right: 5pt;text-indent: 0pt;text-align: right;">${
-              item.debit
-            }</p></td>
-        <td style="width:84pt;border-top-style:solid;border-top-width:2pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s5" style="padding-top: 3pt;padding-right: 5pt;text-indent: 0pt;text-align: right;">-68,529.00</p>
-        </td>
-        <td style="width:72pt;border-top-style:solid;border-top-width:2pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s5"
-               style="padding-top: 2pt;padding-left: 16pt;padding-right: 15pt;text-indent: 0pt;text-align: center;">
-                ${item.dueDate.split("T")[0]}</p></td>
-        <td style="width:83pt;border-top-style:solid;border-top-width:2pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s5"
-               style="padding-top: 2pt;padding-left: 16pt;padding-right: 15pt;text-indent: 0pt;text-align: center;">
-                ${item.memo}</p></td>
-    </tr>`;
-    }); */
 
       html =
         html +
@@ -792,11 +698,7 @@ cellspacing="0"
 
     if (response?.data?.data?.length) setName(response?.data?.data[0].cardName);
     setprogressVisible(false);
-    console.log(
-      "getLedgerReport",
-
-      response?.data?.data?.length
-    );
+    console.log("getLedgerReport", response?.data?.data?.length);
     setOpenBal(response?.data?.OpenBalance);
     setCloseBal(response?.data?.CloseBalance);
     if (response?.data?.Code === 0) setDateView(false);
@@ -813,94 +715,6 @@ cellspacing="0"
   const DocDateSelectionView = () => (
     <>
       <View style={{}}>
-        {/*       <View style={{ marginBottom: 10, width: "50%" }}>
-          <AppText
-            style={[
-              { marginHorizontal: sizes.base_margin, marginVertical: 14 },
-              styles.p1,
-            ]}
-          >
-            Date From
-          </AppText>
-          <View>
-            <DatePicker
-              modal
-              open={true}
-              showIcon={false}
-              style={{ width: "100%" }}
-              date={fromdate}
-              mode="date"
-              placeholder=" Select date"
-              format="yyyy-MM-DD"
-              minDate="2000-01-01"
-              confirmBtnText="Confirm"
-              display="default"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateInput: {
-                  marginTop: 15,
-                  borderColor: colors.white,
-                  backgroundColor: colors.white,
-                  borderRadius: 10,
-                  height: 50,
-                  alignItems: "flex-start",
-                  paddingLeft: 10,
-                  width: "100%",
-                  marginHorizontal: 10,
-                },
-              }}
-              onDateChange={(date) => {
-                handleDateChange(date);
-              }}
-            />
-          </View>
-        </View>
-        <View style={{ marginBottom: 10, width: "50%" }}>
-          <AppText
-            style={[
-              { marginHorizontal: sizes.base_margin, marginVertical: 14 },
-              styles.p1,
-            ]}
-          >
-            Date To
-          </AppText>
-          <View>
-            <DatePicker
-              showIcon={false}
-              style={{ width: "100%" }}
-              date={todate}
-              mode="date"
-              placeholder=" Select date"
-              format="yyyy-MM-DD"
-              minDate="2000-01-01"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: "relative",
-                  left: 0,
-                  top: 0,
-                  marginLeft: 10,
-                },
-                dateInput: {
-                  marginTop: 15,
-                  borderColor: colors.white,
-                  backgroundColor: colors.white,
-                  borderRadius: 10,
-                  height: 50,
-                  alignItems: "flex-start",
-                  paddingLeft: 10,
-                  width: "100%",
-                  marginHorizontal: 10,
-                },
-              }}
-              onDateChange={(date) => {
-                handleDateChange1(date);
-              }}
-            />
-          </View>
-        </View> */}
-
         <Pressable
           onPress={() => setIsPickerShow(true)}
           style={{
@@ -998,8 +812,6 @@ cellspacing="0"
         </View>
       </View>
 
-
-      
       <View
         style={{
           marginVertical: 12,
