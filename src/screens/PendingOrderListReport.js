@@ -423,7 +423,8 @@ const PendngOrderListReport = ({ navigation, route }) => {
             let TCtns = 0;
             let TYardsReq = 0;
             let TMetersReq = 0;
-            rows += `<tr>            
+            rows += `
+            <tr>            
             <td  style="text-align:center;font-weight:700;font-size:small;">${p_oHeaderData[j].docNum}</td>
             <td  style="text-align:center;font-weight:700;font-size:small;">Ctns</td>  
             <td colspan="4" style="font-weight: bold;text-align: left;">${p_oHeaderData[j].cardName}</td>

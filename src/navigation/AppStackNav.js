@@ -59,12 +59,13 @@ import SalesInvoiceDetail from "../screens/SalesInvoiceDetail";
 import InventoryItems from "../screens/InventoryItems";
 import AgingReport from "../screens/Aging";
 import ItemListDetailScreen from "../screens/ItemListDetailScreen";
-import PendngOrderListReport from "../screens/PendingOrderListReport";
+//import PendngOrderListReport from "../screens/PendingOrderListReport";
 import DailyRecievableReport from "../screens/DailyRecievableReport";
 import MonthalyCommissionReport from "../screens/MonthalyCommissionReport";
 import JumboRollReport from "../screens/JumboRollReport";
 import LogRollReport from "../screens/LogRollReport";
 import FgInStockReport from "../screens/FgInStockReport";
+import StackManager from "./StackManager";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -115,11 +116,11 @@ const AppStackNav = ({ navigation }) => {
         options={{ headerShown: false }}
       />
 
-      <Screen
+      {/*       <Screen
         name="PendngOrderListReport"
         component={PendngOrderListReport}
         options={{ headerShown: false }}
-      />
+      /> */}
 
       <Screen
         name="DailyRecievableReport"
@@ -370,6 +371,16 @@ const AppStackNav = ({ navigation }) => {
         }}
       />
       <Screen
+        name="StackManager"
+        component={StackManager}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+
+      <Screen
         name="AppDrawerNav"
         options={{ headerShown: false }}
         component={AppDrawerNav}
@@ -388,14 +399,14 @@ const AppStackNav = ({ navigation }) => {
         options={{ headerShown: false }}
         component={AppDrawerNav2}
         navigation={navigation}
-        // initialRouteName="Signup"
+      // initialRouteName="Signup"
       />
       <Screen
         name="AppDrawerNav3"
         options={{ headerShown: false }}
         component={AppDrawerNav3}
         navigation={navigation}
-        // initialRouteName="Signup"
+      // initialRouteName="Signup"
       />
     </Navigator>
   );
