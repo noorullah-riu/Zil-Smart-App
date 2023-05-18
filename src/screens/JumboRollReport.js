@@ -11,6 +11,7 @@ import {
 import AppText from "../components/AppText";
 import AppHeader from "../components/AppHeader";
 import AgingReportCard from "../components/AgingReportCard";
+import JumboRollCard from "../components/JumboRollCard"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from "react-native-datepicker";
 import sizes from "../components/sizes";
@@ -481,7 +482,7 @@ const JumboRollReport = ({ navigation, route }) => {
                   text-align: left;
                 "
               >
-              ${item.amount} --- ${totalPieces}
+              ${item.amount}
               </p>
             </td>
           </tr>
@@ -548,7 +549,7 @@ const JumboRollReport = ({ navigation, route }) => {
         "
       >
         <p class="s3" style="padding-right: 4pt; text-align: left">
-       In Stock(kg)
+        ${inStockTotal}
         </p>
       </td>
 
@@ -567,7 +568,7 @@ const JumboRollReport = ({ navigation, route }) => {
       "
     >
       <p class="s3" style="padding-right: 4pt; text-align: left">
-      Amount
+      ${totalAmount}
       </p>
     </td>
 
@@ -669,7 +670,7 @@ const JumboRollReport = ({ navigation, route }) => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => {
           return (
-            <AgingReportCard
+            <JumboRollCard
               customer={item}
             />
           );
