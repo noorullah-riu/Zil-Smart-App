@@ -22,7 +22,7 @@ const ReportsManager = ({ navigation }) => {
       path: "InventoryItems",
     },
     {
-      id: "2",
+      id: "2", 
       group: "Sales Invoice",
       path: "CustomersList", //Sales",
     },
