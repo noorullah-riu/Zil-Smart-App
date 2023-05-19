@@ -1,16 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  FlatList,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
 import { ProgressDialog } from "react-native-simple-dialogs";
 import * as Print from "expo-print";
 import { shareAsync } from "expo-sharing";
-import * as MediaLibrary from "expo-media-library";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppText from "../components/AppText";
 import AppHeader from "../components/AppHeader";
@@ -18,47 +10,47 @@ import POReportCard from "../components/POReportCard";
 import colors from "../components/colors";
 import AppButton from "../components/AppButton";
 import AppRow from "../components/AppRow";
-import ledgerReportApi from "../api/ledgerReport";
 import POHeaderDetailsApi from "../api/pendingOrderReport";
-import { ScrollView } from "react-native-gesture-handler";
 
 const PendngOrderListReport = ({ navigation, route }) => {
   const [progressVisible, setprogressVisible] = useState(false);
-  const [dateView, setDateView] = useState(true);
   const [p_oHeaderData, setPOHeaderData] = useState([]);
   const [slp, setSlp] = useState(0);
   const [loading, setloading] = useState(false);
-  const [cardCode, setCardCode] = useState("");
-  const [html2, setHtml2] = useState("");
 
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
     setSlp(JSON.parse(jsonValue).salePersonCode);
     getPOHeaderData(JSON.parse(jsonValue).salePersonCode);
   };
+
   const getPOHeaderData = async (slpCode) => {
-    console.group("getPOHeaderData API called");
-    setprogressVisible(true);
+    // setprogressVisible(true);
     const response = await POHeaderDetailsApi.getPOHeaderDetails(slpCode);
     setPOHeaderData(response?.data.data);
-    setprogressVisible(false);
+    // setprogressVisible(false);
   };
 
-  const ExportPdfBtn = () => (
-    <View style={{ marginVertical: 20, marginBottom: 20 }}>
-      <TouchableOpacity onPress={() => createAndSavePDF()}>
-        <AppButton
-          text="Export pdf"
-          iconFreeButton
-          loginBtnStyle={styles.loginBtnStyle}
-          navigation={navigation}
-          navigation1="Login"
-        />
-      </TouchableOpacity>
-    </View>
-  );
+  const exportPdfBtn = () => {
+    return (
+      <>
+        <TouchableOpacity
+          onPress={() => createAndSavePDF()}
+          style={{ marginVertical: 15 }}
+        >
+          <AppButton
+            text="Export pdf"
+            iconFreeButton
+            loginBtnStyle={styles.loginBtnStyle}
+            navigation={navigation}
+            navigation1="Login"
+          />
+        </TouchableOpacity>
+      </>
+    );
+  };
 
-  const POReportHeading = () => (
+  const pOReportHeading = () => (
     <>
       <AppRow style={styles.r1}>
         <AppText style={styles.p2}>Id</AppText>
@@ -69,434 +61,413 @@ const PendngOrderListReport = ({ navigation, route }) => {
       </AppRow>
     </>
   );
+
   useEffect(() => {
-    getUserDetails();
+    // getUserDetails();
   }, []);
 
   const POReportHeadersList = () => {
     return (
-      <FlatList
-        contentContainerStyle={{ paddingBottom: 2 }}
-        data={p_oHeaderData}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item, index }) => {
-          return <POReportCard item={item} />;
-        }}
-        keyExtractor={(item) => item.docNum}
-      />
+      <>
+        <FlatList
+          contentContainerStyle={{}}
+          data={p_oHeaderData}
+          ListHeaderComponent={pOReportHeading}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => {
+            return <POReportCard item={item} />;
+          }}
+          ListFooterComponent={exportPdfBtn}
+          keyExtractor={(item) => {
+            `${item.id}-${item.docNum}`;
+          }}
+        />
+      </>
     );
   };
   const createAndSavePDF = async () => {
-    setloading(true);
-    let formData = `<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device width,initial scale=1.0" />
-        <meta name="keywords" content="HTML,CSS" />
-        <meta name="description" content="....." />
-    
-        <title>Pending Order</title>
-        <style>
-          body {
-            margin-left: 10px;
-            margin-right: 10px;
+    // setloading(true);
+    function generatePDFTemplate() {
+      let TotalYds = 0;
+      let TotalCtns = 0;
+      let GroupCtnsTotal = 0;
+      let GroupYdsTotal = 0;
+      let GroupMtrsReqTotal = 0;
+
+      let sNum = 0;
+
+      const tableRows1 = p_oHeaderData
+        .map((object) => {
+          sNum++;
+          GroupCtnsTotal = 0;
+          let rows = "";
+          return `
+          <tr>
+            <td style="text-align:center;;font-size:small;">
+             ${sNum}
+            </td>
+            <td style="text-align:center;font-weight:700;font-size:small;">
+              ${object.docNum}
+            </td>
+            <td style="text-align:center;font-weight:700;font-size:small;">
+              Ctns
+            </td>
+ 
+            <td style="text-align: left; font-weight:700; max-width:150px;">
+              ${object.cardName}
+            </td>
+
+            <td style="font-weight: bold;text-align: center; "></td>
+            <td style="font-weight: bold;text-align: center;">
+              ${object.docDate.split(" ")[0]}
+            </td>
+            <td style="text-align: center;">${
+              object.docDueDate.split(" ")[0]
+            }</td>
+            <td style="font-weight: bold;text-align: center;"></td>
+            <td style="font-weight: bold;text-align: center;"></td>
+            <td style="font-weight: bold;text-align: center;"></td>
+            <td style="font-weight: bold;text-align: center;"></td>
+            <td style="font-weight: bold;text-align: center;"></td>
+            <td style="font-weight: bold;text-align: center;"></td>
+            <td style="font-weight: bold;text-align: center;"></td>
+          </tr>
+          <div>
+          ${object.orderDetails
+            .map((innerObj) => {
+              const yds = parseFloat(innerObj.yds);
+              const cartons = parseFloat(innerObj.cartons);
+              GroupCtnsTotal += parseFloat(innerObj.cartons);
+              GroupYdsTotal += parseFloat(innerObj.yds);
+              GroupMtrsReqTotal = "N.A";
+              TotalYds += yds;
+              TotalCtns += cartons;
+
+              return `
+                <tr>
+                  <td style="text-align: center;"></td>
+                  <td style="text-align: center;"></td>
+                  <td style="text-align: center;">
+                    ${cartons}
+                  </td>
+                  <td style="text-align: left;">
+                    ${innerObj.itemName}
+                  </td>
+                  <td style="text-align: center;">
+                    ${innerObj.status}
+                  </td>
+                  <td style="text-align: center;"></td>
+                  <td style="text-align: center;"></td>
+                  <td style="text-align: center;">
+                    ${innerObj.pcsPerDzn}
+                  </td>
+                  <td style="text-align: center;">
+                    ${innerObj.quantity}
+                  </td>
+                  <td style="text-align: center;">
+                    ${innerObj.lr}
+                  </td>
+                  <td style="text-align: center;">
+                    ${yds}
+                  </td>
+                  <td style="text-align: center;"> N.A </td>
+                  <td style="text-align: center;">
+                    ${innerObj.productionStatus}
+                  </td>
+                  <td style="text-align: center;">
+                    ${innerObj.count}
+                  </td>
+                </tr>`;
+            })
+            .join("")}
+          <tr>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center; ">${GroupCtnsTotal}</td>
+            <td colspan="7" style="text-align: center;"></td>
+            <td style="text-align: center; ">${GroupYdsTotal}</td>
+            <td style="text-align: center; ">${GroupMtrsReqTotal}</td>
+            <td colspan="2" style="text-align: center;"></td>
+          </tr>
+        </div>
+          `;
+        })
+        .join("");
+      const htmlTemplate = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+          <title>Pending Order</title>
+            <style>
+              table {
+                width: 100%;
+                border-collapse: collapse;
+              }
+              th, td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+              }
+
+
+              body {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            .demo {
+                border: 0.7px solid black;
+                border-collapse: collapse;
+                padding: 5px;
+                width: 100%;
+                font-size: 10px;
+            }
+            .demo1 {
+                border: 0.7px solid black;
+                border-collapse: collapse;
+                margin-top: 12px;
+                width: 60%;
+                margin-bottom: 6px;
+                font-size: 10px;
+            }
+            .demo1 td {
+                border: 0.7px solid #000000;
+                padding: 5px;
+            }
+            .demo14 {
+                border: 0px solid black;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            .demo14 td {
+                border: 0px solid #000000;
+            }
+            .demo11 {
+              border: 0px solid #000000;
+              border-collapse: collapse;
+              margin-top: -16px;
+              width: 67%;
+              font-size: 10px;
           }
-          .demo {
-            border: 0.7px solid black;
-            border-collapse: collapse;
-            padding: 5px;
-            width: 100%;
-            font-size: 10px;
-          }
-    
-          .demo1 {
-            border: 0.7px solid black;
-            border-collapse: collapse;
-            margin-top: 12px;
-            width: 60%;
-            margin-bottom: 6px;
-            font-size: 10px;
-          }
-    
-          .demo1 td {
-            border: 0.7px solid #000000;
-            padding: 5px;
-          }
-          .demo14 {
-            border: 0px solid black;
-            border-collapse: collapse;
-            width: 100%;
-          }
-    
-          .demo14 td {
-            border: 0px solid #000000;
-          }
-    
-          .demo11 {
-            border: 0px solid #000000;
-            border-collapse: collapse;
-            margin-top: -16px;
-            width: 67%;
-            font-size: 10px;
-          }
-    
           .demo11 td {
-            border: 0px;
+              border: 0px;
           }
-    
           .demo2 {
-            border: 0.7px solid #000000;
-            border-collapse: collapse;
-            width: 50%;
-            margin-bottom: 6px;
-            font-size: 10px;
-            margin-top: 12px;
-            margin-left: 40px;
+              border: 0.7px solid #000000;
+              border-collapse: collapse;
+              width: 50%;
+              margin-bottom: 6px;
+              font-size: 10px;
+              margin-top: 12px;
+              margin-left: 40px;
           }
-    
           .demo2 td {
-            border: 0.7px solid #000000;
-            padding: 5px;
+              border: 0.7px solid #000000;
+              padding: 5px;
           }
-    
           .demo22 {
-            border: 0px;
-            margin-top: -16px;
-            border-collapse: collapse;
-            width: 13%;
-            margin-left: 30px;
-            font-size: 10px;
+              border: 0px;
+              margin-top: -16px;
+              border-collapse: collapse;
+              width: 13%;
+              margin-left: 30px;
+              font-size: 10px;
           }
-    
           .demo22 td {
-            border: 0px;
+              border: 0px;
           }
-    
           .demo3 {
-            border: 0.7px solid #000000;
-            border-collapse: collapse;
-            float: right;
-            width: 30%;
-            margin-top: 4px;
-            font-size: 10px;
+              border: 0.7px solid #000000;
+              border-collapse: collapse;
+              float: right;
+              width: 30%;
+              margin-top: 4px;
+              font-size: 10px;
           }
-    
           .demo3 td {
-            border: 0.7px solid #000000;
-            padding: 5px;
+              border: 0.7px solid #000000;
+              padding: 5px;
           }
-    
           .demo th {
-            border: 0.7px solid #000000;
-            padding: 5px;
-            background: #ffffff;
+              border: 0.7px solid #000000;
+              padding: 5px;
+              background: #ffffff;
           }
-    
           .demo td {
-            border: 1px solid #000000;
-            padding: 5px;
-            font-size: 10px;
+              border: 1px solid #000000;
+              padding: 5px;
+              font-size: 10px;
           }
-    
           .vertical {
-            display: block;
-            margin-top: 118px;
-            overflow: hidden;
-            border-style: solid;
-            border-width: 1.5px;
-            border-color: #000;
-            border-top: 0px;
-            border-left: 0px;
-            border-right: 0px;
+              display: block;
+              margin-top: 118px;
+              overflow: hidden;
+              border-style: solid;
+              border-width: 1.5px;
+              border-color: #000;
+              border-top: 0px;
+              border-left: 0px;
+              border-right: 0px;
           }
-    
           img {
-            width: 130px;
-            height: 70px;
-            border: 0px solid #000000;
-            border-collapse: collapse;
+              width: 130px;
+              height: 70px;
+              border: 0px solid #000000;
+              border-collapse: collapse;
           }
-    
           .Div1 {
-            border-style: solid;
-            width: 300px;
-            height: 100px;
-            margin-top: 20px;
-    
-            float: right;
-            border-color: black;
-            border-width: 1px;
-            margin-bottom: 20px;
+              border-style: solid;
+              width: 300px;
+              height: 100px;
+              margin-top: 20px;
+              float: right;
+              border-color: black;
+              border-width: 1px;
+              margin-bottom: 20px;
           }
-    
           .Div2 {
-            border-style: solid;
-            float: right;
-            width: 450px;
-            height: 108px;
-            margin-top: 6px;
-    
-            border-color: black;
-            border-width: 1px;
-            margin-bottom: 20px;
+              border-style: solid;
+              float: right;
+              width: 450px;
+              height: 108px;
+              margin-top: 6px;
+              border-color: black;
+              border-width: 1px;
+              margin-bottom: 20px;
           }
-    
           .Div {
-            border-style: solid;
-            height: 40px;
-            margin-top: -12px;
-    
-            border-color: black;
-            border-width: 1px;
-            font-size: 10px;
-    
-            display: flex;
-            align-items: center;
+              border-style: solid;
+              height: 40px;
+              margin-top: -12px;
+              border-color: black;
+              border-width: 1px;
+              font-size: 10px;
+              display: flex;
+              align-items: center;
           }
-    
           .std-row {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-    
-            margin-top: 20px;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              margin-top: 20px;
           }
           .std-row2 {
-            display: flex;
-            flex-direction: row;
+              display: flex;
+              flex-direction: row;
           }
-    
           .std-row1 {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            margin-top: -10px;
+              display: flex;
+              flex-direction: row;
+              width: 100%;
+              margin-top: -10px;
           }
-    
           .box {
-            margin-right: 5px;
+              margin-right: 5px;
           }
-    
           .std-name-fields {
-            width: 200px;
-            border: 0px;
-            border-bottom: 1px solid #000;
+              width: 200px;
+              border: 0px;
+              border-bottom: 1px solid #000;
           }
-        </style>
-      </head>
-    
-      <body onload="createTableRows()">
-        <table class="demo14">
+          </style>
+          </head>
+          <body>
+            
+            <table class="demo14">
+              <tr>
+                  <td style="border-right-width: 0px; border-bottom-width: 0px; font-weight: bold;">
+                      <h3 style="margin-top: 30px; margin-left: 47%;">
+                          Zakori Industries (Pvt) Limited
+                      </h3>
+                  </td>
+                 
+              </tr>
+          </table>
+          <div style="text-align: center; margin-bottom: 4px; margin-top: -2%;">
+              <h4>Pending Order List</h4>
+          </div>
+          <div>
+              <table class="demo" >
+                  <thead style="display: table-header-group; font-weight: 700;">
+                  <td colspan="3" style="font-weight: bold;min-width:132px;">Sno</td>
+                  <td colspan="4" style="font-weight: bold; text-align: left; min-width:275px; ">
+                      Description
+                  </td>
+                  <td style="font-weight: bold; text-align: center;min-width:53.5px;">Status</td>
+                  <td style="font-weight: bold; text-align: center;min-width:55px;">Order Date</td>
+                      <td style="font-weight: bold; text-align: center;min-width:52px;">Dilivery Date</td>
+                      <td style="font-weight: bold;max-width:8px">Pcs</td>
+                      <td style="font-weight: bold; text-align: center;min-width:27px;">Qty</td>
+                      <td style="font-weight: bold; text-align: center;min-width:61px;">LR's Qty</td>
+
+                      <td style="font-weight: bold; min-width:21px;">Yds Req</td>
+
+                      <td style="font-weight: bold; text-align: center;max-width:20px;">Mtrs Req</td>
+
+                      <td style="font-weight: bold; text-align: center;min-width:95px;">
+                          Production Status
+                      </td>
+                      <td style="font-weight: bold;;max-width:20px;">Count</td>
+                  </thead>
+                  <tbody id="table-body"></tbody>
+              </table>
+          </div>
+        
+      <table class="demo" >
+        <tbody>
+          ${tableRows1}
+        </tbody>
+      </table>
+      
+      <div style="display: flex; flex-direction: row;">
+      <table style="border: 0.7px solid black; border-collapse: collapse; padding: 3px; margin-left: 4%; margin-top: 0.5%; width: 5%; font-size: 10px;">
           <tr>
-            <td
-              style="
-                border-right-width: 0px;
-                border-bottom-width: 0px;
-                font-weight: bold;
-              "
-            >
-              <h3 style="margin-top: 30px; margin-left: 47%">
-                Zakori Industries (Pvt) Limited
-              </h3>
-            </td>
-    
-            <td
-              style="
-                border: 0px;
-                font-weight: 700;
-                align-content: flex-end;
-                font-size: 10px;
-              "
-            >
-              <p style="margin-top: 30px; margin-left: 40%">
-                Print Date:<span style="margin-left: 2%">27.02.2023</span
-                ><span style="margin-left: 2%">11:58:20 AM</span>
-              </p>
-            </td>
+              <td style="font-weight: bold; text-align: center;">
+                  Total
+              </td>
           </tr>
-        </table>
-    
-        <div style="text-align: center; margin-bottom: 4px; margin-top: -2%">
-          <h4>Pending Order List</h4>
-        </div>
-    
-        <div>
-          <table class="demo">
-            <thead style="display: table-header-group; font-weight: 700">
-              <td colspan="3" style="font-weight: bold; text-align: center">Sno</td>
-              <td colspan="4" style="font-weight: bold; text-align: left">
-                Description
+      </table>
+      <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px;  margin-left: 1%; margin-top: 0.5%; width: 5%; font-size: 10px;">
+          <tr>
+              <td style="font-weight: bold; text-align: center;">
+                  ${TotalCtns}
               </td>
-              <td style="font-weight: bold; text-align: center">Status</td>
-              <td style="font-weight: bold; text-align: center">Order Date</td>
-              <td style="font-weight: bold; text-align: center">Dilivery Date</td>
-              <td style="font-weight: bold; text-align: center">Pcs/Ctn</td>
-              <td style="font-weight: bold; text-align: center">Quantity</td>
-              <td style="font-weight: bold; text-align: center">Lr's Qty</td>
-              <td style="font-weight: bold; text-align: center">Yards Req</td>
-              <td style="font-weight: bold; text-align: center">Meters Req</td>
-              <td style="font-weight: bold; text-align: center">
-                Production Status
+          </tr>
+      </table>
+      <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px; margin-left: 62.4%; margin-top: 0.5%; width: 5%; font-size: 10px;">
+          <tr>
+              <td  style="font-weight: bold; text-align: center;">
+                ${TotalYds}
               </td>
-              <td style="font-weight: bold; text-align: center">Count Status</td>
-            </thead>
-            <tbody id="table-body"></tbody>
-          </table>
-        </div>
-        <div style="display: flex; flex-direction: row">
-          <table
-            style="
-              border: 0.7px solid black;
-              border-collapse: collapse;
-              padding: 5px;
-              margin-left: 2%;
-              margin-top: 0.5%;
-              width: 5%;
-              font-size: 10px;
-            "
-          >
-            <tr>
-              <td colspan="3" style="font-weight: bold; text-align: center">
-                Total
+          </tr>
+      </table>
+      <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px; margin-top: 0.5%; width: 5%; font-size: 10px;">
+          <tr>
+              <td  style="font-weight: bold; text-align: center;">
+              NA
               </td>
-            </tr>
-          </table>
-          <table
-            style="
-              border: 0.7px solid black;
-              border-collapse: collapse;
-              padding: 5px;
-              margin-left: 1%;
-              margin-top: 0.5%;
-              width: 5%;
-              font-size: 10px;
-            "
-          >
-            <tr>
-              <td colspan="3" style="font-weight: bold; text-align: center">
-                1.134
-              </td>
-            </tr>
-          </table>
-          <table
-            style="
-              border: 0.7px solid black;
-              border-collapse: collapse;
-              padding: 5px;
-              margin-left: 60%;
-              margin-top: 0.5%;
-              width: 5%;
-              font-size: 10px;
-            "
-          >
-            <tr>
-              <td colspan="3" style="font-weight: bold; text-align: center">
-                1.134
-              </td>
-            </tr>
-          </table>
-          <table
-            style="
-              border: 0.7px solid black;
-              border-collapse: collapse;
-              padding: 5px;
-              margin-top: 0.5%;
-              width: 5%;
-              font-size: 10px;
-            "
-          >
-            <tr>
-              <td colspan="3" style="font-weight: bold; text-align: center">
-                1.134
-              </td>
-            </tr>
-          </table>
-        </div>
-      </body>
-      <script>
-        const tableBody = document.getElementById("table-body");
-        function createTableRows() {
+          </tr>
+      </table>
+     </div>
+          </body>
+        </html>
+      `;
 
-          let rows = "";
-           for (let j = 0; j < ${p_oHeaderData.length}; j++) {
-            let TCtns = 0;
-            let TYardsReq = 0;
-            let TMetersReq = 0;
-            rows += `<tr>            
-            <td  style="text-align:center;font-weight:700;font-size:small;">${p_oHeaderData[j].docNum}</td>
-            <td  style="text-align:center;font-weight:700;font-size:small;">Ctns</td>  
-            <td colspan="4" style="font-weight: bold;text-align: left;">${p_oHeaderData[j].cardName}</td>
-            <td  style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;">${p_oHeaderData[j].docDate}</td>
-            <td  style="text-align: center;">${p_oHeaderData[j].docDueDate}</td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            </tr>`;
-    
-            for (let i = 0; i < data.SalePerson[j].customers.length; i++) {
-              TCtns += data.SalePerson[j].customers[i].Ctns;
-              TYardsReq += data.SalePerson[j].customers[i].YardsReq;
-              TMetersReq += data.SalePerson[j].customers[i].MetersReq;
+      return htmlTemplate;
+    }
 
-              rows += `<tr>
-                        <td style="text-align: center;"></td>                                                   
-                        <td   style="text-align: center;"></td>
-                        <td  style="text-align: center;">${p_oHeaderData[j].orderDetails[i].cartons}</td>
-                        <td colspan="4" style="text-align: left;">${p_oHeaderData[j].orderDetails[i].itemName}</td>
-                        <td  style="text-align: center;">${p_oHeaderData[j].orderDetails[i].status}</td>
-                        <td style="text-align: center;"></td>
-                        <td  style="text-align: center;"></td>
-                        <td style="text-align: center;">${p_oHeaderData[j].orderDetails[i].pcsPerDzn}</td>
-                        <td style="text-align: center;">${p_oHeaderData[j].orderDetails[i].quantity}</td>
-                        <td style="text-align: center;">${p_oHeaderData[j].orderDetails[i].lr}</td>
-                        <td style="text-align: center;">${p_oHeaderData[j].orderDetails[i].yds}</td>
-                        <td style="text-align: center;"> - </td>
-                        <td style="text-align: center;">${p_oHeaderData[j].orderDetails[i].productionStatus}</td>
-                        <td style="text-align: center;">${p_oHeaderData[j].orderDetails[i].count}</td>
-                      </tr>`;
-            }
-            rows += 
-            `<tr>                                                                                            
-            <td style="font-weight: bold;text-align: center;border-right: 0px;"></td>
-            <td   style="font-weight: bold;text-align: center;border-right: 0px;"></td>
-            <td  style="font-weight: bold;border-left: 0px; text-align: center;font-size:12px">${TCtns}</td>
-            <td colspan="4" style="font-weight: bold;text-align: left;border: 0px;"></td>
-            <td  style="font-weight: bold;text-align: center;border: 0px;"></td>
-            <td style="font-weight: bold;text-align: center;border: 0px;"></td>
-            <td  style="font-weight: bold;text-align: center;border: 0px;"></td>
-            <td style="font-weight: bold;text-align: center;border: 0px;"></td>
-            <td style="font-weight: bold;text-align: center;border: 0px;"></td>
-            <td style="font-weight: bold;text-align: center;border: 0px;"></td>
-            <td style="font-weight: bold;text-align: center;">${TYardsReq}</td>
-            <td style="font-weight: bold;text-align: center;">${TMetersReq}</td>
-            <td style="font-weight: bold;text-align: center;border: 0px;"></td>
-            <td style="font-weight: bold;text-align: center;border-left: 0px;"></td>
-            </tr>`;
-          }
-          var temp = tableBody.ownerDocument.createElement("div");
-          temp.innerHTML = "<table>" + rows + "</table>";
-          tableBody.parentNode.replaceChild(temp.firstChild.firstChild, tableBody);
-        }
-      </script>
-    </html>`;
+    const pdfTemplate = generatePDFTemplate();
     try {
-      var htm = formData;
+      var htm = pdfTemplate;
       //  console.log("HTML => ", html2);
       const { uri } = await Print.printToFileAsync({
-        html: formData,
-        base64: false,
+        html: pdfTemplate,
       });
+      // console.log("uri", uri);
       if (Platform.OS === "ios") {
         await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
         await Sharing.shareAsync(uri);
       } else {
-        setloading(false);
+        // setloading(false);
         navigation.navigate("PdfView", { uril: htm });
       }
     } catch (error) {
@@ -504,7 +475,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
     }
   };
   return (
-    <ScrollView>
+    <View style={{ flex: 1 }}>
       <AppHeader
         doubleBtn
         doubleBtnContainerStyle={{}}
@@ -534,10 +505,8 @@ const PendngOrderListReport = ({ navigation, route }) => {
         title="Exporting Pdf"
         message="Please wait..."
       />
-      <POReportHeading />
       <POReportHeadersList />
-      <ExportPdfBtn />
-    </ScrollView>
+    </View>
   );
 };
 
