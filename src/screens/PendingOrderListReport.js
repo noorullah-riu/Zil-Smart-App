@@ -25,10 +25,10 @@ const PendngOrderListReport = ({ navigation, route }) => {
   };
 
   const getPOHeaderData = async (slpCode) => {
-    // setprogressVisible(true);
+    setprogressVisible(true);
     const response = await POHeaderDetailsApi.getPOHeaderDetails(slpCode);
     setPOHeaderData(response?.data.data);
-    // setprogressVisible(false);
+    setprogressVisible(false);
   };
 
   const exportPdfBtn = () => {
@@ -63,7 +63,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
   );
 
   useEffect(() => {
-    // getUserDetails();
+    getUserDetails();
   }, []);
 
   const POReportHeadersList = () => {
@@ -78,15 +78,15 @@ const PendngOrderListReport = ({ navigation, route }) => {
             return <POReportCard item={item} />;
           }}
           ListFooterComponent={exportPdfBtn}
-          keyExtractor={(item) => {
-            `${item.id}-${item.docNum}`;
+          key={(item) => {
+            `-${item.docNum}-${item.docDate}`;
           }}
         />
       </>
     );
   };
   const createAndSavePDF = async () => {
-    // setloading(true);
+    setloading(true);
     function generatePDFTemplate() {
       let TotalYds = 0;
       let TotalCtns = 0;
@@ -458,16 +458,14 @@ const PendngOrderListReport = ({ navigation, route }) => {
     const pdfTemplate = generatePDFTemplate();
     try {
       var htm = pdfTemplate;
-      //  console.log("HTML => ", html2);
       const { uri } = await Print.printToFileAsync({
         html: pdfTemplate,
       });
-      // console.log("uri", uri);
       if (Platform.OS === "ios") {
         await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
         await Sharing.shareAsync(uri);
       } else {
-        // setloading(false);
+        setloading(false);
         navigation.navigate("PdfView", { uril: htm });
       }
     } catch (error) {
@@ -497,8 +495,8 @@ const PendngOrderListReport = ({ navigation, route }) => {
 
       <ProgressDialog
         visible={progressVisible}
-        title="Loading Data"
-        message="Please wait..."
+        title="Fetching Data"
+        message="It may take longer time than usual."
       />
       <ProgressDialog
         visible={loading}
