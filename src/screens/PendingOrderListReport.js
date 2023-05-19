@@ -452,9 +452,6 @@ const PendngOrderListReport = ({ navigation, route }) => {
         </html>
       `;
 
-      return htmlTemplate;
-    }
-
     const pdfTemplate = generatePDFTemplate();
     try {
       var htm = pdfTemplate;

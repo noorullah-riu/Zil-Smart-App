@@ -47,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [rightIcon, setRightIcon] = useState("ios-eye");
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleCustomerUserLogin = async (Customer) => {
     console.log(
@@ -56,12 +56,12 @@ const LoginScreen = ({ navigation }) => {
       Customer.Password
     );
 
-    setprogressVisible(true);
+     setprogressVisible(true);
     const res = await loginCompanyUserApi.loginCompanyUser(
       Customer.UserCode,
       Customer.Password
     );
-    // console.log("in handleCompanyUserLogin", res.data);
+    console.log("in handleCompanyUserLogin", res.data.userDetails.typeOfUser);
     if (res.data.code === 3) {
       Alert.alert("Error!", res.data.message, [
         { text: "OK", onPress: () => setprogressVisible(false) },
@@ -72,11 +72,11 @@ const LoginScreen = ({ navigation }) => {
       navigation.navigate("AppDrawerNav");
     } else if (
       res.data.userDetails !== null &&
-      res.data.userDetails.TypeOfUser === "Admin"
+      res.data.userDetails.typeOfUser === "Manager"
     ) {
       setprogressVisible(false);
       storeUserDetails(res.data.Data);
-      navigation.navigate("AdminInquiryList");
+      navigation.navigate("StackManager");
     } else if (
       res.data.userDetails !== null &&
       res.data.userDetails.TypeOfUser === "Tech"
@@ -95,7 +95,7 @@ const LoginScreen = ({ navigation }) => {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@user_Details", jsonValue);
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const loginView = () => {

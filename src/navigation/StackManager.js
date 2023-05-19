@@ -9,7 +9,7 @@ import QuotationsList from "../screens/QuotationsList";
 
 const {Navigator, Screen} = createDrawerNavigator();
 // import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Reports from "../screens/Reports";
+import ReportsManager from "../screens/ReportsManager";
 // import { FontAwesome5 } from '@expo/vector-icons';
 // import { Ionicons } from '@expo/vector-icons';
 import {
@@ -26,7 +26,7 @@ import AllActivities from "../screens/AllActivities";
 {
     /* <FontAwesome5 name="luggage-cart" size={24} color="black" /> */
 }
-const AppDrawerNav = ({navigation}) => {
+const StackManager = ({navigation}) => {
     return (
         <Navigator
             drawerContent={CustomDrawer}
@@ -47,7 +47,7 @@ const AppDrawerNav = ({navigation}) => {
                     drawerIcon: ({color, size}) => (
                         <AntDesign name="home" size={23} color={colors.secondary}/>
                     ),
-                    drawerLabel: "Home Admin",
+                    drawerLabel: "Home Manager",
                     headerShown: false,
                 }}
             />
@@ -140,7 +140,7 @@ const AppDrawerNav = ({navigation}) => {
             />
             <Screen
                 name="Reports"
-                component={Reports}
+                component={ReportsManager}
                 navigation={navigation}
                 options={{
                     drawerIcon: ({color, size}) => (
@@ -157,82 +157,6 @@ const AppDrawerNav = ({navigation}) => {
                     headerShown: false,
                 }}
             />
-
-            {/* <Screen
-        name="Expenses"
-        component={Expenses}
-        navigation={navigation}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Foundation name="dollar-bill" size={24} color={colors.secondary} />
-          ),
-          drawerLabel: "Expenses",
-          headerShown: false,
-        }}
-      />*/}
-            {/* <Screen
-        name="MarkAttendance"
-        component={MarkAttendance}
-        navigation={navigation}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="not-listed-location"
-              size={24}
-              color={colors.secondary}
-            />
-          ),
-          drawerLabel: "Mark Attendance",
-          headerShown: false,
-        }}
-      />
-*/}
-            {/* <Screen
-        name="Pending Recovery"
-        component={PendingRecovery}
-        navigation={navigation}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="pending-actions"
-              size={24}
-              color={colors.secondary}
-            />
-          ),
-          drawerLabel: "Pending Recovery",
-          headerShown: false,
-        }}
-      />*/}
-            {/* <Screen
-        name="Purchase request"
-        component={PurchaseReqList}
-        navigation={navigation}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Fontisto
-              name="shopping-basket-add"
-              size={20}
-              color={colors.secondary}
-            />
-          ),
-          drawerLabel: "Purchase Request",
-          headerShown: false,
-        }}
-      /> */}
-            {/* <Screen
-        name="Stock"
-        component={Stock}
-        navigation={navigation}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <AntDesign name="database" size={24}
-            color={colors.secondary}
-             />
-          ),
-          drawerLabel: "Stock",
-          headerShown: false,
-        }}
-      />*/}
         </Navigator>
     );
 };
@@ -274,4 +198,4 @@ const styles = StyleSheet.create({
     },
     allicon_size: {},
 });
-export default AppDrawerNav;
+export default StackManager;

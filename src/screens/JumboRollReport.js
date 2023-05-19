@@ -11,6 +11,7 @@ import {
 import AppText from "../components/AppText";
 import AppHeader from "../components/AppHeader";
 import AgingReportCard from "../components/AgingReportCard";
+import JumboRollCard from "../components/JumboRollCard"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from "react-native-datepicker";
 import sizes from "../components/sizes";
@@ -26,9 +27,9 @@ import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 
 const JumboRollReport = ({ navigation, route }) => {
- // const { code } = route.params;
+  // const { code } = route.params;
   //  alert(code);
-  const code='uu';
+  const code = 'uu';
   const [progressVisible, setprogressVisible] = useState(false);
   const [dateView, setDateView] = useState(true);
 
@@ -93,540 +94,11 @@ const JumboRollReport = ({ navigation, route }) => {
   const [customerDetails, setCustomerDetails] = useState("");
   const [fromdate, setfromDate] = useState("");
   const [todate, settoDate] = useState("");
-  const [Balance, setBalance] = useState(0);
+  const [Pieces, setPieces] = useState();
 
   const [html2, setHtml2] = useState("");
 
-  const html99 = `<!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device width,initial scale =1.0" />
-      <meta name="keywords" content="HTML,CSS" />
-      <meta name="description" content="....." />
-  
-      <title>Gulf Packaging</title>
-      <style>
-        h1 {
-          color: black;
-          font-family: Calibri, sans-serif;
-          font-style: normal;
-          font-weight: bold;
-          text-decoration: none;
-          font-size: 22pt;
-        }
-        .s1 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: normal;
-          text-decoration: none;
-          font-size: 11.5pt;
-        }
-        .s2 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 700;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s21 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 136pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s22 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 133pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s23 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 116pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s24 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 178pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s25 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 156pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s3 {
-          color: black;
-          font-family: Calibri, sans-serif;
-          font-style: normal;
-          font-weight: bold;
-          text-decoration: none;
-          font-size: 8pt;
-        }
-        .s4 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: normal;
-          text-decoration: none;
-          font-size: 8pt;
-        }
-      </style>
-    </head>
-  
-    <body>
-      <u>
-        <h1 style="padding-top: 2pt; text-align: center">
-          GULF PACKAGING (PVT) LTD
-        </h1>
-        <h2 style="padding-top: 2pt; text-align: center">Aging Report</h2>
-      </u>
-  
-      <table
-        style="
-          border-collapse: collapse;
-          margin-top: 60px;
-          margin-left: auto;
-          margin-right: auto;
-          width: 90%;
-        "
-        cellspacing="0"
-      >
-        <tr style="height: 4pt; background-color: gainsboro">
-          <td
-            style="
-              width: 12%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s3" style="padding-right: 4pt; text-align: left">
-              Customer<span class="s4"> </span>Code
-            </p>
-          </td>
-          <td
-            style="
-              width: 12%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s3" style="padding-right: 2pt; text-align: left">
-              Customer Name<span class="s4"> </span>
-            </p>
-          </td>
 
-          <td
-            style="
-              width: 10%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s3" style="padding-right: 4pt; text-align: left">
-              firstthirty
-            </p>
-          </td>
-
-          <td
-          style="
-            width: 10%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p class="s3" style="padding-right: 4pt; text-align: left">
-          thirtyonetosixty
-          </p>
-        </td>
-
-        
-        <td
-        style="
-          width: 10%;
-          border-top-style: solid;
-          border-top-width: 1pt;
-          border-left-style: solid;
-          border-left-width: 1pt;
-          border-bottom-style: solid;
-          border-bottom-width: 1pt;
-          border-right-style: solid;
-          border-right-width: 1pt;
-        "
-      >
-        <p class="s3" style="padding-right: 4pt; text-align: left">
-        sixtyonetoninety
-        </p>
-      </td>
-
-      <td
-      style="
-        width: 10%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 4pt; text-align: left">
-      ninetyonetoonetwnety
-      </p>
-    </td>
-        </tr>
-
-
-
-
-
-        <tr style="height: 4pt">
-          <td
-            style="
-              width: 12%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s3" style="padding-right: 4pt; text-align: left">
-              <span class="s4">U000410 </span>
-            </p>
-          </td>
-          <td
-            style="
-              width: 12%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s3" style="padding-right: 2pt; text-align: left">
-              <span class="s4">Foodly </span>
-            </p>
-          </td>
-          <td
-            style="
-              width: 5%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 2pt; text-align: left">IN</p>
-          </td>
-          <td
-            style="
-              width: 8%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 4pt; text-align: left">
-              22230732
-            </p>
-          </td>
-          <td
-            style="
-              width: 8%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p
-              class="s4"
-              style="
-                padding-right: 3pt;
-  
-                text-align: left;
-              "
-            >
-              1
-            </p>
-          </td>
-  
-          <td
-            style="
-              width: 10%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 4pt; text-align: left">
-              20.09.22
-            </p>
-          </td>
-          <td
-            style="
-              width: 10%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 4pt; text-align: left">
-              19.11.22
-            </p>
-          </td>
-          <td
-            style="
-              width: 25%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 10pt; text-align: right">
-              PKR 19,275.20
-            </p>
-          </td>
-        </tr>
-
-
-
-        <tr style="height: 4pt">
-          <td
-            style="
-              width: 12%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 4pt; text-align: left">
-              <span class="s4">U000409 </span>
-            </p>
-          </td>
-          <td
-            style="
-              width: 12%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 2pt; text-align: left">
-              <span class="s4">4C Packages </span>
-            </p>
-          </td>
-          <td
-            style="
-              width: 5%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 2pt; text-align: left">IN</p>
-          </td>
-          <td
-            style="
-              width: 8%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 4pt; text-align: left">
-              22230771
-            </p>
-          </td>
-          <td
-            style="
-              width: 8%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p
-              class="s4"
-              style="
-                padding-right: 3pt;
-  
-                text-align: left;
-              "
-            >
-              1
-            </p>
-          </td>
-  
-          <td
-            style="
-              width: 10%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 4pt; text-align: left">
-              21.09.22
-            </p>
-          </td>
-          <td
-            style="
-              width: 10%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 4pt; text-align: left">
-              20.11.22
-            </p>
-          </td>
-          <td
-            style="
-              width: 25%;
-              border-top-style: solid;
-              border-top-width: 1pt;
-              border-left-style: solid;
-              border-left-width: 1pt;
-              border-bottom-style: solid;
-              border-bottom-width: 1pt;
-              border-right-style: solid;
-              border-right-width: 1pt;
-            "
-          >
-            <p class="s4" style="padding-right: 10pt; text-align: right">
-              PKR 119,310.00
-            </p>
-          </td>
-        </tr>
-      </table>
-    </body>
-  </html>
-  `;
 
   const html1 = `
   <!DOCTYPE html>
@@ -735,9 +207,9 @@ const JumboRollReport = ({ navigation, route }) => {
     <body>
       <u>
         <h1 style="padding-top: 2pt; text-align: center">
-          zill (PVT) LTD
+          Zill (PVT) LTD
         </h1>
-        <h2 style="padding-top: 2pt; text-align: center">Aging Report</h2>
+        <h2 style="padding-top: 2pt; text-align: center">Jumbo Roll Stock Report</h2>
       </u>
   
       <table
@@ -765,7 +237,7 @@ const JumboRollReport = ({ navigation, route }) => {
             "
           >
             <p class="s3" style="padding-right: 4pt; text-align: left">
-              Customer<span class="s4"> </span>Code
+              Item<span class="s4"> </span>Code
             </p>
           </td>
           <td
@@ -782,7 +254,7 @@ const JumboRollReport = ({ navigation, route }) => {
             "
           >
             <p class="s3" style="padding-right: 2pt; text-align: left">
-              Customer Name<span class="s4"> </span>
+              Item Name<span class="s4"> </span>
             </p>
           </td>
 
@@ -800,7 +272,7 @@ const JumboRollReport = ({ navigation, route }) => {
             "
           >
             <p class="s3" style="padding-right: 4pt; text-align: left">
-              0-30
+              Pieces
             </p>
           </td>
 
@@ -818,7 +290,7 @@ const JumboRollReport = ({ navigation, route }) => {
           "
         >
           <p class="s3" style="padding-right: 4pt; text-align: left">
-          31-60
+         In Stock(kg)
           </p>
         </td>
 
@@ -837,27 +309,10 @@ const JumboRollReport = ({ navigation, route }) => {
         "
       >
         <p class="s3" style="padding-right: 4pt; text-align: left">
-        61-90
+        Amount
         </p>
       </td>
 
-      <td
-      style="
-        width: 10%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 4pt; text-align: left">
-      91-120
-      </p>
-    </td>
         </tr>
       `;
 
@@ -906,7 +361,7 @@ const JumboRollReport = ({ navigation, route }) => {
         }
         setloading(false);
         navigation.navigate("PdfView", { uril: htm });
-    ///   navigation.navigate("PdfView",{uril: htm})
+        ///   navigation.navigate("PdfView",{uril: htm})
         // setloading(false);
         // alert("Downloaded");
       }
@@ -918,22 +373,28 @@ const JumboRollReport = ({ navigation, route }) => {
 
   const getLedgerReport = async (codehere) => {
     getCustomerDetails();
-      setprogressVisible(true);
-      const response = await ledgerReportApi.getAgingReport(
-        cardCode
-      );
-      console.log(response?.data, "------------");
-      if (response.data.data == null) {
-        Alert.alert("No record found");
-      } else {
-        var html = ``;
+    setprogressVisible(true);
+    const response = await ledgerReportApi.getJumboRollReport(
+      cardCode
+    );
+    console.log(response?.data, "------------");
+    if (response.data.data == null) {
+      Alert.alert("No record found");
+    } else {
+      var html = ``;
+      var totalPieces = 0;
+      var inStockTotal = 0;
+      var totalAmount = 0;
 
-   
-        response.data?.data?.map((item) => {                                                                                                  
-    
-          html =
-            html +
-            `
+      response.data?.data?.map((item) => {
+        totalPieces += item.pieces;
+        inStockTotal += item.inStock;
+        totalAmount += item.amount;
+        //  totalDebit += item.debit;
+
+        html =
+          html +
+          `
             <tr style="height: 4pt">
             <td
               style="
@@ -949,7 +410,7 @@ const JumboRollReport = ({ navigation, route }) => {
               "
             >
               <p class="s3" style="padding-right: 4pt; text-align: left">
-                <span class="s4">${item.cardCode} </span>
+                <span class="s4">${item.itemCode} </span>
               </p>
             </td>
             <td
@@ -966,7 +427,7 @@ const JumboRollReport = ({ navigation, route }) => {
               "
             >
               <p class="s3" style="padding-right: 2pt; text-align: left">
-                <span class="s4">${item.cardName} </span>
+                <span class="s4">${item.itemName} </span>
               </p>
             </td>
             <td
@@ -982,7 +443,7 @@ const JumboRollReport = ({ navigation, route }) => {
                 border-right-width: 1pt;
               "
             >
-              <p class="s4" style="padding-right: 2pt; text-align: left">${item.firstthirty}</p>
+              <p class="s4" style="padding-right: 2pt; text-align: left">${item.pieces}</p>
             </td>
             <td
               style="
@@ -998,7 +459,7 @@ const JumboRollReport = ({ navigation, route }) => {
               "
             >
               <p class="s4" style="padding-right: 4pt; text-align: left">
-              ${item.thirtyonetosixty}
+              ${item.inStock}
               </p>
             </td>
             <td
@@ -1018,49 +479,114 @@ const JumboRollReport = ({ navigation, route }) => {
                 class="s4"
                 style="
                   padding-right: 3pt;
-    
                   text-align: left;
                 "
               >
-              ${item.sixtyonetoninety}
+              ${item.amount}
               </p>
             </td>
-    
-            <td
-              style="
-                width: 10%;
-                border-top-style: solid;
-                border-top-width: 1pt;
-                border-left-style: solid;
-                border-left-width: 1pt;
-                border-bottom-style: solid;
-                border-bottom-width: 1pt;
-                border-right-style: solid;
-                border-right-width: 1pt;
-              "
-            >
-              <p class="s4" style="padding-right: 4pt; text-align: left">
-              ${item.ninetyonetoonetwnety}
-              </p>
-            </td>
- 
           </tr>
             `;
-        });
-        html += `
-    </table>
-    </body>
-    </html>`;
+      });
+      html += `</table>
+      <table
+      style="
+        border-collapse: collapse;
+        margin-top: 0px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+      "
+      cellspacing="0"
+    >
+      <tr style="height: 4pt;">
+        <td
+          style="
+            width: 12%;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: left">
+          </p>
+        </td>
+        <td
+          style="
+            width: 12%;
+          "
+        >
+          <p class="s3" style="padding-right: 2pt; text-align: left">
+          </p>
+        </td>
 
-        setHtml2(html);
-        setReports1(response?.data.data);
+        <td
+          style="
+            width: 10%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: left">
+            ${totalPieces}
+          </p>
+        </td>
+
+        <td
+        style="
+          width: 10%;
+          border-top-style: solid;
+          border-top-width: 1pt;
+          border-left-style: solid;
+          border-left-width: 1pt;
+          border-bottom-style: solid;
+          border-bottom-width: 1pt;
+          border-right-style: solid;
+          border-right-width: 1pt;
+        "
+      >
+        <p class="s3" style="padding-right: 4pt; text-align: left">
+        ${inStockTotal}
+        </p>
+      </td>
+
+      
+      <td
+      style="
+        width: 10%;
+        border-top-style: solid;
+        border-top-width: 1pt;
+        border-left-style: solid;
+        border-left-width: 1pt;
+        border-bottom-style: solid;
+        border-bottom-width: 1pt;
+        border-right-style: solid;
+        border-right-width: 1pt;
+      "
+    >
+      <p class="s3" style="padding-right: 4pt; text-align: left">
+      ${totalAmount}
+      </p>
+    </td>
+
+      </tr>
+      </table>
+      </body>
+      </html>`;
+
+      setHtml2(html);
+      setReports1(response?.data.data);
+      // setPieces(amount);
       //  setName(response.data.data[0].cardName);
-        // alert(totalCredit - totalDebit);
+      // alert(totalCredit - totalDebit);
       //  setBalance(parseFloat(totalCredit - totalDebit).toFixed(2));
-        setDateView(false);
-      }
-      setprogressVisible(false);
-    
+      setDateView(false);
+    }
+    setprogressVisible(false);
+
   };
 
 
@@ -1068,25 +594,25 @@ const JumboRollReport = ({ navigation, route }) => {
 
   const getCustomerDetailsa = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
-   // setSlp(JSON.parse(jsonValue).salePersonCode);
-    console.log("getUserDetails",JSON.parse(jsonValue).salePersonCode)
+    // setSlp(JSON.parse(jsonValue).salePersonCode);
+    console.log("getUserDetails", JSON.parse(jsonValue).salePersonCode)
     setCardCode(JSON.parse(jsonValue).salePersonCode);
-   // getLedgerReport(JSON.parse(jsonValue).salePersonCode);
- //    getDraftOrdersList(JSON.parse(jsonValue).salePersonCode)
-  // getDraftOrdersList(14)
- //   getApprovedSaleOrders(date,JSON.parse(jsonValue).salePersonCode)
- //   return jsonValue != null ? JSON.parse(jsonValue) : null;
+    // getLedgerReport(JSON.parse(jsonValue).salePersonCode);
+    //    getDraftOrdersList(JSON.parse(jsonValue).salePersonCode)
+    // getDraftOrdersList(14)
+    //   getApprovedSaleOrders(date,JSON.parse(jsonValue).salePersonCode)
+    //   return jsonValue != null ? JSON.parse(jsonValue) : null;
   };
 
   const getCustomerDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
-   // setUserId(JSON.parse(jsonValue).Id);
+    // setUserId(JSON.parse(jsonValue).Id);
     console.log(
       "getUserDetails in AllActivities screen",
       JSON.parse(jsonValue).salePersonCode
     );
     setCardCode(JSON.parse(jsonValue).salePersonCode);
- 
+
   };
 
   const DocDateSelectionView = () => (
@@ -1107,7 +633,7 @@ const JumboRollReport = ({ navigation, route }) => {
   const DocDateSelectionView2 = () => (
     <>
       <View style={{ marginVertical: 20 }}>
-        <TouchableOpacity onPress={() =>createAndSavePDF() }>
+        <TouchableOpacity onPress={() => createAndSavePDF()}>
           <AppButton
             text="Export pdf"
             iconFreeButton
@@ -1123,11 +649,11 @@ const JumboRollReport = ({ navigation, route }) => {
   const ledgerHeader = () => (
     <>
       <AppRow style={styles.r1}>
-        <AppText style={styles.p2}>Name</AppText>
-        <AppText style={styles.p3}>0-30</AppText>
-        <AppText style={styles.p4}>31-60</AppText>
-        <AppText style={styles.p4}>61-90</AppText>
-        <AppText style={styles.p4}>91-120</AppText>
+        <AppText style={styles.p2}>Item Code</AppText>
+        <AppText style={styles.p3}>Name</AppText>
+        <AppText style={styles.p4}>Pieces</AppText>
+        <AppText style={styles.p4}>In Stock</AppText>
+        <AppText style={styles.p4}>Amount</AppText>
       </AppRow>
     </>
   );
@@ -1144,7 +670,7 @@ const JumboRollReport = ({ navigation, route }) => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => {
           return (
-            <AgingReportCard
+            <JumboRollCard
               customer={item}
             />
           );
@@ -1155,7 +681,7 @@ const JumboRollReport = ({ navigation, route }) => {
   };
   return (
     <SafeAreaView>
-         <AppHeader
+      <AppHeader
         doubleBtn
         doubleBtnContainerStyle={{}}
         doubleBtnImg1={require("../assets/back-button.png")}
@@ -1165,17 +691,17 @@ const JumboRollReport = ({ navigation, route }) => {
           height: Platform.OS === "ios" ? 35 : 30,
           marginLeft: 10,
         }}
-    //    doubleBtnImg2={require("../assets/pdf_file.png")}
+        //    doubleBtnImg2={require("../assets/pdf_file.png")}
         doubleBtnImg2Style={{
           width: 20,
           height: 20,
           marginRight: 27,
         }}
-        
+
         navigation={navigation}
         headerTitle="Jumbo Roll"
       />
- {/*      <AppHeader
+      {/*      <AppHeader
         doubleBtn
         doubleBtnContainerStyle={{}}
         doubleBtnImg1={require("../assets/back-button.png")}
