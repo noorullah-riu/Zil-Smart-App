@@ -117,7 +117,7 @@ const Reports = ({ navigation }) => {
         style={{
           backgroundColor: colors.background_new,
           marginTop: 0,
-          paddingBottom:100,
+          paddingBottom: 100,
           marginHorizontal: 10,
           justifyContent: "center",
         }}

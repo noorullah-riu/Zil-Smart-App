@@ -15,10 +15,16 @@ const getLedgerReport = (fDate, tDate, code) =>
     `/SaleOrderApi/JumboStockReport`
   );
 
+  const getFGInstockReport = (code) =>
+  client.get(
+    `/SaleOrderApi/FGInStockReport`
+  );
+
 // const getLedgerReport = (fDate,tDate,code) => client.get(`/GetLedgerDetails?FromDate=2021-01-10&ToDate=2021-12-31&cardCode=C000001`);
 
 export default {
   getLedgerReport,
   getAgingReport,
   getJumboRollReport,
+  getFGInstockReport,
 };

@@ -121,7 +121,7 @@ const OrderDetail = ({navigation}) => {
               marginRight:33,
               }}
             navigation = { navigation } 
-            headerTitle = "Order Detail pp"
+            headerTitle = "Order Detail "
             navigateTo = "CustomersList"
             myRoute="Orders"
 

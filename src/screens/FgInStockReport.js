@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import AppText from "../components/AppText";
 import AppHeader from "../components/AppHeader";
-import AgingReportCard from "../components/AgingReportCard";
+import FGInstockCard from "../components/FGInstockCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from "react-native-datepicker";
 import sizes from "../components/sizes";
@@ -26,9 +26,9 @@ import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 
 const FgInStockReport = ({ navigation, route }) => {
- // const { code } = route.params;
+  // const { code } = route.params;
   //  alert(code);
-  const code='uu';
+  const code = 'uu';
   const [progressVisible, setprogressVisible] = useState(false);
   const [dateView, setDateView] = useState(true);
 
@@ -105,7 +105,7 @@ const FgInStockReport = ({ navigation, route }) => {
       <meta name="keywords" content="HTML,CSS" />
       <meta name="description" content="....." />
   
-      <title>Gulf Packaging</title>
+      <title>ZAKORI INDUSTRIES (PVT) LIMITED</title>
       <style>
         h1 {
           color: black;
@@ -203,9 +203,9 @@ const FgInStockReport = ({ navigation, route }) => {
     <body>
       <u>
         <h1 style="padding-top: 2pt; text-align: center">
-          GULF PACKAGING (PVT) LTD
+        ZAKORI INDUSTRIES (PVT) LIMITED
         </h1>
-        <h2 style="padding-top: 2pt; text-align: center">Aging Report</h2>
+        <h2 style="padding-top: 2pt; text-align: center">Finished Goods InStock Report</h2>
       </u>
   
       <table
@@ -637,7 +637,7 @@ const FgInStockReport = ({ navigation, route }) => {
       <meta name="keywords" content="HTML,CSS" />
       <meta name="description" content="....." />
   
-      <title>zill</title>
+      <title>ZAKORI INDUSTRIES (PVT) LIMITED</title>
       <style>
         h1 {
           color: black;
@@ -735,9 +735,9 @@ const FgInStockReport = ({ navigation, route }) => {
     <body>
       <u>
         <h1 style="padding-top: 2pt; text-align: center">
-          zill (PVT) LTD
+        ZAKORI INDUSTRIES (PVT) LIMITED
         </h1>
-        <h2 style="padding-top: 2pt; text-align: center">Aging Report</h2>
+        <h2 style="padding-top: 2pt; text-align: center">Finished Goods InStock Report</h2>
       </u>
   
       <table
@@ -765,7 +765,7 @@ const FgInStockReport = ({ navigation, route }) => {
             "
           >
             <p class="s3" style="padding-right: 4pt; text-align: left">
-              Customer<span class="s4"> </span>Code
+              Item<span class="s4"> </span>Code
             </p>
           </td>
           <td
@@ -782,7 +782,7 @@ const FgInStockReport = ({ navigation, route }) => {
             "
           >
             <p class="s3" style="padding-right: 2pt; text-align: left">
-              Customer Name<span class="s4"> </span>
+              Item Name<span class="s4"> </span>
             </p>
           </td>
 
@@ -800,64 +800,9 @@ const FgInStockReport = ({ navigation, route }) => {
             "
           >
             <p class="s3" style="padding-right: 4pt; text-align: left">
-              0-30
+              In Stock
             </p>
           </td>
-
-          <td
-          style="
-            width: 10%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p class="s3" style="padding-right: 4pt; text-align: left">
-          31-60
-          </p>
-        </td>
-
-        
-        <td
-        style="
-          width: 10%;
-          border-top-style: solid;
-          border-top-width: 1pt;
-          border-left-style: solid;
-          border-left-width: 1pt;
-          border-bottom-style: solid;
-          border-bottom-width: 1pt;
-          border-right-style: solid;
-          border-right-width: 1pt;
-        "
-      >
-        <p class="s3" style="padding-right: 4pt; text-align: left">
-        61-90
-        </p>
-      </td>
-
-      <td
-      style="
-        width: 10%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 4pt; text-align: left">
-      91-120
-      </p>
-    </td>
         </tr>
       `;
 
@@ -906,7 +851,7 @@ const FgInStockReport = ({ navigation, route }) => {
         }
         setloading(false);
         navigation.navigate("PdfView", { uril: htm });
-    ///   navigation.navigate("PdfView",{uril: htm})
+        ///   navigation.navigate("PdfView",{uril: htm})
         // setloading(false);
         // alert("Downloaded");
       }
@@ -918,22 +863,22 @@ const FgInStockReport = ({ navigation, route }) => {
 
   const getLedgerReport = async (codehere) => {
     getCustomerDetails();
-      setprogressVisible(true);
-      const response = await ledgerReportApi.getAgingReport(
-        cardCode
-      );
-      console.log(response?.data, "------------");
-      if (response.data.data == null) {
-        Alert.alert("No record found");
-      } else {
-        var html = ``;
+    setprogressVisible(true);
+    const response = await ledgerReportApi.getFGInstockReport(
+      cardCode
+    );
+    console.log(response?.data, "------------");
+    if (response.data.data == null) {
+      Alert.alert("No record found");
+    } else {
+      var html = ``;
 
-   
-        response.data?.data?.map((item) => {                                                                                                  
-    
-          html =
-            html +
-            `
+
+      response.data?.data?.map((item) => {
+
+        html =
+          html +
+          `
             <tr style="height: 4pt">
             <td
               style="
@@ -949,7 +894,7 @@ const FgInStockReport = ({ navigation, route }) => {
               "
             >
               <p class="s3" style="padding-right: 4pt; text-align: left">
-                <span class="s4">${item.cardCode} </span>
+                <span class="s4">${item.itemCode} </span>
               </p>
             </td>
             <td
@@ -966,7 +911,7 @@ const FgInStockReport = ({ navigation, route }) => {
               "
             >
               <p class="s3" style="padding-right: 2pt; text-align: left">
-                <span class="s4">${item.cardName} </span>
+                <span class="s4">${item.itemName} </span>
               </p>
             </td>
             <td
@@ -982,85 +927,25 @@ const FgInStockReport = ({ navigation, route }) => {
                 border-right-width: 1pt;
               "
             >
-              <p class="s4" style="padding-right: 2pt; text-align: left">${item.firstthirty}</p>
+              <p class="s4" style="padding-right: 2pt; text-align: left">${item.inStock}</p>
             </td>
-            <td
-              style="
-                width: 8%;
-                border-top-style: solid;
-                border-top-width: 1pt;
-                border-left-style: solid;
-                border-left-width: 1pt;
-                border-bottom-style: solid;
-                border-bottom-width: 1pt;
-                border-right-style: solid;
-                border-right-width: 1pt;
-              "
-            >
-              <p class="s4" style="padding-right: 4pt; text-align: left">
-              ${item.thirtyonetosixty}
-              </p>
-            </td>
-            <td
-              style="
-                width: 8%;
-                border-top-style: solid;
-                border-top-width: 1pt;
-                border-left-style: solid;
-                border-left-width: 1pt;
-                border-bottom-style: solid;
-                border-bottom-width: 1pt;
-                border-right-style: solid;
-                border-right-width: 1pt;
-              "
-            >
-              <p
-                class="s4"
-                style="
-                  padding-right: 3pt;
-    
-                  text-align: left;
-                "
-              >
-              ${item.sixtyonetoninety}
-              </p>
-            </td>
-    
-            <td
-              style="
-                width: 10%;
-                border-top-style: solid;
-                border-top-width: 1pt;
-                border-left-style: solid;
-                border-left-width: 1pt;
-                border-bottom-style: solid;
-                border-bottom-width: 1pt;
-                border-right-style: solid;
-                border-right-width: 1pt;
-              "
-            >
-              <p class="s4" style="padding-right: 4pt; text-align: left">
-              ${item.ninetyonetoonetwnety}
-              </p>
-            </td>
- 
           </tr>
             `;
-        });
-        html += `
+      });
+      html += `
     </table>
     </body>
     </html>`;
 
-        setHtml2(html);
-        setReports1(response?.data.data);
+      setHtml2(html);
+      setReports1(response?.data.data);
       //  setName(response.data.data[0].cardName);
-        // alert(totalCredit - totalDebit);
+      // alert(totalCredit - totalDebit);
       //  setBalance(parseFloat(totalCredit - totalDebit).toFixed(2));
-        setDateView(false);
-      }
-      setprogressVisible(false);
-    
+      setDateView(false);
+    }
+    setprogressVisible(false);
+
   };
 
 
@@ -1068,25 +953,25 @@ const FgInStockReport = ({ navigation, route }) => {
 
   const getCustomerDetailsa = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
-   // setSlp(JSON.parse(jsonValue).salePersonCode);
-    console.log("getUserDetails",JSON.parse(jsonValue).salePersonCode)
+    // setSlp(JSON.parse(jsonValue).salePersonCode);
+    console.log("getUserDetails", JSON.parse(jsonValue).salePersonCode)
     setCardCode(JSON.parse(jsonValue).salePersonCode);
-   // getLedgerReport(JSON.parse(jsonValue).salePersonCode);
- //    getDraftOrdersList(JSON.parse(jsonValue).salePersonCode)
-  // getDraftOrdersList(14)
- //   getApprovedSaleOrders(date,JSON.parse(jsonValue).salePersonCode)
- //   return jsonValue != null ? JSON.parse(jsonValue) : null;
+    // getLedgerReport(JSON.parse(jsonValue).salePersonCode);
+    //    getDraftOrdersList(JSON.parse(jsonValue).salePersonCode)
+    // getDraftOrdersList(14)
+    //   getApprovedSaleOrders(date,JSON.parse(jsonValue).salePersonCode)
+    //   return jsonValue != null ? JSON.parse(jsonValue) : null;
   };
 
   const getCustomerDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
-   // setUserId(JSON.parse(jsonValue).Id);
+    // setUserId(JSON.parse(jsonValue).Id);
     console.log(
       "getUserDetails in AllActivities screen",
       JSON.parse(jsonValue).salePersonCode
     );
     setCardCode(JSON.parse(jsonValue).salePersonCode);
- 
+
   };
 
   const DocDateSelectionView = () => (
@@ -1107,7 +992,7 @@ const FgInStockReport = ({ navigation, route }) => {
   const DocDateSelectionView2 = () => (
     <>
       <View style={{ marginVertical: 20 }}>
-        <TouchableOpacity onPress={() =>createAndSavePDF() }>
+        <TouchableOpacity onPress={() => createAndSavePDF()}>
           <AppButton
             text="Export pdf"
             iconFreeButton
@@ -1123,11 +1008,9 @@ const FgInStockReport = ({ navigation, route }) => {
   const ledgerHeader = () => (
     <>
       <AppRow style={styles.r1}>
-        <AppText style={styles.p2}>Name</AppText>
-        <AppText style={styles.p3}>0-30</AppText>
-        <AppText style={styles.p4}>31-60</AppText>
-        <AppText style={styles.p4}>61-90</AppText>
-        <AppText style={styles.p4}>91-120</AppText>
+        <AppText style={styles.p2}>item Code</AppText>
+        <AppText style={styles.p3}>item Name</AppText>
+        <AppText style={styles.p4}>In Stock</AppText>
       </AppRow>
     </>
   );
@@ -1144,7 +1027,7 @@ const FgInStockReport = ({ navigation, route }) => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => {
           return (
-            <AgingReportCard
+            <FGInstockCard
               customer={item}
             />
           );
@@ -1155,7 +1038,7 @@ const FgInStockReport = ({ navigation, route }) => {
   };
   return (
     <SafeAreaView>
-         <AppHeader
+      <AppHeader
         doubleBtn
         doubleBtnContainerStyle={{}}
         doubleBtnImg1={require("../assets/back-button.png")}
@@ -1165,17 +1048,17 @@ const FgInStockReport = ({ navigation, route }) => {
           height: Platform.OS === "ios" ? 35 : 30,
           marginLeft: 10,
         }}
-    //    doubleBtnImg2={require("../assets/pdf_file.png")}
+        //    doubleBtnImg2={require("../assets/pdf_file.png")}
         doubleBtnImg2Style={{
           width: 20,
           height: 20,
           marginRight: 27,
         }}
-        
+
         navigation={navigation}
         headerTitle="Fg In Stock"
       />
- {/*      <AppHeader
+      {/*      <AppHeader
         doubleBtn
         doubleBtnContainerStyle={{}}
         doubleBtnImg1={require("../assets/back-button.png")}
@@ -1257,7 +1140,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontWeight: "bold",
     fontSize: 16,
-    width: "20%",
+    width: "30%",
   },
   p7: {
     color: colors.secondary,
@@ -1268,7 +1151,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontWeight: "bold",
     fontSize: 16,
-    width: "20%",
+    width: "50%",
   },
   p4: {
     color: colors.secondary,
