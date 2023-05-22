@@ -59,7 +59,7 @@ import SalesInvoiceDetail from "../screens/SalesInvoiceDetail";
 import InventoryItems from "../screens/InventoryItems";
 import AgingReport from "../screens/Aging";
 import ItemListDetailScreen from "../screens/ItemListDetailScreen";
-//import PendngOrderListReport from "../screens/PendingOrderListReport";
+import PendngOrderListReport from "../screens/PendingOrderListReport";
 import DailyRecievableReport from "../screens/DailyRecievableReport";
 import MonthalyCommissionReport from "../screens/MonthalyCommissionReport";
 import JumboRollReport from "../screens/JumboRollReport";
@@ -115,13 +115,11 @@ const AppStackNav = ({ navigation }) => {
         component={PostOrder}
         options={{ headerShown: false }}
       />
-
-  {/*     <Screen
+      <Screen
         name="PendngOrderListReport"
         component={PendngOrderListReport}
         options={{ headerShown: false }}
-      /> */}
-
+      />
       <Screen
         name="DailyRecievableReport"
         component={DailyRecievableReport}
@@ -378,8 +376,6 @@ const AppStackNav = ({ navigation }) => {
         }}
       />
 
-
-
       <Screen
         name="AppDrawerNav"
         options={{ headerShown: false }}
@@ -399,14 +395,14 @@ const AppStackNav = ({ navigation }) => {
         options={{ headerShown: false }}
         component={AppDrawerNav2}
         navigation={navigation}
-      // initialRouteName="Signup"
+        // initialRouteName="Signup"
       />
       <Screen
         name="AppDrawerNav3"
         options={{ headerShown: false }}
         component={AppDrawerNav3}
         navigation={navigation}
-      // initialRouteName="Signup"
+        // initialRouteName="Signup"
       />
     </Navigator>
   );
