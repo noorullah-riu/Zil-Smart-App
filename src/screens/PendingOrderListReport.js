@@ -102,355 +102,358 @@ const PendngOrderListReport = ({ navigation, route }) => {
           GroupCtnsTotal = 0;
           let rows = "";
           return `
-          <tr>
-            <td style="text-align:center;;font-size:small;">
-             ${sNum}
-            </td>
-            <td style="text-align:center;font-weight:700;font-size:small;">
-              ${object.docNum}
-            </td>
-            <td style="text-align:center;font-weight:700;font-size:small;">
-              Ctns
-            </td>
- 
-            <td style="text-align: left; font-weight:700; max-width:150px;">
-              ${object.cardName}
-            </td>
+        <tr>
+          <td style="text-align:center;;font-size:small;">
+           ${sNum}
+          </td>
+          <td style="text-align:center;font-weight:700;font-size:small;">
+            ${object.docNum}
+          </td>
+          <td style="text-align:center;font-weight:700;font-size:small;">
+            Ctns
+          </td>
 
-            <td style="font-weight: bold;text-align: center; "></td>
-            <td style="font-weight: bold;text-align: center;">
-              ${object.docDate.split(" ")[0]}
-            </td>
-            <td style="text-align: center;">${
-              object.docDueDate.split(" ")[0]
-            }</td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-            <td style="font-weight: bold;text-align: center;"></td>
-          </tr>
-          <div>
-          ${object.orderDetails
-            .map((innerObj) => {
-              const yds = parseFloat(innerObj.yds);
-              const cartons = parseFloat(innerObj.cartons);
-              GroupCtnsTotal += parseFloat(innerObj.cartons);
-              GroupYdsTotal += parseFloat(innerObj.yds);
-              GroupMtrsReqTotal = "N.A";
-              TotalYds += yds;
-              TotalCtns += cartons;
+          <td style="text-align: left; font-weight:700; max-width:150px;">
+            ${object.cardName}
+          </td>
 
-              return `
-                <tr>
-                  <td style="text-align: center;"></td>
-                  <td style="text-align: center;"></td>
-                  <td style="text-align: center;">
-                    ${cartons}
-                  </td>
-                  <td style="text-align: left;">
-                    ${innerObj.itemName}
-                  </td>
-                  <td style="text-align: center;">
-                    ${innerObj.status}
-                  </td>
-                  <td style="text-align: center;"></td>
-                  <td style="text-align: center;"></td>
-                  <td style="text-align: center;">
-                    ${innerObj.pcsPerDzn}
-                  </td>
-                  <td style="text-align: center;">
-                    ${innerObj.quantity}
-                  </td>
-                  <td style="text-align: center;">
-                    ${innerObj.lr}
-                  </td>
-                  <td style="text-align: center;">
-                    ${yds}
-                  </td>
-                  <td style="text-align: center;"> N.A </td>
-                  <td style="text-align: center;">
-                    ${innerObj.productionStatus}
-                  </td>
-                  <td style="text-align: center;">
-                    ${innerObj.count}
-                  </td>
-                </tr>`;
-            })
-            .join("")}
-          <tr>
-            <td style="text-align: center;"></td>
-            <td style="text-align: center;"></td>
-            <td style="text-align: center; ">${GroupCtnsTotal}</td>
-            <td colspan="7" style="text-align: center;"></td>
-            <td style="text-align: center; ">${GroupYdsTotal}</td>
-            <td style="text-align: center; ">${GroupMtrsReqTotal}</td>
-            <td colspan="2" style="text-align: center;"></td>
-          </tr>
-        </div>
-          `;
+          <td style="font-weight: bold;text-align: center; "></td>
+          <td style="font-weight: bold;text-align: center;">
+            ${object.docDate.split(" ")[0]}
+          </td>
+          <td style="text-align: center;">${
+            object.docDueDate.split(" ")[0]
+          }</td>
+          <td style="font-weight: bold;text-align: center;"></td>
+          <td style="font-weight: bold;text-align: center;"></td>
+          <td style="font-weight: bold;text-align: center;"></td>
+          <td style="font-weight: bold;text-align: center;"></td>
+          <td style="font-weight: bold;text-align: center;"></td>
+          <td style="font-weight: bold;text-align: center;"></td>
+          <td style="font-weight: bold;text-align: center;"></td>
+        </tr>
+        <div>
+        ${object.orderDetails
+          .map((innerObj) => {
+            const yds = parseFloat(innerObj.yds);
+            const cartons = parseFloat(innerObj.cartons);
+            GroupCtnsTotal += parseFloat(innerObj.cartons);
+            GroupYdsTotal += parseFloat(innerObj.yds);
+            GroupMtrsReqTotal = "N.A";
+            TotalYds += yds;
+            TotalCtns += cartons;
+
+            return `
+              <tr>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                  ${cartons}
+                </td>
+                <td style="text-align: left;">
+                  ${innerObj.itemName}
+                </td>
+                <td style="text-align: center;">
+                  ${innerObj.status}
+                </td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                  ${innerObj.pcsPerDzn}
+                </td>
+                <td style="text-align: center;">
+                  ${innerObj.quantity}
+                </td>
+                <td style="text-align: center;">
+                  ${innerObj.lr}
+                </td>
+                <td style="text-align: center;">
+                  ${yds}
+                </td>
+                <td style="text-align: center;"> N.A </td>
+                <td style="text-align: center;">
+                  ${innerObj.productionStatus}
+                </td>
+                <td style="text-align: center;">
+                  ${innerObj.count}
+                </td>
+              </tr>`;
+          })
+          .join("")}
+        <tr>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center; ">${GroupCtnsTotal}</td>
+          <td colspan="7" style="text-align: center;"></td>
+          <td style="text-align: center; ">${GroupYdsTotal}</td>
+          <td style="text-align: center; ">${GroupMtrsReqTotal}</td>
+          <td colspan="2" style="text-align: center;"></td>
+        </tr>
+      </div>
+        `;
         })
         .join("");
       const htmlTemplate = `
-        <!DOCTYPE html>
-        <html>
-          <head>
-          <title>Pending Order</title>
-            <style>
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-              th, td {
-                padding: 8px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-              }
-
-
-              body {
-                margin-left: 10px;
-                margin-right: 10px;
-            }
-            .demo {
-                border: 0.7px solid black;
-                border-collapse: collapse;
-                padding: 5px;
-                width: 100%;
-                font-size: 10px;
-            }
-            .demo1 {
-                border: 0.7px solid black;
-                border-collapse: collapse;
-                margin-top: 12px;
-                width: 60%;
-                margin-bottom: 6px;
-                font-size: 10px;
-            }
-            .demo1 td {
-                border: 0.7px solid #000000;
-                padding: 5px;
-            }
-            .demo14 {
-                border: 0px solid black;
-                border-collapse: collapse;
-                width: 100%;
-            }
-            .demo14 td {
-                border: 0px solid #000000;
-            }
-            .demo11 {
-              border: 0px solid #000000;
+      <!DOCTYPE html>
+      <html>
+        <head>
+        <title>Pending Order</title>
+          <style>
+            table {
+              width: 100%;
               border-collapse: collapse;
-              margin-top: -16px;
-              width: 67%;
+            }
+            th, td {
+              padding: 8px;
+              text-align: left;
+              border-bottom: 1px solid #ddd;
+            }
+
+
+            body {
+              margin-left: 10px;
+              margin-right: 10px;
+          }
+          .demo {
+              border: 0.7px solid black;
+              border-collapse: collapse;
+              padding: 5px;
+              width: 100%;
               font-size: 10px;
           }
-          .demo11 td {
-              border: 0px;
-          }
-          .demo2 {
-              border: 0.7px solid #000000;
+          .demo1 {
+              border: 0.7px solid black;
               border-collapse: collapse;
-              width: 50%;
+              margin-top: 12px;
+              width: 60%;
               margin-bottom: 6px;
               font-size: 10px;
-              margin-top: 12px;
-              margin-left: 40px;
           }
-          .demo2 td {
+          .demo1 td {
               border: 0.7px solid #000000;
               padding: 5px;
           }
-          .demo22 {
-              border: 0px;
-              margin-top: -16px;
+          .demo14 {
+              border: 0px solid black;
               border-collapse: collapse;
-              width: 13%;
-              margin-left: 30px;
-              font-size: 10px;
-          }
-          .demo22 td {
-              border: 0px;
-          }
-          .demo3 {
-              border: 0.7px solid #000000;
-              border-collapse: collapse;
-              float: right;
-              width: 30%;
-              margin-top: 4px;
-              font-size: 10px;
-          }
-          .demo3 td {
-              border: 0.7px solid #000000;
-              padding: 5px;
-          }
-          .demo th {
-              border: 0.7px solid #000000;
-              padding: 5px;
-              background: #ffffff;
-          }
-          .demo td {
-              border: 1px solid #000000;
-              padding: 5px;
-              font-size: 10px;
-          }
-          .vertical {
-              display: block;
-              margin-top: 118px;
-              overflow: hidden;
-              border-style: solid;
-              border-width: 1.5px;
-              border-color: #000;
-              border-top: 0px;
-              border-left: 0px;
-              border-right: 0px;
-          }
-          img {
-              width: 130px;
-              height: 70px;
-              border: 0px solid #000000;
-              border-collapse: collapse;
-          }
-          .Div1 {
-              border-style: solid;
-              width: 300px;
-              height: 100px;
-              margin-top: 20px;
-              float: right;
-              border-color: black;
-              border-width: 1px;
-              margin-bottom: 20px;
-          }
-          .Div2 {
-              border-style: solid;
-              float: right;
-              width: 450px;
-              height: 108px;
-              margin-top: 6px;
-              border-color: black;
-              border-width: 1px;
-              margin-bottom: 20px;
-          }
-          .Div {
-              border-style: solid;
-              height: 40px;
-              margin-top: -12px;
-              border-color: black;
-              border-width: 1px;
-              font-size: 10px;
-              display: flex;
-              align-items: center;
-          }
-          .std-row {
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              margin-top: 20px;
-          }
-          .std-row2 {
-              display: flex;
-              flex-direction: row;
-          }
-          .std-row1 {
-              display: flex;
-              flex-direction: row;
               width: 100%;
-              margin-top: -10px;
           }
-          .box {
-              margin-right: 5px;
+          .demo14 td {
+              border: 0px solid #000000;
           }
-          .std-name-fields {
-              width: 200px;
-              border: 0px;
-              border-bottom: 1px solid #000;
-          }
-          </style>
-          </head>
-          <body>
-            
-            <table class="demo14">
-              <tr>
-                  <td style="border-right-width: 0px; border-bottom-width: 0px; font-weight: bold;">
-                      <h3 style="margin-top: 30px; margin-left: 47%;">
-                          Zakori Industries (Pvt) Limited
-                      </h3>
-                  </td>
-                 
-              </tr>
-          </table>
-          <div style="text-align: center; margin-bottom: 4px; margin-top: -2%;">
-              <h4>Pending Order List</h4>
-          </div>
-          <div>
-              <table class="demo" >
-                  <thead style="display: table-header-group; font-weight: 700;">
-                  <td colspan="3" style="font-weight: bold;min-width:132px;">Sno</td>
-                  <td colspan="4" style="font-weight: bold; text-align: left; min-width:275px; ">
-                      Description
-                  </td>
-                  <td style="font-weight: bold; text-align: center;min-width:53.5px;">Status</td>
-                  <td style="font-weight: bold; text-align: center;min-width:55px;">Order Date</td>
-                      <td style="font-weight: bold; text-align: center;min-width:52px;">Dilivery Date</td>
-                      <td style="font-weight: bold;max-width:8px">Pcs</td>
-                      <td style="font-weight: bold; text-align: center;min-width:27px;">Qty</td>
-                      <td style="font-weight: bold; text-align: center;min-width:61px;">LR's Qty</td>
+          .demo11 {
+            border: 0px solid #000000;
+            border-collapse: collapse;
+            margin-top: -16px;
+            width: 67%;
+            font-size: 10px;
+        }
+        .demo11 td {
+            border: 0px;
+        }
+        .demo2 {
+            border: 0.7px solid #000000;
+            border-collapse: collapse;
+            width: 50%;
+            margin-bottom: 6px;
+            font-size: 10px;
+            margin-top: 12px;
+            margin-left: 40px;
+        }
+        .demo2 td {
+            border: 0.7px solid #000000;
+            padding: 5px;
+        }
+        .demo22 {
+            border: 0px;
+            margin-top: -16px;
+            border-collapse: collapse;
+            width: 13%;
+            margin-left: 30px;
+            font-size: 10px;
+        }
+        .demo22 td {
+            border: 0px;
+        }
+        .demo3 {
+            border: 0.7px solid #000000;
+            border-collapse: collapse;
+            float: right;
+            width: 30%;
+            margin-top: 4px;
+            font-size: 10px;
+        }
+        .demo3 td {
+            border: 0.7px solid #000000;
+            padding: 5px;
+        }
+        .demo th {
+            border: 0.7px solid #000000;
+            padding: 5px;
+            background: #ffffff;
+        }
+        .demo td {
+            border: 1px solid #000000;
+            padding: 5px;
+            font-size: 10px;
+        }
+        .vertical {
+            display: block;
+            margin-top: 118px;
+            overflow: hidden;
+            border-style: solid;
+            border-width: 1.5px;
+            border-color: #000;
+            border-top: 0px;
+            border-left: 0px;
+            border-right: 0px;
+        }
+        img {
+            width: 130px;
+            height: 70px;
+            border: 0px solid #000000;
+            border-collapse: collapse;
+        }
+        .Div1 {
+            border-style: solid;
+            width: 300px;
+            height: 100px;
+            margin-top: 20px;
+            float: right;
+            border-color: black;
+            border-width: 1px;
+            margin-bottom: 20px;
+        }
+        .Div2 {
+            border-style: solid;
+            float: right;
+            width: 450px;
+            height: 108px;
+            margin-top: 6px;
+            border-color: black;
+            border-width: 1px;
+            margin-bottom: 20px;
+        }
+        .Div {
+            border-style: solid;
+            height: 40px;
+            margin-top: -12px;
+            border-color: black;
+            border-width: 1px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .std-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .std-row2 {
+            display: flex;
+            flex-direction: row;
+        }
+        .std-row1 {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            margin-top: -10px;
+        }
+        .box {
+            margin-right: 5px;
+        }
+        .std-name-fields {
+            width: 200px;
+            border: 0px;
+            border-bottom: 1px solid #000;
+        }
+        </style>
+        </head>
+        <body>
+          
+          <table class="demo14">
+            <tr>
+                <td style="border-right-width: 0px; border-bottom-width: 0px; font-weight: bold;">
+                    <h3 style="margin-top: 30px; margin-left: 47%;">
+                        Zakori Industries (Pvt) Limited
+                    </h3>
+                </td>
+               
+            </tr>
+        </table>
+        <div style="text-align: center; margin-bottom: 4px; margin-top: -2%;">
+            <h4>Pending Order List</h4>
+        </div>
+        <div>
+            <table class="demo" >
+                <thead style="display: table-header-group; font-weight: 700;">
+                <td colspan="3" style="font-weight: bold;min-width:132px;">Sno</td>
+                <td colspan="4" style="font-weight: bold; text-align: left; min-width:275px; ">
+                    Description
+                </td>
+                <td style="font-weight: bold; text-align: center;min-width:53.5px;">Status</td>
+                <td style="font-weight: bold; text-align: center;min-width:55px;">Order Date</td>
+                    <td style="font-weight: bold; text-align: center;min-width:52px;">Dilivery Date</td>
+                    <td style="font-weight: bold;max-width:8px">Pcs</td>
+                    <td style="font-weight: bold; text-align: center;min-width:27px;">Qty</td>
+                    <td style="font-weight: bold; text-align: center;min-width:61px;">LR's Qty</td>
 
-                      <td style="font-weight: bold; min-width:21px;">Yds Req</td>
+                    <td style="font-weight: bold; min-width:21px;">Yds Req</td>
 
-                      <td style="font-weight: bold; text-align: center;max-width:20px;">Mtrs Req</td>
+                    <td style="font-weight: bold; text-align: center;max-width:20px;">Mtrs Req</td>
 
-                      <td style="font-weight: bold; text-align: center;min-width:95px;">
-                          Production Status
-                      </td>
-                      <td style="font-weight: bold;;max-width:20px;">Count</td>
-                  </thead>
-                  <tbody id="table-body"></tbody>
-              </table>
-          </div>
-        
-      <table class="demo" >
-        <tbody>
-          ${tableRows1}
-        </tbody>
-      </table>
+                    <td style="font-weight: bold; text-align: center;min-width:95px;">
+                        Production Status
+                    </td>
+                    <td style="font-weight: bold;;max-width:20px;">Count</td>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
       
-      <div style="display: flex; flex-direction: row;">
-      <table style="border: 0.7px solid black; border-collapse: collapse; padding: 3px; margin-left: 4%; margin-top: 0.5%; width: 5%; font-size: 10px;">
-          <tr>
-              <td style="font-weight: bold; text-align: center;">
-                  Total
-              </td>
-          </tr>
-      </table>
-      <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px;  margin-left: 1%; margin-top: 0.5%; width: 5%; font-size: 10px;">
-          <tr>
-              <td style="font-weight: bold; text-align: center;">
-                  ${TotalCtns}
-              </td>
-          </tr>
-      </table>
-      <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px; margin-left: 62.4%; margin-top: 0.5%; width: 5%; font-size: 10px;">
-          <tr>
-              <td  style="font-weight: bold; text-align: center;">
-                ${TotalYds}
-              </td>
-          </tr>
-      </table>
-      <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px; margin-top: 0.5%; width: 5%; font-size: 10px;">
-          <tr>
-              <td  style="font-weight: bold; text-align: center;">
-              NA
-              </td>
-          </tr>
-      </table>
-     </div>
-          </body>
-        </html>
-      `;
+    <table class="demo" >
+      <tbody>
+        ${tableRows1}
+      </tbody>
+    </table>
+    
+    <div style="display: flex; flex-direction: row;">
+    <table style="border: 0.7px solid black; border-collapse: collapse; padding: 3px; margin-left: 4%; margin-top: 0.5%; width: 5%; font-size: 10px;">
+        <tr>
+            <td style="font-weight: bold; text-align: center;">
+                Total
+            </td>
+        </tr>
+    </table>
+    <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px;  margin-left: 1%; margin-top: 0.5%; width: 5%; font-size: 10px;">
+        <tr>
+            <td style="font-weight: bold; text-align: center;">
+                ${TotalCtns}
+            </td>
+        </tr>
+    </table>
+    <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px; margin-left: 62.4%; margin-top: 0.5%; width: 5%; font-size: 10px;">
+        <tr>
+            <td  style="font-weight: bold; text-align: center;">
+              ${TotalYds}
+            </td>
+        </tr>
+    </table>
+    <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px; margin-top: 0.5%; width: 5%; font-size: 10px;">
+        <tr>
+            <td  style="font-weight: bold; text-align: center;">
+            NA
+            </td>
+        </tr>
+    </table>
+   </div>
+        </body>
+      </html>
+    `;
+
+      return htmlTemplate;
+    }
 
     const pdfTemplate = generatePDFTemplate();
     try {
