@@ -378,8 +378,6 @@ const AppStackNav = ({ navigation }) => {
         }}
       />
 
-
-
       <Screen
         name="AppDrawerNav"
         options={{ headerShown: false }}
@@ -399,14 +397,14 @@ const AppStackNav = ({ navigation }) => {
         options={{ headerShown: false }}
         component={AppDrawerNav2}
         navigation={navigation}
-      // initialRouteName="Signup"
+        // initialRouteName="Signup"
       />
       <Screen
         name="AppDrawerNav3"
         options={{ headerShown: false }}
         component={AppDrawerNav3}
         navigation={navigation}
-      // initialRouteName="Signup"
+        // initialRouteName="Signup"
       />
     </Navigator>
   );
