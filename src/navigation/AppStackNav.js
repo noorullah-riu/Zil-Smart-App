@@ -59,7 +59,7 @@ import SalesInvoiceDetail from "../screens/SalesInvoiceDetail";
 import InventoryItems from "../screens/InventoryItems";
 import AgingReport from "../screens/Aging";
 import ItemListDetailScreen from "../screens/ItemListDetailScreen";
-//import PendngOrderListReport from "../screens/PendingOrderListReport";
+import PendngOrderListReport from "../screens/PendingOrderListReport";
 import DailyRecievableReport from "../screens/DailyRecievableReport";
 import MonthalyCommissionReport from "../screens/MonthalyCommissionReport";
 import JumboRollReport from "../screens/JumboRollReport";
@@ -116,11 +116,11 @@ const AppStackNav = ({ navigation }) => {
         options={{ headerShown: false }}
       />
 
-  {/*     <Screen
+       <Screen
         name="PendngOrderListReport"
         component={PendngOrderListReport}
         options={{ headerShown: false }}
-      /> */}
+      /> 
 
       <Screen
         name="DailyRecievableReport"

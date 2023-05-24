@@ -159,7 +159,7 @@ const PostOrderEdit = ({ route, navigation }) => {
     sosq["salePersonCode"] = user.salePersonCode; //
     sosq["customerCode"] = itemx.customerCode;
     sosq["customerName"] = itemx.customerName;
-    sosq["deliveryDate"] = "02-02-2021",//date;
+    sosq["deliveryDate"] = todaysdate,//"2023/05/24",//date;
     sosq["series"] = 162;
     sosq["remarks"] = remarks;
     sosq["docDueDate"] = todaysdate;
@@ -281,7 +281,7 @@ const PostOrderEdit = ({ route, navigation }) => {
     ];
     (saleOrder["saleOrderAndSaleQutation"] = sosq),
       (saleOrder["masterItems"] = draftTableDetail), // cartItem,// draftTableDetail;
-      console.log("saleOrder payload:", saleOrder);
+      console.log(saleOrder,"saleOrder payload update:");
     setprogressVisible(true);
     const response = await postOrderApi.updateOrder(saleOrder);
     console.log("saleOrder response:", response.data);
