@@ -100,6 +100,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
         .map((object) => {
           sNum++;
           GroupCtnsTotal = 0;
+          GroupYdsTotal = 0;
           let rows = "";
           return `
         <tr>
@@ -113,10 +114,9 @@ const PendngOrderListReport = ({ navigation, route }) => {
             Ctns
           </td>
 
-          <td style="text-align: left; font-weight:700; max-width:150px;">
+          <td colspan="4" style="text-align: left; font-weight:700; ">
             ${object.cardName}
           </td>
-
           <td style="font-weight: bold;text-align: center; "></td>
           <td style="font-weight: bold;text-align: center;">
             ${object.docDate.split(" ")[0]}
@@ -150,7 +150,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
                 <td style="text-align: center;">
                   ${cartons}
                 </td>
-                <td style="text-align: left;">
+                <td colspan="4" style="text-align: left;">
                   ${innerObj.itemName}
                 </td>
                 <td style="text-align: center;">
@@ -183,12 +183,22 @@ const PendngOrderListReport = ({ navigation, route }) => {
         <tr>
           <td style="text-align: center;"></td>
           <td style="text-align: center;"></td>
-          <td style="text-align: center; ">${GroupCtnsTotal}</td>
-          <td colspan="7" style="text-align: center;"></td>
-          <td style="text-align: center; ">${GroupYdsTotal}</td>
-          <td style="text-align: center; ">${GroupMtrsReqTotal}</td>
-          <td colspan="2" style="text-align: center;"></td>
+          <td style="text-align: center; font-weight:700;">${GroupCtnsTotal}</td>
+          <td colspan="4" style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;font-weight:700; ">${GroupYdsTotal}</td>
+          <td style="text-align: center;font-weight:700; ">${GroupMtrsReqTotal}</td>
+          <td  style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+
         </tr>
+
+       
       </div>
         `;
         })
@@ -385,69 +395,44 @@ const PendngOrderListReport = ({ navigation, route }) => {
         <div style="text-align: center; margin-bottom: 4px; margin-top: -2%;">
             <h4>Pending Order List</h4>
         </div>
-        <div>
-            <table class="demo" >
-                <thead style="display: table-header-group; font-weight: 700;">
-                <td colspan="3" style="font-weight: bold;min-width:132px;">Sno</td>
-                <td colspan="4" style="font-weight: bold; text-align: left; min-width:275px; ">
-                    Description
-                </td>
-                <td style="font-weight: bold; text-align: center;min-width:53.5px;">Status</td>
-                <td style="font-weight: bold; text-align: center;min-width:55px;">Order Date</td>
-                    <td style="font-weight: bold; text-align: center;min-width:52px;">Dilivery Date</td>
-                    <td style="font-weight: bold;max-width:8px">Pcs</td>
-                    <td style="font-weight: bold; text-align: center;min-width:27px;">Qty</td>
-                    <td style="font-weight: bold; text-align: center;min-width:61px;">LR's Qty</td>
-
-                    <td style="font-weight: bold; min-width:21px;">Yds Req</td>
-
-                    <td style="font-weight: bold; text-align: center;max-width:20px;">Mtrs Req</td>
-
-                    <td style="font-weight: bold; text-align: center;min-width:95px;">
-                        Production Status
-                    </td>
-                    <td style="font-weight: bold;;max-width:20px;">Count</td>
-                </thead>
-                <tbody id="table-body"></tbody>
-            </table>
-        </div>
-      
+     
     <table class="demo" >
+      <thead style="display: table-header-group; font-weight: 700;">
+        <td colspan="3" style="font-weight: bold;">Sno</td>
+        <td colspan="4" style="font-weight: bold; text-align: left;  ">
+            Description
+        </td>
+        <td style="font-weight: bold; text-align: center;">Status</td>
+        <td style="font-weight: bold; text-align: center;">Order Date</td>
+        <td style="font-weight: bold; text-align: center;">Dilivery Date</td>
+        <td style="font-weight: bold;">Pcs</td>
+        <td style="font-weight: bold; text-align: center;">Qty</td>
+        <td style="font-weight: bold; text-align: center;">LR's Qty</td>
+        <td style="font-weight: bold;">Yds Req</td>
+        <td style="font-weight: bold; text-align: center;">Mtrs Req</td>
+        <td style="font-weight: bold; text-align: center;">
+                Production Status
+            </td>
+        <td style="font-weight: bold;">Count</td>
+      </thead>
       <tbody>
         ${tableRows1}
+        <tr>
+          <td colspan="2" style="text-align: center;font-weight:1000;">Total</td>
+          <td style="text-align: center;font-weight:1000;">${TotalCtns}</td>
+          <td colspan="7" style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;font-weight:1000;">${TotalYds}</td>
+          <td style="text-align: center;font-weight:1000;">N.A</td>
+          <td style="text-align: center; "></td>
+          <td style="text-align: center; "></td>
+        </tr>
       </tbody>
     </table>
     
-    <div style="display: flex; flex-direction: row;">
-    <table style="border: 0.7px solid black; border-collapse: collapse; padding: 3px; margin-left: 4%; margin-top: 0.5%; width: 5%; font-size: 10px;">
-        <tr>
-            <td style="font-weight: bold; text-align: center;">
-                Total
-            </td>
-        </tr>
-    </table>
-    <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px;  margin-left: 1%; margin-top: 0.5%; width: 5%; font-size: 10px;">
-        <tr>
-            <td style="font-weight: bold; text-align: center;">
-                ${TotalCtns}
-            </td>
-        </tr>
-    </table>
-    <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px; margin-left: 62.4%; margin-top: 0.5%; width: 5%; font-size: 10px;">
-        <tr>
-            <td  style="font-weight: bold; text-align: center;">
-              ${TotalYds}
-            </td>
-        </tr>
-    </table>
-    <table style="border: 0.7px solid black; border-collapse: collapse; padding: 2px; margin-top: 0.5%; width: 5%; font-size: 10px;">
-        <tr>
-            <td  style="font-weight: bold; text-align: center;">
-            NA
-            </td>
-        </tr>
-    </table>
-   </div>
+    
         </body>
       </html>
     `;
@@ -490,7 +475,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
           marginRight: 27,
         }}
         navigation={navigation}
-        headerTitle="P_O Report"
+        headerTitle="PO Report"
       />
 
       <ProgressDialog
