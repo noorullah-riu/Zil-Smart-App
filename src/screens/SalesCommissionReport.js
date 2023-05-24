@@ -186,7 +186,7 @@ const SalesCommissionReport = ({ navigation }) => {
         <View style={{ width: "50%", marginHorizontal: 5 }}>
           <TouchableOpacity onPress={() => getSalesCommissionReport()}>
             <AppButton
-              text="Get Ledger"
+              text="Get Report"
               iconFreeButton
               loginBtnStyle={styles.loginBtnStyle}
               navigation={navigation}
@@ -204,7 +204,7 @@ const SalesCommissionReport = ({ navigation }) => {
                   fontWeight: "bold",
                 }}
               >
-                Export Invoice{" "}
+                Export Report{" "}
               </AppText>
             </View>
           </TouchableOpacity>
