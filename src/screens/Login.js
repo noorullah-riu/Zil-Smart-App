@@ -83,7 +83,7 @@ const LoginScreen = ({ navigation }) => {
     ) {
       setprogressVisible(false);
       storeUserDetails(res.data.userDetails);
-      navigation.navigate("AppDrawerNav3");
+      navigation.navigate("StackManager");
     } else {
       Alert.alert("Error!", res.data.message, [
         { text: "OK", onPress: () => setprogressVisible(false) },

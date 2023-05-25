@@ -37,26 +37,26 @@ const ReportsManager = ({ navigation }) => {
       group: "PendingOrderListReport",
       path: "PendngOrderListReport",
     }, */
-    {
+/*     {
       id: "6",
       group: "DailyRecievableReport",
       path: "DailyRecievableReport",
-    },
-    {
+    }, */
+/*     {
       id: "7",
       group: "MonthalyCommissionReport",
       path: "MonthalyCommissionReport",
-    },
+    }, */
     {
       id: "8",
       group: "JumboRollReport",
       path: "JumboRollReport",
     },
-    {
+/*     {
       id: "9",
       group: "LogRollReport",
       path: "LogRollReport",
-    },
+    }, */
     {
       id: "10",
       group: "FgInStockReport",

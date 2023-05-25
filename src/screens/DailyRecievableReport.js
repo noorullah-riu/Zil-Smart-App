@@ -26,7 +26,7 @@ const DailyRecievableReport = ({ navigation, route }) => {
   };
 
   const getPOHeaderData = async (slpCode) => {
-    alert(slpCode);
+  //  alert(slpCode);
     setprogressVisible(true);
     const response = await POHeaderDetailsApi.getDailyRecievableHeaderDetails(slpCode);
     console.log(response?.data.data,"DalyRecivble ------>");
@@ -103,8 +103,8 @@ const DailyRecievableReport = ({ navigation, route }) => {
           sNum++;
           GroupCtnsTotal = 0;
           let rows = "";
-          var gcreditDays=object.creditDays;
-          var gcreditLine=object.creditLine;
+       //   var gcreditDays=object.creditDays;
+       //   var gcreditLine=object.creditLine;
           return `
            <tr style="background-color:#c0c0c0;width: 100%; border: 2px solid #000000; ">
                 <td colspan="7" style="text-align:left;font-weight:700;font-size:small;">${object.cardName}</td>
@@ -126,11 +126,11 @@ const DailyRecievableReport = ({ navigation, route }) => {
 
             <td colspan="2"
               style=" font-weight: 600;padding-left: 4%; font-size: smaller;border-left: 0px;border-right: 0px;font-size: 13px; ">
-              Credit Limit:<span style="margin-left: 4%; font-weight: 100">${gcreditLine}</span>
+              Credit Limit:<span style="margin-left: 4%; font-weight: 100"></span>
             </td>
             <td colspan="2"
               style="padding-left: 6%; font-size: smaller;border-left: 0px;font-weight: 600;font-size: 13px;">Credit
-              Days:<span style="margin-left: 4%;font-weight: 100">${gcreditDays}</span></td>
+              Days:<span style="margin-left: 4%;font-weight: 100">30 Days</span></td>
           </tr>
           <tr>
             <td rowspan="1" style="text-align: center;">${innerObj.docNum} </td>
@@ -139,7 +139,7 @@ const DailyRecievableReport = ({ navigation, route }) => {
             <td rowspan="1" style="text-align: center;">${innerObj.paidToDate}</td>
             <td rowspan="1" style="text-align: center;">${innerObj.balance}</td>
             <td rowspan="1" style="text-align: center;">${innerObj.dueDate}</td>
-            <td rowspan="1" style="text-align: center;">${innerObj.dueDays} ${object.cardName}</td>
+            <td rowspan="1" style="text-align: center;">${innerObj.dueDays}</td>
           </tr>
     
     

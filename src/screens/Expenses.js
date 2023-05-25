@@ -25,8 +25,38 @@ const Expenses = ({ navigation }) => {
   const [userId, setUserId] = useState({});
   const [progressVisible, setprogressVisible] = useState(true);
   const [visible, setVisible] = useState(true);
+  //const [isPickerShow, setIsPickerShow] = useState(false);
+  //const [date, setDate] = useState(new Date(Date.now()));
+
+  const [fromdate, setfromDate] = useState("");
+  const [todate, settoDate] = useState("");
+
   const [isPickerShow, setIsPickerShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
+
+  const onChange = (event, value) => {
+    setDate(value);
+    if (Platform.OS === "android") {
+      setIsPickerShow(false);
+    }
+    console.log("------------", value.getFullYear());
+    console.log("------------", value.getMonth());
+    console.log("------------", value.getDate());
+
+    var date = value.getDate(); //Current Date
+    var month = value.getMonth() + 1; //Current Month
+    var year = value.getFullYear(); //Current Year,.
+    var today =
+      year +
+      "-" +
+      (month < 10 ? "0" + month : month) +
+      "-" +
+      (date < 10 ? "0" + date : date);
+    console.log("today", today);
+    setfromDate(today);
+    // handleDateChange(today);
+  };
+
   const display = () => {
     if (Date == null) {
       return <Text>{title}</Text>;
@@ -40,12 +70,12 @@ const Expenses = ({ navigation }) => {
     setIsPickerShow(true);
   };
 
-  const onChange = (event, value) => {
+/*   const onChange = (event, value) => {
     setDate(value);
     if (Platform.OS === "android") {
       setIsPickerShow(false);
     }
-  };
+  }; */
 
   useEffect(() => {
     getUserDetails();
@@ -70,25 +100,27 @@ const Expenses = ({ navigation }) => {
   const getExpenseList = async () => {
     setprogressVisible(true);
     console.log("userId", userId);
-    const response = await allExpenses.getAllExpenses(dateFrom, userId);
+    const response = await allExpenses.getAllExpenses(fromdate, userId);
     console.log("getExpenseList", response.data);
     if (response.data.data) {
       setExpenesList(response.data.data);
 
       setVisible(false);
-    } else Alert.alert("No record found.");
-    setprogressVisible(false);
-    if (response.data.code === 3)
-      return Alert.alert("Couldn't retrieve the expense List");
+    } else {
+      setprogressVisible(false);
+    Alert.alert("No record found.");
+    setExpenesList(response.data.data);
+
+    }
   };
   const DocDateSelectionView = () => (
     <>
       <View style={{ marginBottom: 20 }}>
-        <View
+     {/*    <View
           style={{ marginHorizontal: sizes.base_margin, marginVertical: 14 }}
         >
           <AppText style={styles.p1}>Select Date</AppText>
-        </View>
+        </View> */}
 
         {/* <View>
           <DatePicker
@@ -125,10 +157,10 @@ const Expenses = ({ navigation }) => {
             }}
           />
         </View> */}
-        <View>
+  {/*       <View>
           <View style={styles.pickedDateContainer}>
             <Pressable onPress={showPicker} style={styles.dateDiv}>
-              <Text style={styles.txtDate}>{display()}</Text>
+              <Text style={styles.txtDate}>{display()} == {date}</Text>
             </Pressable>
           </View>
 
@@ -142,8 +174,56 @@ const Expenses = ({ navigation }) => {
               style={styles.datePicker}
             />
           )}
-        </View>
+        </View> */}
       </View>
+
+      <Pressable
+          onPress={() => setIsPickerShow(true)}
+          style={{
+            flexDirection: "row",
+            marginTop: 20,
+            borderColor: "#aaa",
+            borderWidth: 1,
+          }}
+        >
+          <View
+            style={{
+              marginHorizontal: sizes.base_margin,
+              marginVertical: 0,
+              flex: 1,
+              justifyContent: "center",
+            }}
+          >
+            <AppText style={styles.p1}>Select Date</AppText>
+          </View>
+
+          <View
+            style={{
+              marginTop: 0,
+              flex: 1,
+              backgroundColor: "#fff",
+              height: 40,
+              justifyContent: "center",
+            }}
+          >
+            <View style={{}}>
+              <AppText style={{ colors: "#555" }}>
+                {/* {display()} */} {fromdate}
+              </AppText>
+            </View>
+          </View>
+        </Pressable>
+
+        {isPickerShow && (
+          <DateTimePicker
+            value={date}
+            mode={"date"}
+            display={Platform.OS === "ios" ? "spinner" : "default"}
+            is24Hour={false}
+            onChange={onChange}
+            style={styles.datePicker}
+          />
+        )}
 
       <View style={{ marginVertical: 20 }}>
         <TouchableOpacity onPress={() => getExpenseList()}>
