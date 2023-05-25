@@ -62,6 +62,11 @@ const Reports = ({ navigation }) => {
       group: "FgInStockReport",
       path: "FgInStockReport",
     },
+    {
+      id: "12",
+      group: "SalesPerformanceReport",
+      path: "SalesPerformanceReport",
+    },
   ]);
 
   const { setRouteVal } = useContext(sosqContext);
