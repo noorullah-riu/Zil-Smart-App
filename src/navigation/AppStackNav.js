@@ -66,7 +66,10 @@ import JumboRollReport from "../screens/JumboRollReport";
 import LogRollReport from "../screens/LogRollReport";
 import FgInStockReport from "../screens/FgInStockReport";
 import StackManager from "./StackManager";
+// monthly-sales-performance-report
 import SalesPerformanceReport from "../screens/SalesPerformanceReport";
+import SalesCommissionReport from "../screens/SalesCommissionReport";
+// Noor/Orders-Module
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -153,7 +156,11 @@ const AppStackNav = ({ navigation }) => {
         component={FgInStockReport}
         options={{ headerShown: false }}
       />
-
+      <Screen
+        name="SalesCommissionReport"
+        component={SalesCommissionReport}
+        options={{ headerShown: false }}
+      />
       <Screen
         name="ItemListDetailScreen"
         component={ItemListDetailScreen}

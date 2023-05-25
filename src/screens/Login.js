@@ -47,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [rightIcon, setRightIcon] = useState("ios-eye");
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const handleCustomerUserLogin = async (Customer) => {
     console.log(
@@ -56,7 +56,7 @@ const LoginScreen = ({ navigation }) => {
       Customer.Password
     );
 
-     setprogressVisible(true);
+    setprogressVisible(true);
     const res = await loginCompanyUserApi.loginCompanyUser(
       Customer.UserCode,
       Customer.Password
@@ -66,7 +66,10 @@ const LoginScreen = ({ navigation }) => {
       Alert.alert("Error!", res.data.message, [
         { text: "OK", onPress: () => setprogressVisible(false) },
       ]);
-    } else if (res.data !== null && res.data.userDetails.typeOfUser === "HOD") {
+    } else if (
+      (res.data !== null && res.data.userDetails.typeOfUser === "HOD") ||
+      "Sales"
+    ) {
       setprogressVisible(false);
       storeUserDetails(res.data.userDetails);
       navigation.navigate("AppDrawerNav");
@@ -83,7 +86,7 @@ const LoginScreen = ({ navigation }) => {
     ) {
       setprogressVisible(false);
       storeUserDetails(res.data.userDetails);
-      navigation.navigate("AppDrawerNav3");
+      navigation.navigate("StackManager");
     } else {
       Alert.alert("Error!", res.data.message, [
         { text: "OK", onPress: () => setprogressVisible(false) },
@@ -95,7 +98,7 @@ const LoginScreen = ({ navigation }) => {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@user_Details", jsonValue);
-    } catch (e) { }
+    } catch (e) {}
   };
 
   const loginView = () => {

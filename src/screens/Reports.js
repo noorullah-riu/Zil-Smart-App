@@ -22,7 +22,7 @@ const Reports = ({ navigation }) => {
       path: "InventoryItems",
     },
     {
-      id: "2",
+      id: "3",
       group: "Sales Invoice",
       path: "CustomersList", //Sales",
     },
@@ -37,36 +37,45 @@ const Reports = ({ navigation }) => {
       group: "PendingOrderListReport",
       path: "PendngOrderListReport",
     },
-    {
+ /*    {
       id: "6",
       group: "DailyRecievableReport",
       path: "DailyRecievableReport",
-    },
-    {
-      id: "7",
+    }, */
+/*     {
+      id: "7", 
       group: "MonthalyCommissionReport",
       path: "MonthalyCommissionReport",
-    },
+    }, */
     {
       id: "8",
       group: "JumboRollReport",
       path: "JumboRollReport",
     },
-    {
+ /*    {
       id: "9",
       group: "LogRollReport",
       path: "LogRollReport",
-    },
+    }, */
     {
       id: "10",
       group: "FgInStockReport",
       path: "FgInStockReport",
     },
     {
+ // monthly-sales-performance-report
+       {
       id: "12",
       group: "SalesPerformanceReport",
       path: "SalesPerformanceReport",
     },
+    {
+      id: "11",
+      group: "SalesCommissionReport",
+      path: "SalesCommissionReport",
+    },
+// Noor/Orders-Module
+
   ]);
 
   const { setRouteVal } = useContext(sosqContext);

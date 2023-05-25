@@ -43,6 +43,33 @@ const PostExpense = ({ navigation }) => {
     { label: "Cash", value: "Cash" },
   ]);
 
+  const [fromdate, setfromDate] = useState("");
+  const [isPickerShow2, setIsPickerShow2] = useState(false);
+  const [date2, setDate2] = useState(new Date(Date.now()));
+
+  const onChange = (event, value) => {
+    setDate(value);
+    if (Platform.OS === "android") {
+      setIsPickerShow(false);
+    }
+    console.log("------------", value.getFullYear());
+    console.log("------------", value.getMonth());
+    console.log("------------", value.getDate());
+
+    var date = value.getDate(); //Current Date
+    var month = value.getMonth() + 1; //Current Month
+    var year = value.getFullYear(); //Current Year,.
+    var today =
+      year +
+      "-" +
+      (month < 10 ? "0" + month : month) +
+      "-" +
+      (date < 10 ? "0" + date : date);
+    console.log("today", today);
+    setfromDate(today);
+    // handleDateChange(today);
+  };
+
   useEffect(() => {
     getUserDetails();
   }, []);
@@ -66,35 +93,38 @@ const PostExpense = ({ navigation }) => {
   const showPicker = () => {
     setIsPickerShow(true);
   };
-  const onChange = (event, value) => {
+/*   const onChange = (event, value) => {
     setDate(value);
     if (Platform.OS === "android") {
       setIsPickerShow(false);
     }
-  };
+  }; */
   const handlePostExpense = async () => {
     setprogressVisible(true);
     expenseObj["userCode"] = userCode;
     expenseObj["userName"] = userName;
-    expenseObj["date"] = dateFrom;
+    expenseObj["date"] = fromdate;
     expenseObj["customerCode"] = customer.CardCode;
     expenseObj["customerName"] = customer.CardName;
     expenseObj["paymentType"] = paymentType;
     expenseObj["checqueNumber"] = chequeNumber;
     expenseObj["amount"] = totalAmount;
     expenseObj["remarks"] = remarks;
+    console.log(expenseObj,"----------expenseObj");
     const response = await postExpenseApi.postExpense(expenseObj);
-    setprogressVisible(false);
+ 
 
     if (response.ok) {
       Alert.alert("Success!", response.data.Message, [
         { text: "OK", onPress: () => setprogressVisible(false) },
       ]);
+      setprogressVisible(false);
     }
     if (!response.ok) {
       Alert.alert("Error!", response.data.Message, [
         { text: "OK", onPress: () => setprogressVisible(false) },
       ]);
+      setprogressVisible(false);
     }
   };
 
@@ -109,7 +139,7 @@ const PostExpense = ({ navigation }) => {
           headerTitle="Post Incoming Payment"
         />
       </View>
-      <ScrollView>
+      <ScrollView style={{marginBottom:100}}>
         <AppRow>
           <View style={styles.rowItem}>
             <View style={{ marginTop: 0, marginBottom: 5 }}>
@@ -185,7 +215,7 @@ const PostExpense = ({ navigation }) => {
             />
           </View>
         </AppRow>
-        <AppRow>
+  {/*       <AppRow>
           <View style={styles.rowItem1}>
             <View
               style={{ marginHorizontal: sizes.base_margin, marginVertical: 5 }}
@@ -212,7 +242,54 @@ const PostExpense = ({ navigation }) => {
               )}
             </View>
           </View>
-        </AppRow>
+        </AppRow> */}
+           <Pressable
+          onPress={() => setIsPickerShow(true)}
+          style={{
+            flexDirection: "row",
+            marginVertical: 20,
+            borderColor: "#aaa",
+            borderWidth: 1,
+          }}
+        >
+          <View
+            style={{
+              marginHorizontal: sizes.base_margin,
+              marginVertical: 0,
+              flex: 1,
+              justifyContent: "center",
+            }}
+          >
+             <AppText style={styles.label}>Date</AppText>
+          </View>
+
+          <View
+            style={{
+              marginTop: 0,
+              flex: 1,
+              backgroundColor: "#fff",
+              height: 40,
+              justifyContent: "center",
+            }}
+          >
+            <View style={{}}>
+              <AppText style={{ colors: "#555" }}>
+                {/* {display()} */} {fromdate}
+              </AppText>
+            </View>
+          </View>
+        </Pressable>
+
+        {isPickerShow && (
+          <DateTimePicker
+            value={date}
+            mode={"date"}
+            display={Platform.OS === "ios" ? "spinner" : "default"}
+            is24Hour={false}
+            onChange={onChange}
+            style={styles.datePicker}
+          />
+        )}
         <View style={{ paddingHorizontal: sizes.base_margin }}>
           <View style={{ marginBottom: 10 }}>
             <AppText style={styles.label}>Remarks</AppText>

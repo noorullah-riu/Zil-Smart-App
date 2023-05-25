@@ -84,7 +84,7 @@ const StackManager = ({navigation}) => {
                     headerShown: false,
                 }}
             />
-            <Screen
+             <Screen
                 name="incoming"
                 component={Expenses}
                 navigation={navigation}
@@ -102,7 +102,7 @@ const StackManager = ({navigation}) => {
                     drawerLabel: "Incoming Payments",
                     headerShown: false,
                 }}
-            />
+            /> 
             <Screen
                 name="AllActivities"
                 component={AllActivities}
