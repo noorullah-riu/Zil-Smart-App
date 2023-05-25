@@ -63,10 +63,19 @@ const Reports = ({ navigation }) => {
       path: "FgInStockReport",
     },
     {
+ // monthly-sales-performance-report
+       {
+      id: "12",
+      group: "SalesPerformanceReport",
+      path: "SalesPerformanceReport",
+    },
+    {
       id: "11",
       group: "SalesCommissionReport",
       path: "SalesCommissionReport",
     },
+// Noor/Orders-Module
+
   ]);
 
   const { setRouteVal } = useContext(sosqContext);

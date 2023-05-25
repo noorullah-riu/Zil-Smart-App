@@ -66,7 +66,10 @@ import JumboRollReport from "../screens/JumboRollReport";
 import LogRollReport from "../screens/LogRollReport";
 import FgInStockReport from "../screens/FgInStockReport";
 import StackManager from "./StackManager";
+// monthly-sales-performance-report
+import SalesPerformanceReport from "../screens/SalesPerformanceReport";
 import SalesCommissionReport from "../screens/SalesCommissionReport";
+// Noor/Orders-Module
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -117,11 +120,11 @@ const AppStackNav = ({ navigation }) => {
         options={{ headerShown: false }}
       />
 
-       <Screen
+      <Screen
         name="PendngOrderListReport"
         component={PendngOrderListReport}
         options={{ headerShown: false }}
-      /> 
+      />
 
       <Screen
         name="DailyRecievableReport"
@@ -131,6 +134,11 @@ const AppStackNav = ({ navigation }) => {
       <Screen
         name="MonthalyCommissionReport"
         component={MonthalyCommissionReport}
+        options={{ headerShown: false }}
+      />
+      <Screen
+        name="SalesPerformanceReport"
+        component={SalesPerformanceReport}
         options={{ headerShown: false }}
       />
       <Screen
