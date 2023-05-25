@@ -22,7 +22,7 @@ const Reports = ({ navigation }) => {
       path: "InventoryItems",
     },
     {
-      id: "2",
+      id: "3",
       group: "Sales Invoice",
       path: "CustomersList", //Sales",
     },
@@ -61,6 +61,11 @@ const Reports = ({ navigation }) => {
       id: "10",
       group: "FgInStockReport",
       path: "FgInStockReport",
+    },
+    {
+      id: "11",
+      group: "SalesCommissionReport",
+      path: "SalesCommissionReport",
     },
   ]);
 
