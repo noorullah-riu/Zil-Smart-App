@@ -15,6 +15,11 @@ const getLedgerReport = (fDate, tDate, code) =>
     `/SaleOrderApi/JumboStockReport`
   );
 
+  const getLogRollReport = (code) =>
+  client.get(
+    `/SaleOrderApi/SFGInStockReport`
+  );
+
   const getFGInstockReport = (code) =>
   client.get(
     `/SaleOrderApi/FGInStockReport`
@@ -24,6 +29,7 @@ const getLedgerReport = (fDate, tDate, code) =>
 
 export default {
   getLedgerReport,
+  getLogRollReport,
   getAgingReport,
   getJumboRollReport,
   getFGInstockReport,

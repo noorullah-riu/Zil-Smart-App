@@ -61,28 +61,27 @@ const LoginScreen = ({ navigation }) => {
       Customer.UserCode,
       Customer.Password
     );
-    console.log("in handleCompanyUserLogin", res.data.userDetails.typeOfUser);
+    console.log("in handleCompanyUserLogin", res?.data?.userDetails?.typeOfUser);
     if (res.data.code === 3) {
       Alert.alert("Error!", res.data.message, [
         { text: "OK", onPress: () => setprogressVisible(false) },
       ]);
     } else if (
-      (res.data !== null && res.data.userDetails.typeOfUser === "HOD") ||
-      "Sales"
+      (res.data !== null && res?.data?.userDetails?.typeOfUser === "HOD")
     ) {
       setprogressVisible(false);
       storeUserDetails(res.data.userDetails);
       navigation.navigate("AppDrawerNav");
     } else if (
       res.data.userDetails !== null &&
-      res.data.userDetails.typeOfUser === "Manager"
+      res?.data?.userDetails?.typeOfUser === "Manager"
     ) {
       setprogressVisible(false);
       storeUserDetails(res.data.Data);
       navigation.navigate("StackManager");
     } else if (
       res.data.userDetails !== null &&
-      res.data.userDetails.TypeOfUser === "Tech"
+      res?.data?.userDetails?.typeOfUser === "Tech"
     ) {
       setprogressVisible(false);
       storeUserDetails(res.data.userDetails);
@@ -92,6 +91,7 @@ const LoginScreen = ({ navigation }) => {
         { text: "OK", onPress: () => setprogressVisible(false) },
       ]);
     }
+    setprogressVisible(false)
   };
 
   const storeUserDetails = async (value) => {

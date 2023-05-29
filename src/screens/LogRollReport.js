@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import AppText from "../components/AppText";
 import AppHeader from "../components/AppHeader";
-import AgingReportCard from "../components/AgingReportCard";
+import LogRollCard from "../components/LogRollCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DatePicker from "react-native-datepicker";
 import sizes from "../components/sizes";
@@ -33,57 +33,6 @@ const LogRollReport = ({ navigation, route }) => {
   const [dateView, setDateView] = useState(true);
 
   const [reports1, setReports1] = useState([]);
-  const [reports2, setReports2] = useState([
-    {
-      PostingDate: "2021-01-05T00:00:00",
-      DueDate: "2021-01-05T00:00:00",
-      TaxDate: "2021-01-05T00:00:00",
-      BaseRef: "110000188",
-      VoucherNo: "110000188",
-      Memo: "CASH FROM A 3 PLASTIC TO ALLIED SHIIPER",
-      ContraAct: "C000001",
-      Currency: "",
-      AcctName: "",
-      Shortname: "A20401010",
-      Account: "A 3 PLASTICS",
-      Debit: 500000,
-      Credit: 0,
-      LineTotal: 280000,
-    },
-
-    {
-      PostingDate: "2021-10-11T00:00:00",
-      DueDate: "2021-10-11T00:00:00",
-      TaxDate: "2021-10-11T00:00:00",
-      BaseRef: "110000792",
-      VoucherNo: "110000792",
-      Memo: "A/R Invoices - C000001",
-      ContraAct: "C000001",
-      Currency: "",
-      AcctName: "",
-      Shortname: "A20101002",
-      Account: "A 3 PLASTICS",
-      Debit: 0,
-      Credit: 28103.74,
-      LineTotal: -123103.74,
-    },
-    {
-      PostingDate: "2021-10-11T00:00:00",
-      DueDate: "2021-10-11T00:00:00",
-      TaxDate: "2021-10-11T00:00:00",
-      BaseRef: "110000792",
-      VoucherNo: "110000792",
-      Memo: "A/R Invoices - C000001",
-      ContraAct: "C000001",
-      Currency: "",
-      AcctName: "",
-      Shortname: "A20101002",
-      Account: "A 3 PLASTICS",
-      Debit: 0,
-      Credit: 28103.74,
-      LineTotal: -123103.74,
-    },
-  ]);
   const [openBal, setOpenBal] = useState(0);
   const [closeBal, setCloseBal] = useState(0);
   const [loading, setloading] = useState(false);
@@ -735,9 +684,9 @@ const LogRollReport = ({ navigation, route }) => {
     <body>
       <u>
         <h1 style="padding-top: 2pt; text-align: center">
-          zill (PVT) LTD
+          Zill (PVT) LTD
         </h1>
-        <h2 style="padding-top: 2pt; text-align: center">Aging Report</h2>
+        <h2 style="padding-top: 2pt; text-align: center">LogRoll Report</h2>
       </u>
   
       <table
@@ -765,7 +714,7 @@ const LogRollReport = ({ navigation, route }) => {
             "
           >
             <p class="s3" style="padding-right: 4pt; text-align: left">
-              Customer<span class="s4"> </span>Code
+              Item<span class="s4"> </span>Code
             </p>
           </td>
           <td
@@ -782,7 +731,7 @@ const LogRollReport = ({ navigation, route }) => {
             "
           >
             <p class="s3" style="padding-right: 2pt; text-align: left">
-              Customer Name<span class="s4"> </span>
+              Item Name<span class="s4"> </span>
             </p>
           </td>
 
@@ -800,7 +749,7 @@ const LogRollReport = ({ navigation, route }) => {
             "
           >
             <p class="s3" style="padding-right: 4pt; text-align: left">
-              0-30
+              In Stock
             </p>
           </td>
 
@@ -818,7 +767,7 @@ const LogRollReport = ({ navigation, route }) => {
           "
         >
           <p class="s3" style="padding-right: 4pt; text-align: left">
-          31-60
+          Price
           </p>
         </td>
 
@@ -837,27 +786,9 @@ const LogRollReport = ({ navigation, route }) => {
         "
       >
         <p class="s3" style="padding-right: 4pt; text-align: left">
-        61-90
+        Amount
         </p>
       </td>
-
-      <td
-      style="
-        width: 10%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 4pt; text-align: left">
-      91-120
-      </p>
-    </td>
         </tr>
       `;
 
@@ -884,31 +815,8 @@ const LogRollReport = ({ navigation, route }) => {
         await Sharing.shareAsync(uri);
       } else {
         //   const downloadDir = SAF.getUriForDirectoryInRoot('Download');
-        const permission = await MediaLibrary.requestPermissionsAsync();
-        if (permission.granted) {
-          const asset = await MediaLibrary.createAssetAsync(uri);
-          const album = await MediaLibrary.getAlbumAsync("Download");
-
-          if (album == null) {
-            const a = await MediaLibrary.createAlbumAsync(
-              "Download",
-              asset,
-              false
-            );
-          } else {
-            const b = await MediaLibrary.addAssetsToAlbumAsync(
-              [asset],
-              album,
-              false
-            );
-          }
-          //   console.log(a,"a");
-        }
         setloading(false);
         navigation.navigate("PdfView", { uril: htm });
-    ///   navigation.navigate("PdfView",{uril: htm})
-        // setloading(false);
-        // alert("Downloaded");
       }
     } catch (error) {
       setloading(false);
@@ -919,7 +827,7 @@ const LogRollReport = ({ navigation, route }) => {
   const getLedgerReport = async (codehere) => {
     getCustomerDetails();
       setprogressVisible(true);
-      const response = await ledgerReportApi.getAgingReport(
+      const response = await ledgerReportApi.getLogRollReport(
         cardCode
       );
       console.log(response?.data, "------------");
@@ -927,10 +835,7 @@ const LogRollReport = ({ navigation, route }) => {
         Alert.alert("No record found");
       } else {
         var html = ``;
-
-   
         response.data?.data?.map((item) => {                                                                                                  
-    
           html =
             html +
             `
@@ -949,7 +854,7 @@ const LogRollReport = ({ navigation, route }) => {
               "
             >
               <p class="s3" style="padding-right: 4pt; text-align: left">
-                <span class="s4">${item.cardCode} </span>
+                <span class="s4">${item.itemCode} </span>
               </p>
             </td>
             <td
@@ -966,7 +871,7 @@ const LogRollReport = ({ navigation, route }) => {
               "
             >
               <p class="s3" style="padding-right: 2pt; text-align: left">
-                <span class="s4">${item.cardName} </span>
+                <span class="s4">${item.itemName} </span>
               </p>
             </td>
             <td
@@ -982,7 +887,7 @@ const LogRollReport = ({ navigation, route }) => {
                 border-right-width: 1pt;
               "
             >
-              <p class="s4" style="padding-right: 2pt; text-align: left">${item.firstthirty}</p>
+              <p class="s4" style="padding-right: 2pt; text-align: left">${item.inStock}</p>
             </td>
             <td
               style="
@@ -998,7 +903,7 @@ const LogRollReport = ({ navigation, route }) => {
               "
             >
               <p class="s4" style="padding-right: 4pt; text-align: left">
-              ${item.thirtyonetosixty}
+              ${item.price}
               </p>
             </td>
             <td
@@ -1022,28 +927,9 @@ const LogRollReport = ({ navigation, route }) => {
                   text-align: left;
                 "
               >
-              ${item.sixtyonetoninety}
+              ${item.amount}
               </p>
             </td>
-    
-            <td
-              style="
-                width: 10%;
-                border-top-style: solid;
-                border-top-width: 1pt;
-                border-left-style: solid;
-                border-left-width: 1pt;
-                border-bottom-style: solid;
-                border-bottom-width: 1pt;
-                border-right-style: solid;
-                border-right-width: 1pt;
-              "
-            >
-              <p class="s4" style="padding-right: 4pt; text-align: left">
-              ${item.ninetyonetoonetwnety}
-              </p>
-            </td>
- 
           </tr>
             `;
         });
@@ -1123,11 +1009,11 @@ const LogRollReport = ({ navigation, route }) => {
   const ledgerHeader = () => (
     <>
       <AppRow style={styles.r1}>
-        <AppText style={styles.p2}>Name</AppText>
-        <AppText style={styles.p3}>0-30</AppText>
-        <AppText style={styles.p4}>31-60</AppText>
-        <AppText style={styles.p4}>61-90</AppText>
-        <AppText style={styles.p4}>91-120</AppText>
+        <AppText style={styles.p2}>Code</AppText>
+        <AppText style={styles.p3}>Name</AppText>
+        <AppText style={styles.p4}>inStock</AppText>
+        <AppText style={styles.p4}>price</AppText>
+        <AppText style={styles.p4}>amount</AppText>
       </AppRow>
     </>
   );
@@ -1144,7 +1030,7 @@ const LogRollReport = ({ navigation, route }) => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => {
           return (
-            <AgingReportCard
+            <LogRollCard
               customer={item}
             />
           );

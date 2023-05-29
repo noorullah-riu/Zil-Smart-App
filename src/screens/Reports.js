@@ -37,34 +37,34 @@ const Reports = ({ navigation }) => {
       group: "PendingOrderListReport",
       path: "PendngOrderListReport",
     },
- /*    {
+    {
       id: "6",
       group: "DailyRecievableReport",
       path: "DailyRecievableReport",
-    }, */
-/*     {
-      id: "7", 
-      group: "MonthalyCommissionReport",
-      path: "MonthalyCommissionReport",
-    }, */
+    },
+    /*     {
+          id: "7", 
+          group: "MonthalyCommissionReport",
+          path: "MonthalyCommissionReport",
+        }, */
     {
       id: "8",
       group: "JumboRollReport",
       path: "JumboRollReport",
     },
- /*    {
+    {
       id: "9",
       group: "LogRollReport",
       path: "LogRollReport",
-    }, */
+    },
     {
       id: "10",
       group: "FgInStockReport",
       path: "FgInStockReport",
     },
+
+    // monthly-sales-performance-report
     {
- // monthly-sales-performance-report
-       {
       id: "12",
       group: "SalesPerformanceReport",
       path: "SalesPerformanceReport",
@@ -74,7 +74,7 @@ const Reports = ({ navigation }) => {
       group: "SalesCommissionReport",
       path: "SalesCommissionReport",
     },
-// Noor/Orders-Module
+    // Noor/Orders-Module
 
   ]);
 

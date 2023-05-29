@@ -884,7 +884,7 @@ const AgingReport = ({ navigation, route }) => {
         await Sharing.shareAsync(uri);
       } else {
         //   const downloadDir = SAF.getUriForDirectoryInRoot('Download');
-        const permission = await MediaLibrary.requestPermissionsAsync();
+/*         const permission = await MediaLibrary.requestPermissionsAsync();
         if (permission.granted) {
           const asset = await MediaLibrary.createAssetAsync(uri);
           const album = await MediaLibrary.getAlbumAsync("Download");
@@ -903,7 +903,7 @@ const AgingReport = ({ navigation, route }) => {
             );
           }
           //   console.log(a,"a");
-        }
+        } */
         setloading(false);
         navigation.navigate("PdfView", { uril: htm });
     ///   navigation.navigate("PdfView",{uril: htm})

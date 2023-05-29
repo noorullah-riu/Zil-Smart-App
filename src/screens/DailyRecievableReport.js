@@ -7,7 +7,7 @@ import { shareAsync } from "expo-sharing";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppText from "../components/AppText";
 import AppHeader from "../components/AppHeader";
-import POReportCard from "../components/POReportCard";
+import DailyRecCard from "../components/DailyRecvCard";
 import colors from "../components/colors";
 import AppButton from "../components/AppButton";
 import AppRow from "../components/AppRow";
@@ -18,7 +18,7 @@ const DailyRecievableReport = ({ navigation, route }) => {
   const [p_oHeaderData, setPOHeaderData] = useState([]);
   const [slp, setSlp] = useState(0);
   const [loading, setloading] = useState(false);
- 
+
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
     setSlp(JSON.parse(jsonValue).salePersonCode);
@@ -26,10 +26,10 @@ const DailyRecievableReport = ({ navigation, route }) => {
   };
 
   const getPOHeaderData = async (slpCode) => {
-  //  alert(slpCode);
+    //  alert(slpCode);
     setprogressVisible(true);
     const response = await POHeaderDetailsApi.getDailyRecievableHeaderDetails(slpCode);
-    console.log(response?.data.data,"DalyRecivble ------>");
+    console.log(response?.data.data, "DalyRecivble ------>");
     setPOHeaderData(response?.data.data);
     setprogressVisible(false);
   };
@@ -56,11 +56,10 @@ const DailyRecievableReport = ({ navigation, route }) => {
   const pOReportHeading = () => (
     <>
       <AppRow style={styles.r1}>
-        <AppText style={styles.p2}>Id</AppText>
-        <AppText style={styles.p3}>S_O Num</AppText>
-        <AppText style={styles.p4}>Customer</AppText>
-        <AppText style={styles.p4}>S_O Date</AppText>
-        <AppText style={styles.p4}>Delivery Date</AppText>
+        <AppText style={styles.p2}>Name</AppText>
+        <AppText style={styles.p4}>invoiceTotal</AppText>
+        <AppText style={styles.p4}>paidTotal</AppText>
+        <AppText style={styles.p4}>totalBalance</AppText>
       </AppRow>
     </>
   );
@@ -78,7 +77,7 @@ const DailyRecievableReport = ({ navigation, route }) => {
           ListHeaderComponent={pOReportHeading}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => {
-            return <POReportCard item={item} />;
+            return <DailyRecCard item={item} />;
           }}
           ListFooterComponent={exportPdfBtn}
           key={(item) => {
@@ -103,22 +102,22 @@ const DailyRecievableReport = ({ navigation, route }) => {
           sNum++;
           GroupCtnsTotal = 0;
           let rows = "";
-       //   var gcreditDays=object.creditDays;
-       //   var gcreditLine=object.creditLine;
+          //   var gcreditDays=object.creditDays;
+          //   var gcreditLine=object.creditLine;
           return `
            <tr style="background-color:#c0c0c0;width: 100%; border: 2px solid #000000; ">
                 <td colspan="7" style="text-align:left;font-weight:700;font-size:small;">${object.cardName}</td>
           </tr>
            ${object.details
-          .map((innerObj) => {
-          //  const yds = parseFloat(innerObj.yds);
-          //  const cartons = parseFloat(innerObj.cartons);
-          //  GroupCtnsTotal += parseFloat(innerObj.cartons);
-          //  GroupYdsTotal += parseFloat(innerObj.yds);
-            GroupMtrsReqTotal = "N.A";
-          //  TotalYds += yds;
-          //  TotalCtns += cartons;
-            return `
+              .map((innerObj) => {
+                //  const yds = parseFloat(innerObj.yds);
+                //  const cartons = parseFloat(innerObj.cartons);
+                //  GroupCtnsTotal += parseFloat(innerObj.cartons);
+                //  GroupYdsTotal += parseFloat(innerObj.yds);
+                GroupMtrsReqTotal = "N.A";
+                //  TotalYds += yds;
+                //  TotalCtns += cartons;
+                return `
             <tr>
               <td colspan="3" style="text-align: left;font-weight: 600; font-size: smaller;border-right: 0px;">
              
@@ -148,10 +147,10 @@ const DailyRecievableReport = ({ navigation, route }) => {
               OverDue Balance:<span style="padding-left: 14%;">${innerObj.balance}</span>
             </td>
           </tr>`;
-          })
-          .join("")}
+              })
+              .join("")}
       </div>
-        `; 
+        `;
         })
         .join("");
       const htmlTemplate = `
@@ -200,43 +199,39 @@ const DailyRecievableReport = ({ navigation, route }) => {
     </style>
         </head>
         <body>
-          
         <table class="demo14">
         <tr>
           <td style=" width: 40%; border-right-width:
                 0px;border-bottom-width: 0px; font-weight: bold;">
-            <img src="./34234.png" alt="logo">
+          
           </td>
     
           <td style=" border-right-width: 0px;border-bottom-width:
-                0px;font-weight: bold; "> <u>
+                0px;font-weight: bold; "> 
               <h3 style="margin-top: 30px;">
                 ZAKORI INDUSTRIES (PVT) LIMITED
     
               </h3>
-            </u></td>
-    
+            </td>
         </tr>
       </table>
       <div style="text-align: center;">
-      <h4 style="
-       color: #000000;
-            ">
+      <h4 style="color: #000000;">
         Daily Receivable Report
       </h4>
     </div>
 
-
      <table class="demo">
       <thead style="display: table-header-group;background-color:#c0c0c0;font-weight: 700;">
-        <td rowspan="1" style="text-align: center; ">Inv.No#</td>
-        <td rowspan="1" style="text-align: center;">Invoice Date</td>
-        <td rowspan="1" style="text-align: center;">Invoice Total</td>
-        <td rowspan="1" style="text-align: center;">Paid</td>
-        <td rowspan="1" style="text-align: center;">Balance</td>
-        <td rowspan="1" style="text-align: center;">DueDate</td>
-        <td rowspan="1" style="text-align: center;">DueDays</td>
-
+      <tr>
+        <th rowspan="1" style="text-align: center; ">Inv.No#</th>
+        <th rowspan="1" style="text-align: center;">Invoice Date</th>
+        <th rowspan="1" style="text-align: center;">Invoice Total</th>
+        <th rowspan="1" style="text-align: center;">Paid</th>
+        <th rowspan="1" style="text-align: center;">Balance</th>
+        <th rowspan="1" style="text-align: center;">DueDate</th>
+        <th rowspan="1" style="text-align: center;">DueDays</th>
+       </tr>
       </thead>
       
       <tbody>
@@ -338,7 +333,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontWeight: "bold",
     fontSize: 12,
-    width: "10%",
+    width: "30%",
   },
   p3: {
     color: colors.secondary,

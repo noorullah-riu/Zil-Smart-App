@@ -593,18 +593,6 @@ ew
           await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
           // await Sharing.shareAsync(uri);
         } else {
-          //   const downloadDir = SAF.getUriForDirectoryInRoot('Download');
-          const permission = await MediaLibrary.requestPermissionsAsync();
-          if (permission.granted) {
-            const asset = await MediaLibrary.createAssetAsync(uri);
-            const album = await MediaLibrary.getAlbumAsync("Download");
-
-            if (album == null) {
-              await MediaLibrary.createAlbumAsync("Download", asset, false);
-            } else {
-              await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-            }
-          }
           setloading(false);
           navigation.navigate("PdfView", { uril: htmlIn });
         }

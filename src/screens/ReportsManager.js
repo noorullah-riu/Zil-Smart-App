@@ -11,11 +11,11 @@ const ReportsManager = ({ navigation }) => {
   const [progressVisible, setprogressVisible] = useState(false);
 
   const [groups, setGroups] = useState([
-/*     {
+     {
       id: "1",
       group: "Ledger",
       path: "CustomersList",
-    }, */
+    }, 
     {
       id: "2",
       group: "Inventory",
@@ -37,11 +37,11 @@ const ReportsManager = ({ navigation }) => {
       group: "PendingOrderListReport",
       path: "PendngOrderListReport",
     }, */
-/*     {
+     {
       id: "6",
       group: "DailyRecievableReport",
       path: "DailyRecievableReport",
-    }, */
+    }, 
 /*     {
       id: "7",
       group: "MonthalyCommissionReport",
@@ -52,11 +52,11 @@ const ReportsManager = ({ navigation }) => {
       group: "JumboRollReport",
       path: "JumboRollReport",
     },
-/*     {
+     {
       id: "9",
       group: "LogRollReport",
       path: "LogRollReport",
-    }, */
+    }, 
     {
       id: "10",
       group: "FgInStockReport",
