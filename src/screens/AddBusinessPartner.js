@@ -34,7 +34,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: "Vendor", value: "S" },
+/*     { label: "Vendor", value: "S" }, */
     { label: "Customer", value: "C" },
     { label: "Lead", value: "L" },
   ]);

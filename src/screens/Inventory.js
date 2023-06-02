@@ -96,216 +96,343 @@ const Inventory = ({ navigation, route }) => {
     //handleDateChange(today);
   };
 
-  const html = `<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Jumbo Roll Batch Wise Status Report v1</title>
-    <style type="text/css"> * {
-        margin: 0;
-        padding: 0;
-        text-indent: 0;
-    }
+  const html1 = `
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device width,initial scale =1.0" />
+      <meta name="keywords" content="HTML,CSS" />
+      <meta name="description" content="....." />
+  
+      <title>Bp Ledger Report (ZIL)</title>
+      <style>
+        h1 {
+          color: black;
+          font-family: Calibri, sans-serif;
+          font-style: normal;
+          font-weight: bold;
+          text-decoration: none;
+          font-size: 22pt;
+        }
+        .s1 {
+          color: black;
+          font-family: "Times New Roman", serif;
+          font-style: normal;
+          font-weight: normal;
+          text-decoration: none;
+          font-size: 11.5pt;
+        }
+        .s2 {
+          color: black;
+          font-family: "Times New Roman", serif;
+          font-style: normal;
+          font-weight: 700;
+          text-decoration: none;
+          font-size: 10pt;
+        }
+        .s21 {
+          color: black;
+          font-family: "Times New Roman", serif;
+          font-style: normal;
+          font-weight: 100;
+          padding-left: 136pt;
+          text-align: left;
+          text-decoration: none;
+          font-size: 10pt;
+        }
+        .s22 {
+          color: black;
+          font-family: "Times New Roman", serif;
+          font-style: normal;
+          font-weight: 100;
+          padding-left: 133pt;
+          text-align: left;
+          text-decoration: none;
+          font-size: 10pt;
+        }
+        .s23 {
+          color: black;
+          font-family: "Times New Roman", serif;
+          font-style: normal;
+          font-weight: 100;
+          padding-left: 116pt;
+          text-align: left;
+          text-decoration: none;
+          font-size: 10pt;
+        }
+        .s24 {
+          color: black;
+          font-family: "Times New Roman", serif;
+          font-style: normal;
+          font-weight: 100;
+          padding-left: 178pt;
+          text-align: left;
+          text-decoration: none;
+          font-size: 10pt;
+        }
+        .s25 {
+          color: black;
+          font-family: "Times New Roman", serif;
+          font-style: normal;
+          font-weight: 100;
+          padding-left: 156pt;
+          text-align: left;
+          text-decoration: none;
+          font-size: 10pt;
+        }
+        .s3 {
+          color: black;
+          font-family: Calibri, sans-serif;
+          font-style: normal;
+          font-weight: bold;
+          text-decoration: none;
+          font-size: 8pt;
+        }
+        .s4 {
+          color: black;
+          font-family: "Times New Roman", serif;
+          font-style: normal;
+          font-weight: normal;
+          text-decoration: none;
+          font-size: 8pt;
+        }
+        img {
+          width: 150px;
+          height: 150px;
+          float: left;
+          margin-left: 50px;
+          margin-right: 30px;
+          margin-top: 50px;
+        }
+  
+        .t3 {
+          color: black;
+          font-family: Calibri, sans-serif;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 10pt;
+          margin-left: 20px;
+          margin-right: 20px;
+        }
+      </style>
+    </head>
+  
+    <body>
+      <!-- HEADER PART -->
+  
+      <img
+      style="
+      height:100px;
+      width:200px;
+      "
+        src="http://182.180.92.42:5555/Content/34234.PNG"
+        alt="logo"
+      />
+      <u>
+        <p
+          style="
+            text-align: center;
+            padding-right: 200px;
+            font-size: 20px;
+            font-weight: 800;
+            padding-top: 40px;
+          "
+        >
+          A Project Of Zakori Group
+        </p>
+        <h2 style="text-align: center; padding-right: 200px">
+          ZAKORI INDUSTRIES (PVT) LIMITED,PAKISTAN
+        </h2>
+        <h3 style="text-align: center; padding-right:0px">
+          LEADER IN ALL KIND OF SELF ADHESIVE TAPES
+        </h3>
+      </u>
+      <h2
+        style="
+          font-size: 16px;
+          font-weight: 600;
+          text-align: center;
+          margin-top: 50px;
+        "
+      >
+        Batch Wise Stock Report
+      </h2>
 
-    .s1 {
-        color: black;
-        font-family: "Times New Roman", serif;
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: underline;
-        font-size: 19pt;
-    }
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-    .s2 {
-        color: black;
-        font-family: Arial, sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: none;
-        font-size: 10.5pt;
-    }
-
-    .s3 {
-        color: black;
-        font-family: "Times New Roman", serif;
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: none;
-        font-size: 10.5pt;
-    }
-
-    .h1 {
-        color: black;
-        font-family: Arial, sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        text-decoration: none;
-        font-size: 10.5pt;
-    }
-
-    .s4 {
-        color: black;
-        font-family: Arial, sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: none;
-        font-size: 8pt;
-    }
-
-    .s5 {
-        color: black;
-        font-family: "Times New Roman", serif;
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: none;
-        font-size: 8pt;
-    }
-
-    p {
-        color: black;
-        font-family: Arial, sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        text-decoration: none;
-        font-size: 7.5pt;
-        margin: 0pt;
-    }
-
-    .s6 {
-        color: black;
-        font-family: "Times New Roman", serif;
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: none;
-        font-size: 7.5pt;
-    }
-
-    .s7 {
-        color: black;
-        font-family: Arial, sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        text-decoration: none;
-        font-size: 8.5pt;
-    }
-
-    .s8 {
-        color: black;
-        font-family: "Times New Roman", serif;
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: none;
-        font-size: 8.5pt;
-    }
-
-    table, tbody {
-        vertical-align: top;
-        overflow: visible;
-    }
-    </style>
-</head>
-<body>
-<p class="s1" style="padding-left: 274pt;text-indent: 0pt;text-align: center;">Batch Wise Stock Report</p>
-<p style="text-indent: 0pt;text-align: left;"><br/></p>
-<p class="s3" style="padding-top: 5pt;padding-left: 274pt;text-indent: 0pt;text-align: center;"><span
-        class="s2">From</span> <span class="h1">20-Jun-22</span> <span class="s2">To</span> <span
-        class="h1">20-Jun-22</span></p>
-<p style="text-indent: 0pt;text-align: left;"><br/></p>
-<p style="text-indent: 0pt;text-align: left;">RM000002</p>
-<p style="text-indent: 0pt;text-align: left;">980mm<span class="s6"> </span>x<span class="s6"> </span>36mic<span
-        class="s6"> </span>Orange</p>
-<p style="padding-left: 6pt;text-indent: 0pt;text-align: left;">
-<table style="border-collapse:collapse;margin-left:6.225pt" cellspacing="0">
-    <tr style="height:18pt">
-        <td style="width:53pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt"
-            bgcolor="#C0C0C0"><p class="s7"
-                                 style="padding-top: 6pt;padding-left: 15pt;text-indent: 0pt;text-align: left;">
-            Item<span class="s8"> </span>Code</p></td>
-        <td style="width:98pt;border-top-style:solid;border-top-width:1pt;border-bottom-style:solid;border-bottom-width:2pt"
-            bgcolor="#C0C0C0"><p class="s7"
-                                 style="padding-top: 6pt;padding-left: 43pt;text-indent: 0pt;text-align: left;">
-            Batch<span class="s8"> </span>No</p></td>
-        <td style="width:58pt;border-top-style:solid;border-top-width:1pt;border-bottom-style:solid;border-bottom-width:2pt"
-            bgcolor="#C0C0C0"><p class="s7"
-                                 style="padding-top: 6pt;padding-left: 15pt;text-indent: 0pt;text-align: left;">Mfg<span
-                class="s8"> </span>Date</p></td>
-        <td style="width:57pt;border-top-style:solid;border-top-width:1pt;border-bottom-style:solid;border-bottom-width:2pt"
-            bgcolor="#C0C0C0"><p class="s7"
-                                 style="padding-top: 6pt;padding-left: 11pt;text-indent: 0pt;text-align: left;">
-            Opening</p></td>
-        <td style="width:65pt;border-top-style:solid;border-top-width:1pt;border-bottom-style:solid;border-bottom-width:2pt"
-            bgcolor="#C0C0C0"><p class="s7"
-                                 style="padding-top: 6pt;padding-left: 21pt;text-indent: 0pt;text-align: left;">
-            Reciept</p></td>
-        <td style="width:61pt;border-top-style:solid;border-top-width:1pt;border-bottom-style:solid;border-bottom-width:2pt"
-            bgcolor="#C0C0C0"><p class="s7"
-                                 style="padding-top: 6pt;padding-left: 17pt;text-indent: 0pt;text-align: left;">
-            Issue</p></td>
-        <td style="width:65pt;border-top-style:solid;border-top-width:1pt;border-bottom-style:solid;border-bottom-width:2pt"
-            bgcolor="#C0C0C0"><p class="s7"
-                                 style="padding-top: 6pt;padding-left: 17pt;text-indent: 0pt;text-align: left;">
-            Closing</p></td>
-        <td style="width:72pt;border-top-style:solid;border-top-width:1pt;border-bottom-style:solid;border-bottom-width:2pt"
-            bgcolor="#C0C0C0"><p class="s7"
-                                 style="padding-top: 6pt;padding-left: 27pt;text-indent: 0pt;text-align: left;">
-            Yards</p></td>
-        <td style="width:83pt;border-top-style:solid;border-top-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt"
-            bgcolor="#C0C0C0"><p class="s7"
-                                 style="padding-top: 6pt;padding-left: 26pt;text-indent: 0pt;text-align: left;">
-            Meters</p></td>
-    </tr>
-    <tr style="height:15pt">
-        <td style="width:53pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s4" style="padding-top: 1pt;padding-right: 21pt;text-indent: 0pt;text-align: right;">1</p></td>
-        <td style="width:218pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s4" style="padding-top: 2pt;padding-left: 13pt;text-indent: 0pt;text-align: left;">CHAWLA/15/10657<span
-                    class="s5"> </span>-<span class="s5"> </span>107</p></td>
-        <td style="width:58pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt">
-            <p style="text-indent: 0pt;text-align: left;"><br/></p></td>
-        <td style="width:57pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s4" style="padding-top: 2pt;padding-right: 6pt;text-indent: 0pt;text-align: right;">128.70</p>
+    <!-- Table PART -->
+    <table
+      style="
+        border-collapse: collapse;
+        margin-top: 60px;
+        margin-left: 50px;
+        margin-right: 50px;
+        width: 90%;
+      "
+      cellspacing="0"
+    >
+      <tr style="height: 4pt; background-color: gainsboro">
+        <td
+          style="
+            width: 10%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: center"> No#</p>
         </td>
-        <td style="width:65pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s4" style="padding-top: 2pt;padding-right: 5pt;text-indent: 0pt;text-align: right;">0.00</p></td>
-        <td style="width:61pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s4" style="padding-top: 2pt;padding-right: 6pt;text-indent: 0pt;text-align: right;">0.00</p></td>
-        <td style="width:65pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s4" style="padding-top: 2pt;padding-right: 6pt;text-indent: 0pt;text-align: right;">128.70</p>
+        <td
+          style="
+            width: 20%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 2pt; text-align: center">
+          Item Name
+          </p>
         </td>
-        <td style="width:72pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s4" style="padding-top: 1pt;padding-right: 5pt;text-indent: 0pt;text-align: right;">4,350.84</p>
+        <td
+          style="
+            width: 10%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 2pt; text-align: center">
+          Date
+          </p>
         </td>
-        <td style="width:83pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:2pt;border-right-style:solid;border-right-width:1pt">
-            <p class="s4" style="padding-top: 1pt;padding-right: 16pt;text-indent: 0pt;text-align: right;">3,977.00</p>
+        <td
+          style="
+            width: 12%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: center">Opening</p>
         </td>
-    </tr>
-</table>
-<table style="border-collapse:collapse;margin-left:6.225pt;margin-top: 10pt" cellspacing="0">
-    <tr style="height:15pt">
-        <td style="width:53pt">
-            <p class="s4" style="padding-top: 1pt;padding-right: 21pt;text-indent: 0pt;text-align: right;"></p></td>
-        <td style="width:218pt">
-            <p class="s4" style="padding-top: 2pt;padding-left: 13pt;text-indent: 0pt;text-align: left;"></p></td>
-        <td style="width:58pt">
-            <p style="text-indent: 0pt;text-align: left;"><br/></p></td>
-        <td style="width:57pt">
-            <p class="s4" style="padding-top: 2pt;padding-right: 6pt;text-indent: 0pt;text-align: right;">0.00</p>
+        <td
+          style="
+            width: 12%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p
+            class="s3"
+            style="
+              padding-right: 3pt;
+              text-align: center;
+            "
+          >
+          Reciept
+          </p>
         </td>
-        <td style="width:65pt">
-            <p class="s4" style="padding-top: 2pt;padding-right: 5pt;text-indent: 0pt;text-align: right;">3,078.00</p></td>
-        <td style="width:61pt">
-            <p class="s4" style="padding-top: 2pt;padding-right: 6pt;text-indent: 0pt;text-align: right;">0.00</p></td>
-        <td style="width:65pt">
-            <p class="s4" style="padding-top: 2pt;padding-right: 6pt;text-indent: 0pt;text-align: right;">3,078.00</p>
+
+        <td
+          style="
+            width: 10%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: center">
+          Issue
+          </p>
         </td>
-        <td style="width:72pt">
-            <p class="s4" style="padding-top: 1pt;padding-right: 5pt;text-indent: 0pt;text-align: right;">32,820.00</p>
+        <td
+          style="
+            width: 10%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: center">
+          Closing
+          </p>
         </td>
-        <td style="width:83pt">
-            <p class="s4" style="padding-top: 1pt;padding-right: 16pt;text-indent: 0pt;text-align: right;">30,000.00</p>
+        <td
+          style="
+            width: 18%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 20pt; text-align: center">
+          Yards
+          </p>
         </td>
-    </tr>
-</table>
-</html>`;
+
+        <td
+        style="
+          width: 18%;
+          border-top-style: solid;
+          border-top-width: 1pt;
+          border-left-style: solid;
+          border-left-width: 1pt;
+          border-bottom-style: solid;
+          border-bottom-width: 1pt;
+          border-right-style: solid;
+          border-right-width: 1pt;
+        "
+      >
+        <p class="s3" style="padding-right: 20pt; text-align: center">
+        Meters
+        </p>
+      </td>
+      </tr>
+
+ `;
 
   const handleDateChange = (date) => {
     console.log("in handleDateChange", date);
@@ -554,6 +681,28 @@ ew
     // getReport();
   }, []);
 
+  const [html2, setHtml2] = useState(``);
+
+  const createAndSavePDF = async () => {
+    setloading(true);
+    try {
+      var htm = html1 + html2;
+      //  console.log("HTML => ", html2);
+      const { uri } = await Print.printToFileAsync({
+        html: html1 + html2,
+        base64: false,
+      });
+      if (Platform.OS === "ios") {
+        await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
+        await Sharing.shareAsync(uri);
+      } else {
+        setloading(false);
+        navigation.navigate("PdfView", { uril: htm });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
     setUserId(JSON.parse(jsonValue).id);
@@ -572,35 +721,191 @@ ew
       console.log("getSaleReport", response.data);
       if (response.data.data) {
         setReports1(response.data.data);
+        var html = ``;
+
+        response.data?.data?.map((item) => {
+          html =
+            html +
+            `
+        <tr style="height: 4pt">
+        <td
+          style="
+            width: 10%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: center">
+          ${item.$id}
+          </p>
+        </td>
+        <td
+          style="
+            width: 20%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 2pt; text-align: center">${item.itemName}</p>
+        </td>
+        <td
+          style="
+            width: 10%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 2pt; text-align: center">
+          ${item.docDate}
+          </p>
+        </td>
+        <td
+          style="
+            width: 12%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: center">${item.qty_IN}</p>
+        </td>
+        <td
+          style="
+            width: 12%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p
+            class="s3"
+            style="
+              padding-right: 3pt;
+              text-align: center;
+            "
+          >
+          0.00
+          </p>
+        </td>
+    
+        <td
+          style="
+            width: 10%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: center">
+          0.00
+          </p>
+        </td>
+        <td
+          style="
+            width: 10%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 4pt; text-align: center">
+          ${item.qty_OUT}
+          </p>
+        </td>
+        <td
+          style="
+            width: 18%;
+            border-top-style: solid;
+            border-top-width: 1pt;
+            border-left-style: solid;
+            border-left-width: 1pt;
+            border-bottom-style: solid;
+            border-bottom-width: 1pt;
+            border-right-style: solid;
+            border-right-width: 1pt;
+          "
+        >
+          <p class="s3" style="padding-right: 20pt; text-align: center">
+          ${item.yards}
+          </p>
+        </td>
+        <td
+        style="
+          width: 18%;
+          border-top-style: solid;
+          border-top-width: 1pt;
+          border-left-style: solid;
+          border-left-width: 1pt;
+          border-bottom-style: solid;
+          border-bottom-width: 1pt;
+          border-right-style: solid;
+          border-right-width: 1pt;
+        "
+      >
+        <p class="s3" style="padding-right: 20pt; text-align: center">
+        ${item.meters}
+        </p>
+      </td>
+      </tr>
+
+    
+        `;
+        });
+        html += `
+        </table>
+        <p style="text-indent: 0pt;text-align: left;"><br/></p>
+        <p style="text-indent: 0pt;text-align: left;"><br/></p>
+
+        </body>
+        </html>
+        `;
+        setHtml2(html);
+
       } else Alert.alert("No record found.");
       setprogressVisible(false);
       if (!response.ok)
         return Alert.alert("Couldn't retrieve the Sales Report");
     }
   };
-  const createAndSavePDF = async () => {
-    if (reports1?.length == 0) {
-      alert("No data to create report");
-    } else {
-      setloading(true);
-      try {
-        var htmlIn = html;
-        const { uri } = await Print.printToFileAsync({
-          html: html,
-          base64: false,
-        });
-        if (Platform.OS === "ios") {
-          await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
-          // await Sharing.shareAsync(uri);
-        } else {
-          setloading(false);
-          navigation.navigate("PdfView", { uril: htmlIn });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
+
   const renderReport = () => {
     return (
       <FlatList

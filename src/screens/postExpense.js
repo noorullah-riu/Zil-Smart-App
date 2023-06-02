@@ -12,6 +12,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { ProgressDialog, Dialog } from "react-native-simple-dialogs";
+
 import RNPickerSelect from "react-native-picker-select";
 import AppHeader from "../components/AppHeader";
 import colors from "../components/colors";
@@ -93,12 +95,12 @@ const PostExpense = ({ navigation }) => {
   const showPicker = () => {
     setIsPickerShow(true);
   };
-/*   const onChange = (event, value) => {
-    setDate(value);
-    if (Platform.OS === "android") {
-      setIsPickerShow(false);
-    }
-  }; */
+  /*   const onChange = (event, value) => {
+      setDate(value);
+      if (Platform.OS === "android") {
+        setIsPickerShow(false);
+      }
+    }; */
   const handlePostExpense = async () => {
     setprogressVisible(true);
     expenseObj["userCode"] = userCode;
@@ -110,21 +112,21 @@ const PostExpense = ({ navigation }) => {
     expenseObj["checqueNumber"] = chequeNumber;
     expenseObj["amount"] = totalAmount;
     expenseObj["remarks"] = remarks;
-    console.log(expenseObj,"----------expenseObj");
+    console.log(expenseObj, "----------expenseObj");
     const response = await postExpenseApi.postExpense(expenseObj);
- 
 
     if (response.ok) {
-      Alert.alert("Success!", response.data.Message, [
-        { text: "OK", onPress: () => setprogressVisible(false) },
-      ]);
       setprogressVisible(false);
+      navigation.navigate("Home");
+   //   Alert.alert(response.data.Message);
+     
+
     }
     if (!response.ok) {
-      Alert.alert("Error!", response.data.Message, [
-        { text: "OK", onPress: () => setprogressVisible(false) },
-      ]);
       setprogressVisible(false);
+    //  navigation.navigate("Expenses");
+      Alert.alert(response.data.Message);
+      //  
     }
   };
 
@@ -139,7 +141,7 @@ const PostExpense = ({ navigation }) => {
           headerTitle="Post Incoming Payment"
         />
       </View>
-      <ScrollView style={{marginBottom:100}}>
+      <ScrollView style={{ marginBottom: 100 }}>
         <AppRow>
           <View style={styles.rowItem}>
             <View style={{ marginTop: 0, marginBottom: 5 }}>
@@ -155,7 +157,7 @@ const PostExpense = ({ navigation }) => {
                 justifyContent: "center",
               }}
             >
-       {/*        <RNPickerSelect
+              {/*        <RNPickerSelect
                 style={{ inputAndroid: { color: "black" } }}
                 placeholder={{
                   label: "Select Payment Type",
@@ -169,18 +171,18 @@ const PostExpense = ({ navigation }) => {
                   { label: "Cash", value: "Cash" },
                 ]}
               /> */}
-                    <DropDownPicker
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setValue}
-              setItems={setItems}
-              listMode="MODAL"
-              onSelectItem={item => {
-                setPaymentType(item.value)
-              }}
-            />
+              <DropDownPicker
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                listMode="MODAL"
+                onSelectItem={item => {
+                  setPaymentType(item.value)
+                }}
+              />
             </View>
           </View>
         </AppRow>
@@ -215,7 +217,7 @@ const PostExpense = ({ navigation }) => {
             />
           </View>
         </AppRow>
-  {/*       <AppRow>
+        {/*       <AppRow>
           <View style={styles.rowItem1}>
             <View
               style={{ marginHorizontal: sizes.base_margin, marginVertical: 5 }}
@@ -243,7 +245,7 @@ const PostExpense = ({ navigation }) => {
             </View>
           </View>
         </AppRow> */}
-           <Pressable
+        <Pressable
           onPress={() => setIsPickerShow(true)}
           style={{
             flexDirection: "row",
@@ -260,13 +262,13 @@ const PostExpense = ({ navigation }) => {
               justifyContent: "center",
             }}
           >
-             <AppText style={styles.label}>Date</AppText>
+            <AppText style={styles.label}>Date</AppText>
           </View>
 
           <View
             style={{
               marginTop: 0,
-              flex: 1,
+              flex: 1, 
               backgroundColor: "#fff",
               height: 40,
               justifyContent: "center",
@@ -310,6 +312,11 @@ const PostExpense = ({ navigation }) => {
             navigation={navigation}
           />
         </TouchableOpacity>
+        <ProgressDialog
+          visible={progressVisible}
+          title="Posting Data"
+          message="Please wait..."
+        />
       </ScrollView>
     </SafeAreaView>
   );

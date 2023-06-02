@@ -218,12 +218,29 @@ const PendngOrderListReport = ({ navigation, route }) => {
               text-align: left;
               border-bottom: 1px solid #ddd;
             }
-
-
+     
+              img {
+                margin-top:15px;
+                width: 130px;
+                height: 60px;
+                border: 0px solid #000000;
+                border-collapse: collapse;
+              }
             body {
               margin-left: 10px;
               margin-right: 10px;
           }
+          .demo14 {
+            border: 0px solid black;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        img {
+          width: 130px;
+          height: 70px;
+          border: 0px solid #000000;
+          border-collapse: collapse;
+      }
           .demo {
               border: 0.7px solid black;
               border-collapse: collapse;
@@ -243,11 +260,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
               border: 0.7px solid #000000;
               padding: 5px;
           }
-          .demo14 {
-              border: 0px solid black;
-              border-collapse: collapse;
-              width: 100%;
-          }
+      
           .demo14 td {
               border: 0px solid #000000;
           }
@@ -318,12 +331,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
             border-left: 0px;
             border-right: 0px;
         }
-        img {
-            width: 130px;
-            height: 70px;
-            border: 0px solid #000000;
-            border-collapse: collapse;
-        }
+   
         .Div1 {
             border-style: solid;
             width: 300px;
@@ -382,19 +390,34 @@ const PendngOrderListReport = ({ navigation, route }) => {
         </head>
         <body>
           
-          <table class="demo14">
-            <tr>
-                <td style="border-right-width: 0px; border-bottom-width: 0px; font-weight: bold;">
-                    <h3 style="margin-top: 30px; margin-left: 47%;">
-                        Zakori Industries (Pvt) Limited
-                    </h3>
-                </td>
-               
-            </tr>
-        </table>
-        <div style="text-align: center; margin-bottom: 4px; margin-top: -2%;">
-            <h4>Pending Order List</h4>
-        </div>
+        <table class="demo14">
+        <tr>
+          <td
+            style=" width: 34%; border-right-width:
+            0px;border-bottom-width: 0px; font-weight: bold;">
+            <img src="http://182.180.92.42:5555/Content/34234.PNG"
+            alt="logo"> </td>
+          <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
+       <u>
+      <h3 style="margin-top: 50px;">
+      ZAKORI INDUSTRIES (PVT) LIMITED
+      </h3>
+       </u>
+    </td>
+        </tr>
+      </table>
+    </u>
+      <div style=" background-color: darkgrey;text-align: center;margin-bottom: 4px;margin-top: 10px;">
+        <u>
+        <h4 style="
+         height: 30px;
+         vertical-align: middle;
+         display:table-cell;
+          ">
+          Pending Order List
+        </h4>
+      </div>
+    </u>
      
     <table class="demo" >
       <thead style="display: table-header-group; font-weight: 700;">

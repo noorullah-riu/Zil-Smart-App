@@ -216,7 +216,7 @@ const Quotations = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <AppHeader
+      <AppHeader  
         home
         doubleBtn
         doubleBtnContainerStyle={{}}

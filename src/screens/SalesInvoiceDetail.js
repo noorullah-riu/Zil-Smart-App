@@ -280,31 +280,22 @@ const SalesInvoiceDetail = ({ route, navigation }) => {
               0px;border-bottom-width: 0px; font-weight: bold;">
               <img src="http://182.180.92.42:5555/Content/34234.PNG"
               alt="logo"> </td>
-        
-            <td  style=" border-right-width: 0px;border-bottom-width:
-              0px;font-weight: bold;  ">   <u>
+            <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
+         <u>
         <h3 style="margin-top: 50px;">
           Zakori Industries (Pvt) Limited
-  
         </h3>
-      </u></td>
-       
+         </u>
+      </td>
           </tr>
         </table>
-      
-    
-     
       </u>
-      
         <div style=" background-color: darkgrey;text-align: center;    margin-bottom: 4px;margin-top: 10px;">
           <u>
-            
           <h4 style="
            height: 30px;
            vertical-align: middle;
            display:table-cell;
-       
-            
             ">
             Sales Invoice
           </h4>
@@ -313,8 +304,6 @@ const SalesInvoiceDetail = ({ route, navigation }) => {
  
       <div class="std-row1">
       <table class="demo1">
-
-
         <tr>
           <td
             style=" width: 10%; border-right-width:

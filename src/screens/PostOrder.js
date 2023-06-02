@@ -75,8 +75,38 @@ const PostOrder = ({ route, navigation }) => {
   const [show, setShow] = useState(false);
   const { setCartItem, cartItem } = useContext(addToCartContext);
 
+
+  const [fromdate, setfromDate] = useState("");
+  const [todate, settoDate] = useState("");
+
   const [isPickerShow, setIsPickerShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
+
+  const onChange = (event, value) => {
+    setDate(value);
+    if (Platform.OS === "android") {
+      setIsPickerShow(false);
+    }
+    console.log("------------", value.getFullYear());
+    console.log("------------", value.getMonth());
+    console.log("------------", value.getDate());
+
+    var date = value.getDate(); //Current Date
+    var month = value.getMonth() + 1; //Current Month
+    var year = value.getFullYear(); //Current Year,.
+    var today =
+      year +
+      "-" +
+      (month < 10 ? "0" + month : month) +
+      "-" +
+      (date < 10 ? "0" + date : date);
+    console.log("today", today);
+    setfromDate(today);
+    // handleDateChange(today);
+  };
+
+/*   const [isPickerShow, setIsPickerShow] = useState(false);
+  const [date, setDate] = useState(new Date(Date.now())); */
   const display = () => {
     if (Date == null) {
       return <Text>{title}</Text>;
@@ -91,7 +121,7 @@ const PostOrder = ({ route, navigation }) => {
     setIsPickerShow(true);
   };
 
-  const onChange = (event, value) => {
+  const onChange2 = (event, value) => {
     setDate(value);
     if (Platform.OS === "android") {
       setIsPickerShow(false);
@@ -175,7 +205,7 @@ const PostOrder = ({ route, navigation }) => {
 
     sosq["customerCode"] = customer.CardCode;
     sosq["customerName"] = customer.CardName;
-    (sosq["deliveryDate"] = date), //;
+    (sosq["deliveryDate"] = fromdate), //;
       (sosq["series"] = 162);
     sosq["remarks"] = remarks;
     sosq["docDueDate"] = todaysdate;
@@ -211,12 +241,13 @@ const PostOrder = ({ route, navigation }) => {
 
   const postQuotation = async () => {
     // console.log("postQuotation called");
-
+if(fromdate)
+{
     sosq["SapUserCode"] = user.sapUserCOde; //
     sosq["salePersonCode"] = user.salePersonCode; //
     sosq["customerCode"] = customer.CardCode;
     sosq["customerName"] = customer.CardName;
-    sosq["deliveryDate"] = date; //"13-05-2023"), //date;
+    sosq["deliveryDate"] = fromdate; //"13-05-2023"), //date;
       (sosq["series"] = 165);
     sosq["remarks"] = remarks;
 
@@ -245,6 +276,9 @@ const PostOrder = ({ route, navigation }) => {
     }
 
     if (!response.ok) return Alert.alert("Unable to post Quotation");
+  }else{
+    Alert.alert("Please select delivery date") 
+  }
   };
 
   const getUserDetails = async () => {
@@ -402,7 +436,7 @@ const PostOrder = ({ route, navigation }) => {
             />
           </View> */}
 
-          <AppRow
+     {/*      <AppRow
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={{ marginTop: 0, flex: 1 }}>
@@ -428,7 +462,54 @@ const PostOrder = ({ route, navigation }) => {
                 )}
               </View>
             </View>
-          </AppRow>
+          </AppRow> */}
+              <Pressable
+          onPress={() => setIsPickerShow(true)}
+          style={{
+            flexDirection: "row",
+            marginTop: 20,
+       //     borderColor: "#aaa",
+        //    borderWidth: 1,
+          }}
+        >
+          <View
+            style={{
+           //   marginHorizontal: sizes.base_margin,
+              marginVertical: 0,
+              flex: 1,
+              justifyContent: "center",
+            }}
+          >
+            <AppText style={styles.p1}>Delivery Date</AppText>
+          </View>
+
+          <View
+            style={{
+              marginTop: 0,
+              flex: 1,
+              backgroundColor: "#fff",
+              height: 40,
+              justifyContent: "center",
+            }}
+          >
+            <View style={{}}>
+              <AppText style={{ colors: "#555" }}>
+                {/* {display()} */} {fromdate}
+              </AppText>
+            </View>
+          </View>
+        </Pressable>
+        
+        {isPickerShow && (
+            <DateTimePicker
+              value={date}
+              mode={"date"}
+              display={Platform.OS === "ios" ? "spinner" : "default"}
+              is24Hour={false}
+              onChange={onChange}
+              style={styles.datePicker}
+            />
+          )}
 
           <View>
             <View style={{}}>

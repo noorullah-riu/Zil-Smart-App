@@ -116,7 +116,7 @@ const AddActivity = ({ navigation, route }) => {
     setprogressVisible(false);
     if (response.ok) {
       Alert.alert(response.data.message);
-      // navigation.navigate("Home");
+       navigation.navigate("Home");
     }
     if (!response.ok) return Alert.alert("Unable to post Activity");
   };

@@ -171,6 +171,13 @@ const DailyRecievableReport = ({ navigation, route }) => {
         font-size: 10px;
         margin-top: -1%;
       }
+      img {
+        margin-top:15px;
+        width: 130px;
+        height: 60px;
+        border: 0px solid #000000;
+        border-collapse: collapse;
+      }
       .demo14 {
         border: 0px solid black;
         border-collapse: collapse;
@@ -199,28 +206,34 @@ const DailyRecievableReport = ({ navigation, route }) => {
     </style>
         </head>
         <body>
-        <table class="demo14">
-        <tr>
-          <td style=" width: 40%; border-right-width:
-                0px;border-bottom-width: 0px; font-weight: bold;">
-          
-          </td>
-    
-          <td style=" border-right-width: 0px;border-bottom-width:
-                0px;font-weight: bold; "> 
-              <h3 style="margin-top: 30px;">
-                ZAKORI INDUSTRIES (PVT) LIMITED
-    
-              </h3>
-            </td>
-        </tr>
-      </table>
-      <div style="text-align: center;">
-      <h4 style="color: #000000;">
-        Daily Receivable Report
-      </h4>
-    </div>
-
+    <table class="demo14">
+    <tr>
+      <td
+        style=" width: 34%; border-right-width:
+        0px;border-bottom-width: 0px; font-weight: bold;">
+        <img src="http://182.180.92.42:5555/Content/34234.PNG"
+        alt="logo"> </td>
+      <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
+   <u>
+  <h3 style="margin-top: 50px;">
+  ZAKORI INDUSTRIES (PVT) LIMITED
+  </h3>
+   </u>
+</td>
+    </tr>
+  </table>
+</u>
+  <div style=" background-color: darkgrey;text-align: center;margin-bottom: 4px;margin-top: 10px;">
+    <u>
+    <h4 style="
+     height: 30px;
+     vertical-align: middle;
+     display:table-cell;
+      ">
+      Daily Receivable Report
+    </h4>
+  </div>
+</u>
      <table class="demo">
       <thead style="display: table-header-group;background-color:#c0c0c0;font-weight: 700;">
       <tr>

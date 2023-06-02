@@ -478,23 +478,46 @@ const SalesCommissionReport = ({ navigation }) => {
         .hide {
           display: none;
         }
+        img {
+          width: 130px;
+          height: 70px;
+          border: 0px solid #000000;
+          border-collapse: collapse;
+           }
         </style>
         </head>
         <body>
           
-          <table class="demo14">
-            <tr>
-                <td style="border-right-width: 0px; text-align: center; border-bottom-width: 0px; font-weight: bold;">
-                    <h3 style="margin-top: 30px; text-align: center; ">
-                        Zakori Industries (Pvt) Limited
-                    </h3>
-                </td>
-               
-            </tr>
-        </table>
-        <div style="text-align: center; margin-bottom: 4px; margin-top: -2%;">
-            <h4>Sales Commission Report</h4>
-        </div>
+        <table class="demo14">
+        <tr>
+          <td
+            style=" width: 34%; border-right-width:
+            0px;border-bottom-width: 0px; font-weight: bold;">
+            <img src="http://182.180.92.42:5555/Content/34234.PNG"
+            alt="logo"> </td>
+          <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
+       <u>
+      <h3 style="margin-top: 50px;">
+      ZAKORI INDUSTRIES (PVT) LIMITED
+      </h3>
+       </u>
+    </td>
+        </tr>
+      </table>
+    </u>
+      <div style=" background-color: darkgrey;text-align: center;margin-bottom: 4px;margin-top: 10px;">
+        <u>
+        <h4 style="
+         height: 30px;
+         vertical-align: middle;
+         display:table-cell;
+          ">
+          Sales Commission Report
+        </h4>
+      </div>
+    </u>
+
+
         <div style="text-align: center; margin-bottom: 4px; margin-top: -2%;">
         <h4>Date: <span style="">${fromDate}</span><span style=""> To <span style=""> ${toDate}</span></h4>
       </div>

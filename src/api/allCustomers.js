@@ -7,7 +7,12 @@ const getAllCustomers = (code) =>
   client.get(`/SaleOrderApi/GetAllSAPItems`);
 
   
+  const getAllSAPItemsReportRelated = () =>
+  client.get(`/SaleOrderApi/GetAllSAPItemsForJumboBatchReport`);
+
+  
 export default {
   getAllCustomers,
   getAllSAPItems,
+  getAllSAPItemsReportRelated,
 };

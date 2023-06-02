@@ -729,17 +729,53 @@ const FgInStockReport = ({ navigation, route }) => {
           text-decoration: none;
           font-size: 8pt;
         }
+        body {
+          margin-left: 10px;
+          margin-right: 10px;
+            }
+        .demo14 {
+        border: 0px solid black;
+        border-collapse: collapse;
+        width: 100%;
+        }
+      img {
+      width: 130px;
+      height: 70px;
+      border: 0px solid #000000;
+      border-collapse: collapse;
+       }
       </style>
     </head>
   
-    <body>
+    <body>  
+      <table class="demo14">
+      <tr>
+        <td
+          style=" width: 34%; border-right-width:
+          0px;border-bottom-width: 0px; font-weight: bold;">
+          <img src="http://182.180.92.42:5555/Content/34234.PNG"
+          alt="logo"> </td>
+        <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
+     <u>
+    <h3 style="margin-top: 50px;">
+    ZAKORI INDUSTRIES (PVT) LIMITED
+    </h3>
+     </u>
+  </td>
+      </tr>
+    </table>
+  </u>
+    <div style=" background-color: darkgrey;text-align: center;margin-bottom: 4px;margin-top: 10px;">
       <u>
-        <h1 style="padding-top: 2pt; text-align: center">
-        ZAKORI INDUSTRIES (PVT) LIMITED
-        </h1>
-        <h2 style="padding-top: 2pt; text-align: center">Finished Goods InStock Report</h2>
-      </u>
-  
+      <h4 style="
+       height: 30px;
+       vertical-align: middle;
+       display:table-cell;
+        ">
+        Finished Goods InStock Report
+      </h4>
+    </div>
+  </u>
       <table
         style="
           border-collapse: collapse;
@@ -828,32 +864,8 @@ const FgInStockReport = ({ navigation, route }) => {
         await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
         await Sharing.shareAsync(uri);
       } else {
-        //   const downloadDir = SAF.getUriForDirectoryInRoot('Download');
-        const permission = await MediaLibrary.requestPermissionsAsync();
-        if (permission.granted) {
-          const asset = await MediaLibrary.createAssetAsync(uri);
-          const album = await MediaLibrary.getAlbumAsync("Download");
-
-          if (album == null) {
-            const a = await MediaLibrary.createAlbumAsync(
-              "Download",
-              asset,
-              false
-            );
-          } else {
-            const b = await MediaLibrary.addAssetsToAlbumAsync(
-              [asset],
-              album,
-              false
-            );
-          }
-          //   console.log(a,"a");
-        }
         setloading(false);
         navigation.navigate("PdfView", { uril: htm });
-        ///   navigation.navigate("PdfView",{uril: htm})
-        // setloading(false);
-        // alert("Downloaded");
       }
     } catch (error) {
       setloading(false);

@@ -41,13 +41,13 @@ const InventoryItems = ({ navigation, route }) => {
   };
   const getAllCustomers = async (code) => {
     setprogressVisible(true);
-    const response = await allCustomersApi.getAllSAPItems();
+    const response = await allCustomersApi.getAllSAPItemsReportRelated();
 
-    // console.log("customersList", response.data.data);
+   //  console.log("list", response.data);
     if (!response.ok)
       return Alert.alert("Couldn't retrieve the customers List");
-    setCustomers(response.data.data);
-    setprogressVisible(false);
+      setCustomers(response.data.data);
+      setprogressVisible(false);
   };
 
   const nav = (msg) => {
@@ -61,7 +61,7 @@ const InventoryItems = ({ navigation, route }) => {
         title="Back"
         bckBtnImg={require("../assets/back-button.png")}
         navigation={navigation}
-        headerTitle="Items List"
+        headerTitle="Items List report"
       />
       <SearchBar
         searchPhrase={searchPhrase}
