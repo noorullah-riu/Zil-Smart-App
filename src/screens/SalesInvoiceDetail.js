@@ -445,26 +445,6 @@ const SalesInvoiceDetail = ({ route, navigation }) => {
         await Sharing.shareAsync(uri);
       } else {
         //   const downloadDir = SAF.getUriForDirectoryInRoot('Download');
-        const permission = await MediaLibrary.requestPermissionsAsync();
-        if (permission.granted) {
-          const asset = await MediaLibrary.createAssetAsync(uri);
-          const album = await MediaLibrary.getAlbumAsync("Download");
-
-          if (album == null) {
-            const a = await MediaLibrary.createAlbumAsync(
-              "Download",
-              asset,
-              false
-            );
-          } else {
-            const b = await MediaLibrary.addAssetsToAlbumAsync(
-              [asset],
-              album,
-              false
-            );
-          }
-          //   console.log(a,"a");
-        }
         setloading(false);
         navigation.navigate("PdfView", { uril: html });
         ///   navigation.navigate("PdfView",{uril: htm})

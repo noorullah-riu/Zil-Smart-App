@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext,memo } from "react";
+import React, { useState, useEffect, useContext, memo } from "react";
 import {
   SafeAreaView,
   FlatList,
@@ -18,23 +18,43 @@ import ItemsListDetailCard from "../components/ItemsListDetailCard";
 import ItemListMinimalCard from "../components/ItemListMinimalCard";
 import allGroupItemsApi from "../api/allGroupItems";
 import AppInput from "../components/AppInput";
+import DropDownPicker from "react-native-dropdown-picker";
+import AppText from "../components/AppText";
 
 const ItemDetailList = ({ navigation, route }) => {
   const [itemQty, setitemQty] = useState(1);
-  const [progressVisible, setprogressVisible] = useState(true);
-//  const { itemGroupCode } = route.params;
-//  const { itemGroupCode } = route.params;
-var itemGroupCode=1; 
-const [itemList, setItemList] = useState([]);
+  const [progressVisible, setprogressVisible] = useState(false);
+  //  const { itemGroupCode } = route.params;
+  //  const { itemGroupCode } = route.params;
+  var itemGroupCode = 1;
+  const [itemList, setItemList] = useState([]);
   const [allItemList, setAllItemList] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const { preCategoriesRouteVal } = useContext(preCategoriesRouteContext);
 
+  const [jobType, setJobType] = useState("");
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Stationary", value: "Stationary" },
+    { label: "Duct", value: "Duct" },
+    { label: "BOPP", value: "BOPP" },
+    { label: "Masking", value: "Masking" },
+  ]);
+  const handleJobType = (text) => {
+    //  console.log(text);
+       setJobType(text?.value);
+       getItemDetailList(text?.value);
+     //  currentItem.jobType = text?.value;
+    };
+
   useEffect(() => {
     console.log("Hello", itemGroupCode);
-   
-    getItemDetailList(1);
+
+   // getItemDetailList(1);
+
     // getUserDetails();
     // console.log("IN ITEMS: preCategoriesRouteVal::", itemGroupCode, itemCode);
   }, []);
@@ -55,10 +75,10 @@ const [itemList, setItemList] = useState([]);
       preCategoriesRouteVal === "ordersList"
         ? navigation.navigate("PostOrder")
         : preCategoriesRouteVal === "quotationsList"
-        ? navigation.navigate("PostOrder")
-        : preCategoriesRouteVal === "purchaseReq"
-        ? navigation.navigate("PostPurchaseRequest")
-        : null;
+          ? navigation.navigate("PostOrder")
+          : preCategoriesRouteVal === "purchaseReq"
+            ? navigation.navigate("PostPurchaseRequest")
+            : null;
     }
   };
   const viewDetail = () => {
@@ -73,9 +93,9 @@ const [itemList, setItemList] = useState([]);
     if (!response.ok) return alert("Couldn't retrieve the Item Group list");
     // console.log(response.data);
     var items = response.data.data.filter((obj) => obj.name !== "Select Item");
-    console.log(items,"-----------------list--------->");
-    setItemList(items.filter((obj)=>obj.name !== ""));
-    setAllItemList(items.filter((obj)=>obj.name !== ""));
+    console.log(items, "-----------------list--------->");
+    setItemList(items.filter((obj) => obj.name !== ""));
+    setAllItemList(items.filter((obj) => obj.name !== ""));
 
     setprogressVisible(false);
   };
@@ -87,24 +107,24 @@ const [itemList, setItemList] = useState([]);
   });
   const handleSearch = text => {
     const formattedQuery = text.toUpperCase();
-    var data = allItemList.filter(function(item){
+    var data = allItemList.filter(function (item) {
       return item.name.toUpperCase().includes(formattedQuery);
     });
     setItemList(data);
   }
   const renderHeader = () => (
-      <AppInput
-          onChangeText={handleSearch}
-          placeholder='Search'
-          inputWrapperStyle={{
-            borderRadius: 25,
-            borderColor: '#333',
-            height: 50,
-            marginTop: -20,
-            marginHorizontal: 10,
-            backgroundColor: '#fff',
-          }}
-      />
+    <AppInput
+      onChangeText={handleSearch}
+      placeholder='Search'
+      inputWrapperStyle={{
+        borderRadius: 25,
+        borderColor: '#333',
+        height: 50,
+        marginTop: -20,
+        marginHorizontal: 10,
+        backgroundColor: '#fff',
+      }}
+    />
   )
   const renderItemsList = () => {
     return (
@@ -141,6 +161,35 @@ const [itemList, setItemList] = useState([]);
         navigation={navigation}
         headerTitle="Item Detail List"
       />
+
+      <View
+        style={{
+          marginHorizontal: 10,
+         marginTop: 30,
+          flexDirection: "row",
+        }}
+      >
+        <View style={{ width: "40%" }}>
+          <AppText style={styles.p1}>Select Item Type</AppText>
+        </View>
+        <View
+          style={{ width: "60%", marginTop: Platform.OS == "ios" ? 0 : -15 }}
+        >
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            listMode="MODAL"
+            onSelectItem={item => {
+              handleJobType(item)
+            }}
+          />
+        </View>
+      </View>
+
       <ProgressDialog
         visible={progressVisible}
         title="Loading data"
