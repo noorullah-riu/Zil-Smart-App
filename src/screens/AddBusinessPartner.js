@@ -31,6 +31,10 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const [cardName, setCardName] = useState("");
   const [cardType, setCardType] = useState("");
 
+  const [CNIC, setCNIC] = useState("");
+  const [STRN, setSTRN] = useState("");
+  const [NTN, setNTN] = useState("");
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
@@ -45,7 +49,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
     { label: "Company", value: "C" },
     { label: "Private", value: "P" },
     { label: "Government", value: "G" },
-    { label: "Employee", value: "E" },
+ /*    { label: "Employee", value: "E" }, */
   ]);
   const [open3, setOpen3] = useState(false);
   const [value3, setValue3] = useState(null);
@@ -69,6 +73,9 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const createobj = () => {
     let obj = {
       email: email,
+      cnic:CNIC,
+      ntn:NTN,
+      strn:STRN,
       fax: fax,
       paymentTerm: paymentTerms,
       approvedCreditLimit: approvedCreditLimit,
@@ -85,6 +92,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
   };
 
   const postPartner = async (obj) => {
+    console.log(obj,"-------> BP");
     setprogressVisible(true);
     const response = await postOrder.PostPartner(obj);
     setprogressVisible(false);
@@ -199,6 +207,37 @@ const AddBusinessPartner = ({ navigation, route }) => {
             onChangeText={(value) => setCardForeignName(value)}
           />
         </View>
+
+        <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
+          <AppText style={styles.label}>CNIC</AppText>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter CNIC NUMBER"
+            value={CNIC}
+            onChangeText={(value) => setCNIC(value)}
+          />
+        </View>
+
+        <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
+          <AppText style={styles.label}>STRN</AppText>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter STRN NUMBER"
+            value={STRN}
+            onChangeText={(value) => setSTRN(value)}
+          />
+        </View>
+
+        <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
+          <AppText style={styles.label}>NTN</AppText>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter NTN NUMBER"
+            value={NTN}
+            onChangeText={(value) => setNTN(value)}
+          />
+        </View>
+
         <View style={styles.row}>
           <View style={styles.childView}>
             <AppText style={styles.label}>E-mail</AppText>
@@ -330,10 +369,10 @@ const styles = StyleSheet.create({
   },
   picker: {
     padding: 10,
-    borderWidth: 1,
+   // borderWidth: 1,
     marginTop: 10,
-    borderColor: colors.white,
-    backgroundColor: colors.white,
+  //  borderColor: colors.white,
+   // backgroundColor: colors.white,
   },
   childView: {
     marginTop: 1,

@@ -281,7 +281,10 @@ const ItemsListDetailScreen = ({
   const alterState = () => {
     if (!lineTotal > 0) {
       alert("All Fields Required");
-    } else {
+    }else if (value == null) {
+      alert("Job Type Required");
+    }
+    else {
       currentItem.id = 1; // index;
       currentItem.jobType = "Rewinding"; //jobType;
       //  currentItem.discount = 0;

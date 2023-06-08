@@ -1,21 +1,38 @@
 import React from "react";
-import {StyleSheet, View} from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import AppText from "./AppText";
 import colors from "./colors";
 import AppRow from "./AppRow";
-import {FontAwesome5, Foundation} from "@expo/vector-icons";
+import { FontAwesome5, Foundation } from "@expo/vector-icons";
 
 const ExpenseListCard = ({ itemObject }) => {
     return (
         <View style={styles.card1}>
-            <AppRow style={{justifyContent: "space-between"}}>
+            <AppRow style={{ justifyContent: "space-between", marginBottom: 10 }}>
                 <AppRow>
-                    <FontAwesome5 name="calendar-day" size={15} color={colors.tertiary}/>
-                    <AppText style={styles.p6}> {itemObject.date.slice(0, 10)}</AppText>
+                    <TouchableOpacity onPress={() => alert("Delete this")}>
+                        <AppText style={styles.pD}>
+                            Delete
+                        </AppText>
+                    </TouchableOpacity>
                 </AppRow>
                 <AppRow>
-                    <Foundation name="dollar-bill" size={24} color={colors.tertiary}/>
-                    <AppText style={styles.p6}>{itemObject.Total}</AppText>
+                    <TouchableOpacity onPress={() => alert("Update")}>
+                        <AppText style={styles.pY}>
+                            Update
+                        </AppText>
+                    </TouchableOpacity>
+                </AppRow>
+            </AppRow>
+
+            <AppRow style={{ justifyContent: "space-between" }}>
+                <AppRow>
+                    <FontAwesome5 name="calendar-day" size={15} color={colors.tertiary} />
+                    <AppText style={styles.p6}>{itemObject.date.slice(0, 10)}</AppText>
+                </AppRow>
+                <AppRow>
+                    <Foundation name="dollar-bill" size={24} color={colors.tertiary} />
+                    <AppText style={styles.p6}>{itemObject.docTotal}</AppText>
                 </AppRow>
             </AppRow>
             <AppRow style={styles.row1}>
@@ -23,15 +40,6 @@ const ExpenseListCard = ({ itemObject }) => {
                     Customer: <AppText style={styles.p6}>{itemObject.customerName}</AppText>
                 </AppText>
             </AppRow>
-
-            {/*  <AppRow style={styles.row1}>
-        <AppText style={styles.p0}>
-          Dat From: <AppText style={styles.p6}>{itemObject.DateFrom.slice(0,10)}</AppText>
-        </AppText>
-        <AppText style={styles.p0}>
-          Date To: <AppText style={styles.p6}>{itemObject.ToDate.slice(0,10)}</AppText>
-        </AppText>
-      </AppRow>*/}
             <AppRow style={styles.row1}>
                 <AppText style={styles.p0}>
                     Payment Type: <AppText style={styles.p6}>{itemObject.paymentType}</AppText>
@@ -78,6 +86,16 @@ const styles = StyleSheet.create({
         color: colors.tertiary,
         fontWeight: "bold",
     },
+    pD: {
+        color: colors.tomato,
+        fontWeight: "bold",
+    },
+
+    pY: {
+        color: colors.yellow,
+        fontWeight: "bold",
+    },
+
     heading: {
         color: colors.secondary,
         fontWeight: "bold",
