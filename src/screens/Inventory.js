@@ -226,7 +226,7 @@ const Inventory = ({ navigation, route }) => {
       height:100px;
       width:200px;
       "
-        src="http://182.180.92.42:5555/Content/34234.PNG"
+        src="http://192.168.1.8:5555/Content/34234.PNG"
         alt="logo"
       />
       <u>
@@ -982,7 +982,7 @@ ew
       />
       <ProgressDialog
         visible={loading}
-        title="Exportng pdf" //"Posting Data"
+        title="Exporting pdf" //"Posting Data"
         message="Please wait..."
       />
 

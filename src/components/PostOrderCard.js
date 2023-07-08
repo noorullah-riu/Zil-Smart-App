@@ -98,7 +98,7 @@ const OrderDetailCard = ({
             <AppText style={styles.p7b}>{price}</AppText>
           </AppColumn>
           <AppColumn style={styles.c3}>
-            <AppText style={styles.p8b}>{currentItem.lineTotal}</AppText>
+            <AppText style={styles.p8b}>{currentItem.lineTotal.toFixed(4)}</AppText>
           </AppColumn>
           <AppColumn></AppColumn>
         </AppRow>

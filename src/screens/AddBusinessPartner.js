@@ -38,8 +38,8 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-/*     { label: "Vendor", value: "S" }, */
-    { label: "Customer", value: "C" },
+    /*     { label: "Vendor", value: "S" }, */
+    /*  { label: "Customer", value: "C" }, */
     { label: "Lead", value: "L" },
   ]);
 
@@ -49,7 +49,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
     { label: "Company", value: "C" },
     { label: "Private", value: "P" },
     { label: "Government", value: "G" },
- /*    { label: "Employee", value: "E" }, */
+    /*    { label: "Employee", value: "E" }, */
   ]);
   const [open3, setOpen3] = useState(false);
   const [value3, setValue3] = useState(null);
@@ -73,9 +73,9 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const createobj = () => {
     let obj = {
       email: email,
-      cnic:CNIC,
-      ntn:NTN,
-      strn:STRN,
+      cnic: CNIC,
+      ntn: NTN,
+      strn: STRN,
       fax: fax,
       paymentTerm: paymentTerms,
       approvedCreditLimit: approvedCreditLimit,
@@ -92,18 +92,27 @@ const AddBusinessPartner = ({ navigation, route }) => {
   };
 
   const postPartner = async (obj) => {
-    console.log(obj,"-------> BP");
-    setprogressVisible(true);
-    const response = await postOrder.PostPartner(obj);
-    setprogressVisible(false);
-    if (response.data.code === 0) {
-      Alert.alert("Success", "Successfully Posted Partner!", [{ text: "OK" }]);
-      navigation.navigate("Home");
-    } else {
-      Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
+    console.log(obj, "-------> BP");
+    if (cardName == "") {
+      Alert.alert("Error", "Name is required", [{ text: "OK" }]);
+    } else if (paymentTerms == 0) {
+      Alert.alert("Error", "Payment Term is required", [{ text: "OK" }]);
+    } else if (phone1 == "") {
+      Alert.alert("Error", "Mobile Number is required", [{ text: "OK" }]);
     }
+    else {
+      setprogressVisible(true);
+      const response = await postOrder.PostPartner(obj);
+      setprogressVisible(false);
+      if (response.data.code === 0) {
+        Alert.alert("Success", "Successfully Posted Partner!", [{ text: "OK" }]);
+        navigation.navigate("Home");
+      } else {
+        Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
+      }
 
-    if (!response.ok) return Alert.alert("Unable to post");
+      if (!response.ok) return Alert.alert("Unable to post");
+    }
   };
 
   const pickerStyle = {
@@ -295,31 +304,6 @@ const AddBusinessPartner = ({ navigation, route }) => {
         >
           <AppText style={styles.label}>Payment Terms</AppText>
           <View style={styles.picker}>
-            {/*   <RNPickerSelect
-              onValueChange={(value, indx) => setPaymentTerms(value)}
-              items={[
-                { label: "02 Days", value: 11 },
-                { label: "03 Days", value: 9 },
-                { label: "04 Days", value: 10 },
-                { label: "07 Days", value: 5 },
-                { label: "10 Days", value: 7 },
-                { label: "100% Advance", value: 14 },
-                { label: "15 Days", value: 1 },
-                { label: "20 Days", value: 2 },
-                { label: "25 Days", value: 6 },
-                { label: "30 Days", value: 3 },
-                { label: "40 Days", value: 8 },
-                { label: "45 Days", value: 4 },
-                { label: "60 Days", value: 1 },
-                { label: "Advance", value: 1 },
-              ]}
-              placeholder={{
-                label: "Select Payment Terms",
-                value: null,
-              }}
-              useNativeAndroidPickerStyle={false}
-              style={pickerStyle}
-            /> */}
             <DropDownPicker
               open={open3}
               value={value3}
@@ -329,7 +313,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
               setItems={setItems3}
               listMode="MODAL"
               onSelectItem={item => {
-                setEntity1(item.value)
+                setPaymentTerms(item.value)
               }}
             />
           </View>
@@ -369,10 +353,10 @@ const styles = StyleSheet.create({
   },
   picker: {
     padding: 10,
-   // borderWidth: 1,
+    // borderWidth: 1,
     marginTop: 10,
-  //  borderColor: colors.white,
-   // backgroundColor: colors.white,
+    //  borderColor: colors.white,
+    // backgroundColor: colors.white,
   },
   childView: {
     marginTop: 1,

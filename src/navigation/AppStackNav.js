@@ -69,8 +69,10 @@ import StackManager from "./StackManager";
 // monthly-sales-performance-report
 import SalesPerformanceReport from "../screens/SalesPerformanceReport";
 import SalesCommissionReport from "../screens/SalesCommissionReport";
+import PostExpenseUpdate from "../screens/PostExpenseUpdate";
 // Noor/Orders-Module
-
+import StackCoordinator from "./StackCoordnator";
+import StackOfficer from "./StackOfficer"
 const { Navigator, Screen } = createStackNavigator();
 
 const AppStackNav = ({ navigation }) => {
@@ -304,6 +306,13 @@ const AppStackNav = ({ navigation }) => {
           headerShown: false,
         }}
       />
+        <Screen
+        name="PostExpenseUpdate"
+        component={PostExpenseUpdate}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Screen
         name="Sales"
         component={Sales}
@@ -386,6 +395,21 @@ const AppStackNav = ({ navigation }) => {
       <Screen
         name="StackManager"
         component={StackManager}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Screen
+        name="StackCoordinator"
+        component={StackCoordinator}
+        options={{
+          headerShown: false,
+        }}
+      />
+          <Screen
+        name="StackOfficer"
+        component={StackOfficer}
         options={{
           headerShown: false,
         }}

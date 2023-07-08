@@ -3,6 +3,9 @@ import { StyleSheet, Image, SafeAreaView, View, ScrollView, TouchableOpacity } f
 import AppText from './AppText';
 import colors from "./colors";
 import AppRow from './AppRow';
+import moment from "moment";
+
+
 const OrderListCard = ({ navigation, id, value, name, item, orderDate, deliveryDate, docEntry }) => {
     // console.log("docnum:",item)
     return (
@@ -18,8 +21,8 @@ const OrderListCard = ({ navigation, id, value, name, item, orderDate, deliveryD
                     <AppText style={styles.p4}>{name}</AppText>
 
                 </AppRow>
-                <AppText style={styles.p6}>Order Date:     <AppText style={styles.p6b}>{orderDate}</AppText></AppText>
-                <AppText style={styles.p7}>Delivery Date: <AppText style={styles.p7b}>{deliveryDate}</AppText></AppText>
+                <AppText style={styles.p6}>Order Date:     <AppText style={styles.p6b}>{moment(orderDate).utc().format('YYYY-MM-DD')}</AppText></AppText>
+                <AppText style={styles.p7}>Delivery Date: <AppText style={styles.p7b}>{moment(deliveryDate).utc().format('YYYY-MM-DD')}</AppText></AppText>
                 {/* <AppText style={styles.p7}>Doc Entry: <AppText style={styles.p7b}>{docEntry}</AppText></AppText> */}
                 <AppText style={styles.p6}>Remarks: <AppText style={styles.p6b}>{item.remarks}</AppText></AppText>
            

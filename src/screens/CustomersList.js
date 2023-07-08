@@ -26,18 +26,20 @@ const CustomersList = ({ navigation, route }) => {
   }, []);
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
-    setSpc(JSON.parse(jsonValue).salePersonCode);
+   // setSpc(JSON.parse(jsonValue).salePersonCode);
     getAllCustomers(JSON.parse(jsonValue).salePersonCode);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   };
   const getAllCustomers = async (code) => {
     setprogressVisible(true);
+   // alert(code)
     const response = await allCustomersApi.getAllCustomers(code);
     setprogressVisible(false);
     if (!response.ok)
       return Alert.alert("Couldn't retrieve the customers List");
     setCustomers(response.data.Data);
   };
+// "salePersonCode": 2,
 
   return (
     <SafeAreaView>

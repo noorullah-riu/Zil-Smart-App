@@ -10,9 +10,15 @@ const getAllCustomers = (code) =>
   const getAllSAPItemsReportRelated = () =>
   client.get(`/SaleOrderApi/GetAllSAPItemsForJumboBatchReport`);
 
+  const GetItemsForInventoryReport = () =>
+  client.get(`/SaleOrderApi/GetItemsForInventoryReport`);
+
+  
+
   
 export default {
   getAllCustomers,
   getAllSAPItems,
   getAllSAPItemsReportRelated,
+  GetItemsForInventoryReport,
 };

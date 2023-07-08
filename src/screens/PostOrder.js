@@ -54,7 +54,7 @@ const PostOrder = ({ route, navigation }) => {
   const [usdRate, setUsdRate] = useState(0);
   const [rmbRate, setRmbRate] = useState(0);
 
-  const [discount, setDiscount] = useState(0);
+  const [discount, setDiscount] = useState();
   const [discountAmount, setDiscountAmount] = useState(0);
 
   const [vat, setVat] = useState("");
@@ -105,8 +105,8 @@ const PostOrder = ({ route, navigation }) => {
     // handleDateChange(today);
   };
 
-/*   const [isPickerShow, setIsPickerShow] = useState(false);
-  const [date, setDate] = useState(new Date(Date.now())); */
+  /*   const [isPickerShow, setIsPickerShow] = useState(false);
+    const [date, setDate] = useState(new Date(Date.now())); */
   const display = () => {
     if (Date == null) {
       return <Text>{title}</Text>;
@@ -133,13 +133,17 @@ const PostOrder = ({ route, navigation }) => {
     cartItem.forEach((element) => {
       res += parseInt(element.lineTotal);
     });
+    let gt = res - (0 / 100) * res;
+    setGrandTotal(gt);
     setSubTotal(res);
   };
 
-  // const [date, setDate] = useState("");
+
+  
 
   useEffect(() => {
     // getAllVatGroups();
+   // alert("effect");
     findSubTotal();
     getCustomerDetails();
     getUserDetails();
@@ -206,7 +210,7 @@ const PostOrder = ({ route, navigation }) => {
     sosq["customerCode"] = customer.CardCode;
     sosq["customerName"] = customer.CardName;
     (sosq["deliveryDate"] = fromdate), //;
-      (sosq["series"] = 162);
+      (sosq["series"] = 181);
     sosq["remarks"] = remarks;
     sosq["docDueDate"] = todaysdate;
     sosq["docDate"] = todaysdate;
@@ -241,44 +245,43 @@ const PostOrder = ({ route, navigation }) => {
 
   const postQuotation = async () => {
     // console.log("postQuotation called");
-if(fromdate)
-{
-    sosq["SapUserCode"] = user.sapUserCOde; //
-    sosq["salePersonCode"] = user.salePersonCode; //
-    sosq["customerCode"] = customer.CardCode;
-    sosq["customerName"] = customer.CardName;
-    sosq["deliveryDate"] = fromdate; //"13-05-2023"), //date;
-      (sosq["series"] = 165);
-    sosq["remarks"] = remarks;
+    if (fromdate) {
+      sosq["SapUserCode"] = user.sapUserCOde; //
+      sosq["salePersonCode"] = user.salePersonCode; //
+      sosq["customerCode"] = customer.CardCode;
+      sosq["customerName"] = customer.CardName;
+      sosq["deliveryDate"] = fromdate; //"13-05-2023"), //date;
+      (sosq["series"] = 182);
+      sosq["remarks"] = remarks;
 
-    sosq["docDueDate"] = todaysdate;
-    sosq["docDate"] = todaysdate;
-    sosq["vatGroup"] = vatGroup; //
-    sosq["localORImport"] = type; //
-    sosq["seriesString"] = seriesNo; //
-    sosq["docCurrency"] = currencyType;
-    sosq["docRate"] = dollarRate;
-    sosq["discountPercent"] = discount; //
-    saleOrder["saleOrderAndSaleQutation"] = sosq;
-    saleOrder["masterItems"] = cartItem;
+      sosq["docDueDate"] = todaysdate;
+      sosq["docDate"] = todaysdate;
+      sosq["vatGroup"] = vatGroup; //
+      sosq["localORImport"] = type; //
+      sosq["seriesString"] = seriesNo; //
+      sosq["docCurrency"] = currencyType;
+      sosq["docRate"] = dollarRate;
+      sosq["discountPercent"] = discount; //
+      saleOrder["saleOrderAndSaleQutation"] = sosq;
+      saleOrder["masterItems"] = cartItem;
 
-    console.log("saleQUOTATION", saleOrder);
-    setprogressVisible(true);
-    const response = await postQuotationApi.postQuotation(saleOrder);
-    console.log("in postQuotation", response);
-    setprogressVisible(false);
-    if (response.data.code === 0) {
-      Alert.alert("Success", "Successfully Posted!", [{ text: "OK" }]);
-      navigation.navigate("Home");
-      setCartItem([]);
+      console.log("saleQUOTATION", saleOrder);
+      setprogressVisible(true);
+      const response = await postQuotationApi.postQuotation(saleOrder);
+      console.log("in postQuotation", response);
+      setprogressVisible(false);
+      if (response.data.code === 0) {
+        Alert.alert("Success", "Successfully Posted!", [{ text: "OK" }]);
+        navigation.navigate("Home");
+        setCartItem([]);
+      } else {
+        Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
+      }
+
+      if (!response.ok) return Alert.alert("Unable to post Quotation");
     } else {
-      Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
+      Alert.alert("Please select delivery date")
     }
-
-    if (!response.ok) return Alert.alert("Unable to post Quotation");
-  }else{
-    Alert.alert("Please select delivery date") 
-  }
   };
 
   const getUserDetails = async () => {
@@ -299,9 +302,12 @@ if(fromdate)
     value === "USD"
       ? setDollarRate(usdRate)
       : value === "RMB"
-      ? setDollarRate(rmbRate)
-      : null;
+        ? setDollarRate(rmbRate)
+        : null;
   };
+
+
+
   const footer = () => {
     const handleDiscountInput = (value) => {
       setDiscount(value);
@@ -367,6 +373,8 @@ if(fromdate)
                   label: "Select VAT group",
                   value: null,
                   color: colors.primaryBlue,
+
+                  
                 }}
                 onValueChange={(value) => onVatSelect(value)}
                 value={vatGroup}
@@ -436,7 +444,7 @@ if(fromdate)
             />
           </View> */}
 
-     {/*      <AppRow
+          {/*      <AppRow
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <View style={{ marginTop: 0, flex: 1 }}>
@@ -463,44 +471,44 @@ if(fromdate)
               </View>
             </View>
           </AppRow> */}
-              <Pressable
-          onPress={() => setIsPickerShow(true)}
-          style={{
-            flexDirection: "row",
-            marginTop: 20,
-       //     borderColor: "#aaa",
-        //    borderWidth: 1,
-          }}
-        >
-          <View
+          <Pressable
+            onPress={() => setIsPickerShow(true)}
             style={{
-           //   marginHorizontal: sizes.base_margin,
-              marginVertical: 0,
-              flex: 1,
-              justifyContent: "center",
+              flexDirection: "row",
+              marginTop: 20,
+              //     borderColor: "#aaa",
+              //    borderWidth: 1,
             }}
           >
-            <AppText style={styles.p1}>Delivery Date</AppText>
-          </View>
-
-          <View
-            style={{
-              marginTop: 0,
-              flex: 1,
-              backgroundColor: "#fff",
-              height: 40,
-              justifyContent: "center",
-            }}
-          >
-            <View style={{}}>
-              <AppText style={{ colors: "#555" }}>
-                {/* {display()} */} {fromdate}
-              </AppText>
+            <View
+              style={{
+                //   marginHorizontal: sizes.base_margin,
+                marginVertical: 0,
+                flex: 1,
+                justifyContent: "center",
+              }}
+            >
+              <AppText style={styles.p1}>Delivery Date</AppText>
             </View>
-          </View>
-        </Pressable>
-        
-        {isPickerShow && (
+
+            <View
+              style={{
+                marginTop: 0,
+                flex: 1,
+                backgroundColor: "#fff",
+                height: 40,
+                justifyContent: "center",
+              }}
+            >
+              <View style={{}}>
+                <AppText style={{ colors: "#555" }}>
+                  {/* {display()} */} {fromdate}
+                </AppText>
+              </View>
+            </View>
+          </Pressable>
+
+          {isPickerShow && (
             <DateTimePicker
               value={date}
               mode={"date"}

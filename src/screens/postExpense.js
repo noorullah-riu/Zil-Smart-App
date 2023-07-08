@@ -147,7 +147,7 @@ const PostExpense = ({ navigation }) => {
             <View style={{ marginTop: 0, marginBottom: 5 }}>
               <AppText style={styles.label}>Payment Type</AppText>
             </View>
-            <View
+         {/*    <View
               style={{
                 backgroundColor: colors.white,
                 borderRadius: 5,
@@ -156,7 +156,8 @@ const PostExpense = ({ navigation }) => {
                 textAlign: "center",
                 justifyContent: "center",
               }}
-            >
+            > */}
+             <View style={styles.picker}>
               {/*        <RNPickerSelect
                 style={{ inputAndroid: { color: "black" } }}
                 placeholder={{
@@ -328,6 +329,13 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontSize: sizes.normal_font,
     fontWeight: "bold",
+  },
+  picker: {
+    padding: 5,
+   // borderWidth: 1,
+    marginTop: 0,
+  //  borderColor: colors.white,
+   // backgroundColor: colors.white,
   },
   input: {
     backgroundColor: colors.white,

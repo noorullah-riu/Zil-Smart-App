@@ -225,7 +225,7 @@ const Ledger = ({ navigation, route }) => {
       height:100px;
       width:200px;
       "
-        src="http://182.180.92.42:5555/Content/zil%20final%20logo-02.png"
+        src="http://192.168.1.8:5555/Content/34234.PNG"
         alt="logo"
       />
       <u>
@@ -564,7 +564,6 @@ const Ledger = ({ navigation, route }) => {
         class="s3"
         style="
           padding-right: 3pt;
-
           text-align: center;
         "
       >

@@ -41,7 +41,7 @@ const InventoryItems = ({ navigation, route }) => {
   };
   const getAllCustomers = async (code) => {
     setprogressVisible(true);
-    const response = await allCustomersApi.getAllSAPItemsReportRelated();
+    const response = await allCustomersApi.GetItemsForInventoryReport();
 
    //  console.log("list", response.data);
     if (!response.ok)

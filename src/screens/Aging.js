@@ -226,7 +226,7 @@ const AgingReport = ({ navigation, route }) => {
         <td
           style=" width: 34%; border-right-width:
           0px;border-bottom-width: 0px; font-weight: bold;">
-          <img src="http://182.180.92.42:5555/Content/34234.PNG"
+          <img src="http://192.168.1.8:5555/Content/34234.PNG"
           alt="logo"> </td>
         <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
      <u>
@@ -368,6 +368,24 @@ const AgingReport = ({ navigation, route }) => {
       91-120
       </p>
     </td>
+
+    <td
+    style="
+      width: 10%;
+      border-top-style: solid;
+      border-top-width: 1pt;
+      border-left-style: solid;
+      border-left-width: 1pt;
+      border-bottom-style: solid;
+      border-bottom-width: 1pt;
+      border-right-style: solid;
+      border-right-width: 1pt;
+    "
+  >
+    <p class="s3" style="padding-right: 4pt; text-align: left">
+    120+
+    </p>
+  </td>
         </tr>
       `;
 
@@ -528,7 +546,6 @@ const AgingReport = ({ navigation, route }) => {
                 class="s4"
                 style="
                   padding-right: 3pt;
-    
                   text-align: left;
                 "
               >
@@ -553,6 +570,24 @@ const AgingReport = ({ navigation, route }) => {
               ${item.ninetyonetoonetwnety}
               </p>
             </td>
+
+            <td
+            style="
+              width: 10%;
+              border-top-style: solid;
+              border-top-width: 1pt;
+              border-left-style: solid;
+              border-left-width: 1pt;
+              border-bottom-style: solid;
+              border-bottom-width: 1pt;
+              border-right-style: solid;
+              border-right-width: 1pt;
+            "
+          >
+            <p class="s4" style="padding-right: 4pt; text-align: left">
+            ${item.onetwentyplus}
+            </p>
+          </td>
  
           </tr>
             `;

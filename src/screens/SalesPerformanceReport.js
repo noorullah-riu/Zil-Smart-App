@@ -511,7 +511,7 @@ const SalesPerformanceReport = ({ navigation }) => {
           <td
             style=" width: 34%; border-right-width:
             0px;border-bottom-width: 0px; font-weight: bold;">
-            <img src="http://182.180.92.42:5555/Content/34234.PNG"
+            <img src="http://192.168.1.8:5555/Content/34234.PNG"
             alt="logo"> </td>
           <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
        <u>

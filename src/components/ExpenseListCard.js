@@ -1,23 +1,51 @@
-import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import AppText from "./AppText";
 import colors from "./colors";
 import AppRow from "./AppRow";
 import { FontAwesome5, Foundation } from "@expo/vector-icons";
+import postExpenseApi from "../api/postExpense";
+import { ProgressDialog } from "react-native-simple-dialogs";
 
-const ExpenseListCard = ({ itemObject }) => {
+const ExpenseListCard = ({ itemObject, navigation, setExpenesList }) => {
+    const [progressVisible, setprogressVisible] = useState(false);
+
+    const handleDeleteExpense = async (id) => {
+        setprogressVisible(true);
+        console.log(id, "----------expenseObj");
+        const response = await postExpenseApi.deleteExpense(id);
+        if (response.ok) {
+            setprogressVisible(false);
+            setExpenesList([]);
+            navigation.navigate("Home");
+            Alert.alert("Deleted");
+
+        }
+        if (!response.ok) {
+            setprogressVisible(false);
+            //  navigation.navigate("Expenses");
+            Alert.alert(response.data.Message);
+            //  
+        }
+    };
+
     return (
         <View style={styles.card1}>
+            <ProgressDialog
+                visible={progressVisible}
+                title="Deletng Item"
+                message="Please wait..."
+            />
             <AppRow style={{ justifyContent: "space-between", marginBottom: 10 }}>
                 <AppRow>
-                    <TouchableOpacity onPress={() => alert("Delete this")}>
+                    <TouchableOpacity onPress={() => handleDeleteExpense(itemObject.docEntry)}>
                         <AppText style={styles.pD}>
                             Delete
                         </AppText>
                     </TouchableOpacity>
                 </AppRow>
                 <AppRow>
-                    <TouchableOpacity onPress={() => alert("Update")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("PostExpenseUpdate", { itemObject: itemObject })}>
                         <AppText style={styles.pY}>
                             Update
                         </AppText>
@@ -46,6 +74,11 @@ const ExpenseListCard = ({ itemObject }) => {
                 </AppText>
                 <AppText style={styles.p0}>
                     Cheque #: <AppText style={styles.p6}>{itemObject.checkNo}</AppText>
+                </AppText>
+            </AppRow>
+            <AppRow style={styles.row1}>
+                <AppText style={styles.p0}>
+                    Amount PKR :<AppText style={styles.p6}>{itemObject.amount}</AppText>
                 </AppText>
             </AppRow>
             <AppRow style={styles.row1}>

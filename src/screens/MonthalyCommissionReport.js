@@ -205,7 +205,7 @@ const MonthalyCommissionReport = ({ navigation, route }) => {
         <h1 style="padding-top: 2pt; text-align: center">
           GULF PACKAGING (PVT) LTD
         </h1>
-        <h2 style="padding-top: 2pt; text-align: center">Aging Report</h2>
+        <h2 style="padding-top: 2pt; text-align: center">Commission Report</h2>
       </u>
   
       <table

@@ -77,16 +77,23 @@ const LoginScreen = ({ navigation }) => {
       res?.data?.userDetails?.typeOfUser === "Manager"
     ) {
       setprogressVisible(false);
-      storeUserDetails(res.data.Data);
+      storeUserDetails(res.data.userDetails);
       navigation.navigate("StackManager");
     } else if (
       res.data.userDetails !== null &&
-      res?.data?.userDetails?.typeOfUser === "Tech"
+      res?.data?.userDetails?.typeOfUser === "Coordinator"
     ) {
       setprogressVisible(false);
       storeUserDetails(res.data.userDetails);
-      navigation.navigate("StackManager");
-    } else {
+      navigation.navigate("StackCoordinator");
+    }else if (
+      res.data.userDetails !== null &&
+      res?.data?.userDetails?.typeOfUser === "Officer"
+    ) {
+      setprogressVisible(false);
+      storeUserDetails(res.data.userDetails);
+      navigation.navigate("StackOfficer");
+    }else {
       Alert.alert("Error!", res.data.message, [
         { text: "OK", onPress: () => setprogressVisible(false) },
       ]);
@@ -105,8 +112,8 @@ const LoginScreen = ({ navigation }) => {
     return (
       <Formik
         initialValues={{
-          UserCode: "Azmat",
-          Password: "12345",
+          UserCode: "",
+          Password: "",
         }}
         onSubmit={(values) => handleCustomerUserLogin(values)}
         validationSchema={validationSchema1}

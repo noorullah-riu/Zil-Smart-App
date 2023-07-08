@@ -9,7 +9,7 @@ const ItemCardNew = ({ searchPhrase, setClicked, data, navigation, route }) => {
       return (
         <Card911
           item={item}
-          name={item.itemName}
+          name={item.name}
           code={item.itemCode}
           // route={route}
           navigation={navigation}
@@ -17,7 +17,7 @@ const ItemCardNew = ({ searchPhrase, setClicked, data, navigation, route }) => {
       );
     }
     if (
-      item.itemName
+      item.name
         .toUpperCase()
         .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
     ) {
@@ -25,7 +25,7 @@ const ItemCardNew = ({ searchPhrase, setClicked, data, navigation, route }) => {
         <Card911
           item={item}
           //   name={item.CardName}
-          name={item.itemName}
+          name={item.name}
           code={item.itemCode}
           navigation={navigation}
         />

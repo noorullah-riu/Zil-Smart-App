@@ -95,6 +95,7 @@ const PostOrderEdit = ({ route, navigation }) => {
   useEffect(() => {
     // getAllVatGroups();
     findSubTotal();
+
     setCartItem(draftTableDetail);
     getCustomerDetails();
     getUserDetails();
@@ -160,7 +161,7 @@ const PostOrderEdit = ({ route, navigation }) => {
     sosq["customerCode"] = itemx.customerCode;
     sosq["customerName"] = itemx.customerName;
     sosq["deliveryDate"] = todaysdate,//"2023/05/24",//date;
-    sosq["series"] = 162;
+    sosq["series"] = 181;
     sosq["remarks"] = remarks;
     sosq["docDueDate"] = todaysdate;
     sosq["docDate"] = todaysdate;
