@@ -11,6 +11,9 @@ import colors from "../components/colors";
 import AppButton from "../components/AppButton";
 import AppRow from "../components/AppRow";
 import POHeaderDetailsApi from "../api/pendingOrderReport";
+import DropDownPicker from "react-native-dropdown-picker";
+import allCustomersApi from "../api/allCustomers";
+
 
 const PendngOrderListReport = ({ navigation, route }) => {
   const [progressVisible, setprogressVisible] = useState(false);
@@ -18,37 +21,31 @@ const PendngOrderListReport = ({ navigation, route }) => {
   const [slp, setSlp] = useState(0);
   const [loading, setloading] = useState(false);
 
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [Customers, setCustomers] = useState([]);
+  const [Customer, setCustomer] = useState("");
+
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
+    getAllCustomers(JSON.parse(jsonValue).salePersonCode);
     setSlp(JSON.parse(jsonValue).salePersonCode);
-    getPOHeaderData(JSON.parse(jsonValue).salePersonCode);
+
+    // getPOHeaderData(JSON.parse(jsonValue).salePersonCode);
   };
 
-  const getPOHeaderData = async (slpCode) => {
-    setprogressVisible(true);
-    const response = await POHeaderDetailsApi.getPOHeaderDetails(slpCode);
-    setPOHeaderData(response?.data.data);
-    setprogressVisible(false);
+  const getPOHeaderData = async () => {
+    if (Customer == "") {
+      alert("Please select customer")
+    } else {
+      setprogressVisible(true);
+      const response = await POHeaderDetailsApi.getPOHeaderDetails(slp, Customer);
+      setPOHeaderData(response?.data.data);
+      setprogressVisible(false);
+    }
   };
 
-  const exportPdfBtn = () => {
-    return (
-      <>
-        <TouchableOpacity
-          onPress={() => createAndSavePDF()}
-          style={{ marginVertical: 15 }}
-        >
-          <AppButton
-            text="Export pdf"
-            iconFreeButton
-            loginBtnStyle={styles.loginBtnStyle}
-            navigation={navigation}
-            navigation1="Login"
-          />
-        </TouchableOpacity>
-      </>
-    );
-  };
+
 
   const pOReportHeading = () => (
     <>
@@ -61,6 +58,17 @@ const PendngOrderListReport = ({ navigation, route }) => {
       </AppRow>
     </>
   );
+
+
+  const getAllCustomers = async (code) => {
+    //  setprogressVisible(true);
+    // alert(code)
+    const response = await allCustomersApi.getAllCustomers(code);
+    // setprogressVisible(false);
+    if (!response.ok)
+      return Alert.alert("Couldn't retrieve the customers List");
+    setCustomers(response.data.Data);
+  };
 
   useEffect(() => {
     getUserDetails();
@@ -77,7 +85,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
           renderItem={({ item, index }) => {
             return <POReportCard item={item} />;
           }}
-          ListFooterComponent={exportPdfBtn}
+          //    ListFooterComponent={exportPdfBtn}
           key={(item) => {
             `-${item.docNum}-${item.docDate}`;
           }}
@@ -86,23 +94,26 @@ const PendngOrderListReport = ({ navigation, route }) => {
     );
   };
   const createAndSavePDF = async () => {
-    setloading(true);
-    function generatePDFTemplate() {
-      let TotalYds = 0;
-      let TotalCtns = 0;
-      let GroupCtnsTotal = 0;
-      let GroupYdsTotal = 0;
-      let GroupMtrsReqTotal = 0;
+    if (Customer == "") {
+      alert("Please select customer")
+    } else {
+      setloading(true);
+      function generatePDFTemplate() {
+        let TotalYds = 0;
+        let TotalCtns = 0;
+        let GroupCtnsTotal = 0;
+        let GroupYdsTotal = 0;
+        let GroupMtrsReqTotal = 0;
 
-      let sNum = 0;
+        let sNum = 0;
 
-      const tableRows1 = p_oHeaderData
-        .map((object) => {
-          sNum++;
-          GroupCtnsTotal = 0;
-          GroupYdsTotal = 0;
-          let rows = "";
-          return `
+        const tableRows1 = p_oHeaderData
+          .map((object) => {
+            sNum++;
+            GroupCtnsTotal = 0;
+            GroupYdsTotal = 0;
+            let rows = "";
+            return `
         <tr>
           <td style="text-align:center;;font-size:small;">
            ${sNum}
@@ -121,9 +132,8 @@ const PendngOrderListReport = ({ navigation, route }) => {
           <td style="font-weight: bold;text-align: center;">
             ${object.docDate.split(" ")[0]}
           </td>
-          <td style="text-align: center;">${
-            object.docDueDate.split(" ")[0]
-          }</td>
+          <td style="text-align: center;">${object.docDueDate.split(" ")[0]
+              }</td>
           <td style="font-weight: bold;text-align: center;"></td>
           <td style="font-weight: bold;text-align: center;"></td>
           <td style="font-weight: bold;text-align: center;"></td>
@@ -134,16 +144,16 @@ const PendngOrderListReport = ({ navigation, route }) => {
         </tr>
         <div>
         ${object.orderDetails
-          .map((innerObj) => {
-            const yds = parseFloat(innerObj.yds);
-            const cartons = parseFloat(innerObj.cartons);
-            GroupCtnsTotal += parseFloat(innerObj.cartons);
-            GroupYdsTotal += parseFloat(innerObj.yds);
-            GroupMtrsReqTotal = "N.A";
-            TotalYds += yds;
-            TotalCtns += cartons;
+                .map((innerObj) => {
+                  const yds = parseFloat(innerObj.yds);
+                  const cartons = parseFloat(innerObj.cartons);
+                  GroupCtnsTotal += parseFloat(innerObj.cartons);
+                  GroupYdsTotal += parseFloat(innerObj.yds);
+                  GroupMtrsReqTotal = "N.A";
+                  TotalYds += yds;
+                  TotalCtns += cartons;
 
-            return `
+                  return `
               <tr>
                 <td style="text-align: center;"></td>
                 <td style="text-align: center;"></td>
@@ -178,8 +188,8 @@ const PendngOrderListReport = ({ navigation, route }) => {
                   ${innerObj.count}
                 </td>
               </tr>`;
-          })
-          .join("")}
+                })
+                .join("")}
         <tr>
           <td style="text-align: center;"></td>
           <td style="text-align: center;"></td>
@@ -201,9 +211,9 @@ const PendngOrderListReport = ({ navigation, route }) => {
        
       </div>
         `;
-        })
-        .join("");
-      const htmlTemplate = `
+          })
+          .join("");
+        const htmlTemplate = `
       <!DOCTYPE html>
       <html>
         <head>
@@ -460,24 +470,25 @@ const PendngOrderListReport = ({ navigation, route }) => {
       </html>
     `;
 
-      return htmlTemplate;
-    }
-
-    const pdfTemplate = generatePDFTemplate();
-    try {
-      var htm = pdfTemplate;
-      const { uri } = await Print.printToFileAsync({
-        html: pdfTemplate,
-      });
-      if (Platform.OS === "ios") {
-        await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
-        await Sharing.shareAsync(uri);
-      } else {
-        setloading(false);
-        navigation.navigate("PdfView", { uril: htm });
+        return htmlTemplate;
       }
-    } catch (error) {
-      console.error(error);
+
+      const pdfTemplate = generatePDFTemplate();
+      try {
+        var htm = pdfTemplate;
+        const { uri } = await Print.printToFileAsync({
+          html: pdfTemplate,
+        });
+        if (Platform.OS === "ios") {
+          await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
+          await Sharing.shareAsync(uri);
+        } else {
+          setloading(false);
+          navigation.navigate("PdfView", { uril: htm });
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
   return (
@@ -511,6 +522,57 @@ const PendngOrderListReport = ({ navigation, route }) => {
         title="Exporting Pdf"
         message="Please wait..."
       />
+
+      <View
+        style={{ marginHorizontal: 10, marginVertical: 20 }}
+      >
+        <AppText style={{}}>Select Customer</AppText>
+        <View style={styles.picker}>
+          <DropDownPicker
+            open={open}
+            value={value}
+            // items={items}
+            items={Customers?.map(option => ({
+              label: option.CardName,
+              value: option.CardCode,
+            }))}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setCustomers}
+            listMode="MODAL"
+            onSelectItem={item => {
+              setCustomer(item.value)
+            }}
+          />
+        </View>
+      </View>
+      <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity
+          onPress={() => getPOHeaderData()}
+          style={{ width: "50%" }}
+        >
+          <AppButton
+            text="Get Data"
+            iconFreeButton
+            loginBtnStyle={styles.loginBtnStyle}
+            navigation={navigation}
+            navigation1="Login"
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => createAndSavePDF()}
+          style={{ width: "50%" }}
+        >
+          <AppButton
+            text="Export pdf"
+            iconFreeButton
+            loginBtnStyle={styles.loginBtnStyle}
+            navigation={navigation}
+            navigation1="Login"
+          />
+        </TouchableOpacity>
+      </View>
       <POReportHeadersList />
     </View>
   );

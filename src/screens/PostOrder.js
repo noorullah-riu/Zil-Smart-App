@@ -226,7 +226,7 @@ const PostOrder = ({ route, navigation }) => {
     saleOrder["saleOrderAndSaleQutation"] = sosq;
     saleOrder["masterItems"] = cartItem;
 
-    console.log("saleOrder:", saleOrder);
+    console.log("saleOrder====>", saleOrder);
     setprogressVisible(true);
     const response = await postOrderApi.postOrder(saleOrder);
     console.log("saleOrder response:", response.data);

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  Pressable,
   Alert,
   Platform,
 } from "react-native";
@@ -77,9 +78,9 @@ const ItemsListDetailScreen = ({
   }; */
 
   const handleJobType = (text) => {
-  //  console.log(text);
-     setJobType(text?.value);
-     currentItem.jobType = text?.value;
+    //  console.log(text);
+    setJobType(text?.value);
+    currentItem.jobType = text?.value;
   };
 
   const handleBasePriceInput = (text) => {
@@ -281,12 +282,13 @@ const ItemsListDetailScreen = ({
   const alterState = () => {
     if (!lineTotal > 0) {
       alert("All Fields Required");
-    }else if (value == null) {
+    } else if (value == null) {
       alert("Job Type Required");
     }
     else {
       currentItem.id = 1; // index;
       currentItem.jobType = "Rewinding"; //jobType;
+      currentItem.$id = Math.floor(Math.random() * 1000);
       //  currentItem.discount = 0;
       // currentItem.adjustmentPrice = 0;
       currentItem.vatGourpSa = "S1";
@@ -380,7 +382,7 @@ const ItemsListDetailScreen = ({
               setValue={setValue}
               setItems={setItems}
               listMode="MODAL"
-              onSelectItem={item=>{
+              onSelectItem={item => {
                 handleJobType(item)
               }}
             />
@@ -427,7 +429,7 @@ const ItemsListDetailScreen = ({
               value={pcsPCarton}
               placeholder="Pcs/DznsPerCarton"
               style={{ paddingHorizontal: 0, height: 25 }}
-              //   placeholderTextColor={colors.tertiary}
+            //   placeholderTextColor={colors.tertiary}
             />
           </View>
         </View>
@@ -447,7 +449,7 @@ const ItemsListDetailScreen = ({
               value={Cartons}
               placeholder="Cartons"
               style={{ paddingHorizontal: 0, height: 25 }}
-              //   placeholderTextColor={colors.tertiary}
+            //   placeholderTextColor={colors.tertiary}
             />
           </View>
 
@@ -460,7 +462,7 @@ const ItemsListDetailScreen = ({
               value={PrntedCost}
               placeholder={PrntedCost?.toString()}
               style={{ paddingHorizontal: 0, height: 25 }}
-              //   placeholderTextColor={colors.tertiary}
+            //   placeholderTextColor={colors.tertiary}
             />
           </View>
         </View>

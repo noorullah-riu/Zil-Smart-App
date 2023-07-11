@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { SafeAreaView, FlatList, View, StyleSheet, Alert, useWindowDimensions, } from "react-native";
+import { SafeAreaView, FlatList, View, StyleSheet, Alert, useWindowDimensions,  Pressable,TouchableOpacity } from "react-native";
 import AppHeader from "../components/AppHeader";
 import OrderListCard from "../components/OrderListCard";
 import colors from "../components/colors";
@@ -8,6 +8,7 @@ import AppText from "../components/AppText";
 import DatePicker from "react-native-datepicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
+import AppButton from "../components/AppButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { preCategoriesRouteContext } from "../context/PreCategoriesRoute";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
@@ -17,11 +18,10 @@ import approvedSaleOrdersApi from "../api/approvedSaleOrders";
 import {ProgressDialog} from "react-native-simple-dialogs";
 
 const Orders = ({ navigation }) => {
-  const [progressVisible, setprogressVisible] = useState(true);
+  const [progressVisible, setprogressVisible] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [slp, setSlp] = useState("");
   const [userCode, setUserCode] = useState("");
-  const [date, setDate] = useState("");
   const [ordersList, setOrdersList] = useState([]);
   const [draftOrdersList, setDraftOrdersList] = useState([]);
 
@@ -29,28 +29,62 @@ const Orders = ({ navigation }) => {
     preCategoriesRouteContext
   );
 
-  const [isPickerShow, setIsPickerShow] = useState(false);
-  //const [date, setDate] = useState(new Date(Date.now()));
-  const display = () => {
-    if (Date == null) {
-      return <Text>{title}</Text>;
-    } else if (isPickerShow == false) {
-      return <Text>{date.toLocaleDateString()}</Text>;
-    } else if (isPickerShow == true) {
-      return <Text>{date.toLocaleDateString()}</Text>;
-    }
-  };
 
-  const showPicker = () => {
-    setIsPickerShow(true);
-  };
+  const [fromdate, setfromDate] = useState("");
+  const [todate, settoDate] = useState("");
+
+  const [isPickerShow, setIsPickerShow] = useState(false);
+  const [date, setDate] = useState(new Date(Date.now()));
+
+  const [isPickerShow2, setIsPickerShow2] = useState(false);
+  const [date2, setDate2] = useState(new Date(Date.now()));
 
   const onChange = (event, value) => {
     setDate(value);
     if (Platform.OS === "android") {
       setIsPickerShow(false);
     }
+    console.log("------------", value.getFullYear());
+    console.log("------------", value.getMonth());
+    console.log("------------", value.getDate());
+
+    var date = value.getDate(); //Current Date
+    var month = value.getMonth() + 1; //Current Month
+    var year = value.getFullYear(); //Current Year,.
+    var today =
+      year +
+      "-" +
+      (month < 10 ? "0" + month : month) +
+      "-" +
+      (date < 10 ? "0" + date : date);
+    console.log("today", today);
+    setfromDate(today);
+    // handleDateChange(today);
   };
+
+  const onChange2 = (event, value) => {
+    setDate2(value);
+    if (Platform.OS === "android") {
+      setIsPickerShow2(false);
+    }
+    console.log("------------", value.getFullYear());
+    console.log("------------", value.getMonth());
+    console.log("------------", value.getDate());
+
+    var date = value.getDate(); //Current Date
+    var month = value.getMonth() + 1; //Current Month
+    var year = value.getFullYear(); //Current Year,.
+    var today =
+      year +
+      "-" +
+      (month < 10 ? "0" + month : month) +
+      "-" +
+      (date < 10 ? "0" + date : date);
+    console.log("today", today);
+    settoDate(today);
+    //handleDateChange(today);
+  };
+
 
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
@@ -64,8 +98,13 @@ const Orders = ({ navigation }) => {
 
   const getApprovedSaleOrders = async (slp) => {
   //  alert(slp);
+  if (fromdate == "") {
+    alert("From Date is Required");
+  } else if (todate == "") {
+    alert("To Date is Required");
+  } else {
     setprogressVisible(true);
-    const response = await approvedSaleOrdersApi.getApprovedSaleOrders(slp);
+    const response = await approvedSaleOrdersApi.getApprovedSaleOrderDate(slp,fromdate,todate);
     console.log("response from approved sale orders api1", response.data.data);
     setprogressVisible(false);
     setIsFetching(false);
@@ -76,11 +115,12 @@ const Orders = ({ navigation }) => {
       Alert.alert("No approved sale orders found!");
       setOrdersList([]);
     }
+  }
   };
 
   const getDraftOrdersList = async (slp) => {
     setprogressVisible(true);
-    const response = await draftOrdersListApi.getDrfatOrdersList(slp);
+    const response = await draftOrdersListApi.getDrfatOrdersListDate(slp,fromdate,todate);
     console.log("response from draft Orders List api", response.data.data);
     setprogressVisible(false);
     if (!response.ok)
@@ -94,7 +134,7 @@ const Orders = ({ navigation }) => {
 
   useEffect(() => {
     console.log("preCategoriesRouteVal in orders List", preCategoriesRouteVal);
-    getUserDetails();
+   // getUserDetails();
     setPreCategoriesRouteVal("ordersList");
   }, []);
   const onRefresh = () => {
@@ -107,77 +147,129 @@ const Orders = ({ navigation }) => {
     getAllOrders(date, slp);
   };
   const DocDateSelectionView = () => (
-    <View style={{ marginBottom: 20 }}>
-      <View style={{ marginHorizontal: sizes.base_margin, marginVertical: 14 }}>
-        <AppText style={styles.p1}>Select Document Date</AppText>
+    <>
+      <View style={{}}>
+        <Pressable
+          onPress={() => setIsPickerShow(true)}
+          style={{
+            flexDirection: "row",
+            marginTop: 0,
+            borderColor: "#aaa",
+            borderWidth: 1,
+          }}
+        >
+          <View
+            style={{
+              marginHorizontal: sizes.base_margin,
+              marginVertical: 0,
+              flex: 1,
+              justifyContent: "center",
+            }}
+          >
+            <AppText style={styles.p1}>From Date</AppText>
+          </View>
+
+          <View
+            style={{
+              marginTop: 0,
+              flex: 1,
+              backgroundColor: "#fff",
+              height: 40,
+              justifyContent: "center",
+            }}
+          >
+            <View style={{}}>
+              <AppText style={{ colors: "#555" }}>
+                {/* {display()} */} {fromdate}
+              </AppText>
+            </View>
+          </View>
+        </Pressable>
+
+        {isPickerShow && (
+          <DateTimePicker
+            value={date}
+            mode={"date"}
+            display={Platform.OS === "ios" ? "spinner" : "default"}
+            is24Hour={false}
+            onChange={onChange}
+            style={styles.datePicker}
+          />
+        )}
+
+        <View style={{ marginBottom: 10 }}>
+          <Pressable
+            onPress={() => setIsPickerShow2(true)}
+            style={{
+              flexDirection: "row",
+              marginTop: 10,
+              borderColor: "#aaa",
+              borderWidth: 1,
+            }}
+          >
+            <View
+              style={{
+                marginHorizontal: sizes.base_margin,
+                marginVertical: 0,
+                flex: 1,
+                justifyContent: "center",
+              }}
+            >
+              <AppText style={styles.p1}>To Date</AppText>
+            </View>
+
+            <View
+              style={{
+                marginTop: 0,
+                flex: 1,
+                backgroundColor: "#fff",
+                height: 40,
+                justifyContent: "center",
+              }}
+            >
+              <AppText style={{ colors: "#555" }}>
+                {/* {display()} */} {todate}
+              </AppText>
+            </View>
+          </Pressable>
+
+          {isPickerShow2 && (
+            <DateTimePicker
+              value={date2}
+              mode={"date"}
+              display={Platform.OS === "ios" ? "spinner" : "default"}
+              is24Hour={false}
+              onChange={onChange2}
+              style={styles.datePicker}
+            />
+          )}
+        </View>
       </View>
 
-
-{/*       <AppRow
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+      <View
+        style={{
+          marginVertical: 5,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: "100%",
+          alignContent: "center",
+        }}
+      >
+        <View style={{ width: "100%", marginHorizontal: 5 }}>
+          <TouchableOpacity 
+          onPress={() => getUserDetails()}
           >
-            <View style={{ marginTop: 0, flex: 1 }}>
-              <AppText style={styles.p1}>Delivery Date</AppText>
-            </View>
-            <View style={{ marginTop: 0, flex: 1}}>
-              <View style={{ backgroundColor: "#fff",padding:10 }}>
-                <View style={styles.pickedDateContainer}>
-                  <Pressable onPress={showPicker} style={styles.dateDiv}>
-                    <Text style={{color:"#555",textAlign:"center"}}>{display()}</Text>
-                  </Pressable>
-                </View>
-
-                {isPickerShow && (
-                  <DateTimePicker
-                    value={date}
-                    mode={"date"}
-                    display={Platform.OS === "ios" ? "spinner" : "default"}
-                    is24Hour={false}
-                    onChange={onChange}
-                    style={styles.datePicker}
-                  />
-                )}
-              </View>
-            </View>
-          </AppRow> */}
-
-{/*       <View>
-        <DatePicker
-          showIcon={false}
-          style={{ width: "100%" }}
-          date={date}
-          mode="date"
-          placeholder=" Select date"
-          format="DD/MM/yyyy"
-          minDate="01-01-2000"
-          maxDate="01-01-2025"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              position: "relative",
-              left: 0,
-              top: 0,
-              marginLeft: 10,
-            },
-            dateInput: {
-              marginTop: 15,
-              borderColor: colors.white,
-              backgroundColor: colors.white,
-              borderRadius: 10,
-              height: 60,
-              alignItems: "flex-start",
-              paddingLeft: 10,
-              width: "100%",
-              marginHorizontal: 10,
-            },
-          }}
-          onDateChange={(date) => {
-            handleDateChange(date);
-          }}
-        />
-      </View> */}
-    </View>
+            <AppButton
+              text="Get Orders"
+              iconFreeButton
+              loginBtnStyle={styles.loginBtnStyle}
+              navigation={navigation}
+              navigation1="Login"
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </>
   );
 
   const renderDraftOrderList = () => {
@@ -189,7 +281,7 @@ const Orders = ({ navigation }) => {
             <DraftOrdersListCard
               id={item.docNum}
               value={item.docTotal}
-              name={item.cardName}
+              name={item.customerName}
               item={item}
               orderDate={item.docDate}
               deliveryDate={item.docDueDate}
@@ -206,8 +298,8 @@ const Orders = ({ navigation }) => {
     return (
       <FlatList
         data={ordersList}
-        onRefresh={() => onRefresh()}
-        refreshing={isFetching}
+      //  onRefresh={() => onRefresh()}
+      //  refreshing={isFetching}
         renderItem={({ item, index }) => {
           return (
             <OrderListCard
@@ -291,6 +383,7 @@ const Orders = ({ navigation }) => {
         headerTitle="Orders List"
         myRoute="order"
       />
+       {DocDateSelectionView()}
 
        <TabView
         navigationState={{ index, routes }}

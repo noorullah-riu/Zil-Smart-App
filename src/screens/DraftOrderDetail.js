@@ -22,7 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DrfatOrderDetail = ({ route, navigation }) => {
   const { item, id, docEntry } = route.params;
-  console.log("Item prop here ",item);
+  console.log(item,"Item prop here===>");
   const [progressVisible, setprogressVisible] = useState(true);
   const [slp, setSlp] = useState({});
   const [date, setDate] = useState("");
@@ -38,19 +38,19 @@ const DrfatOrderDetail = ({ route, navigation }) => {
 
   const getDrfatOrderHeader = async (docEntry) => {
     console.log("getDrfatOrderHeader api called", docEntry);
-    const response = await draftOrderHeaderApi.getDrfatOrderHead(docEntry);
-    console.log("response from getDrfatOrderHead api", response.data.Data);
+    const response = await draftOrderHeaderApi.getDrfatOrderHeadUP(docEntry);
+    console.log("response from getDrfatOrderHead api", response.data.data);
     setprogressVisible(false);
     if (!response.ok) return alert("Couldn't retrieve the Order Detail");
-    setDraftHeadDetail(response.data.Data[0]);
+    setDraftHeadDetail(response.data.data[0]);
   };
   const getDrfatOrderTable = async (docEntry) => {
-    const response = await draftOrderTableApi.getDraftOrderTable(docEntry);
-  //  console.log("Order detail object",response.data);
+    const response = await draftOrderTableApi.getDraftOrderTableUP(docEntry);
+    //  console.log("Order detail object",response.data);
     setprogressVisible(false);
     if (!response.ok) return alert("Couldn't retrieve the Order Detail");
     setDraftTableDetail(response.data.data);
-console.log(response.data.data,"order detail obj");
+    console.log(response.data.data, "order detail obj ====>");
 
   };
 
@@ -66,7 +66,7 @@ console.log(response.data.data,"order detail obj");
   };
   useEffect(() => {
     getUserDetails();
-    // getDrfatOrderHeader(docEntry);
+    getDrfatOrderHeader(docEntry);
     getDrfatOrderTable(docEntry);
 
     console.log("itemdetail:", item);
@@ -116,21 +116,18 @@ console.log(response.data.data,"order detail obj");
   const footer = () => {
     return (
       <ScrollView>
-        {item.status == "O" ? (
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("PostOrderEdit", {
                 draftTableDetail: draftTableDetail,
-                itemx:item,
+                itemx: item,
               })
             }
             style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
           >
             <Text style={{ color: "green" }}>Edit Order</Text>
           </TouchableOpacity>
-        ) : (
-          <></>
-        )}
+  
 
         <View style={styles.bottomContainer}>
           <AppRow style={styles.row1}>

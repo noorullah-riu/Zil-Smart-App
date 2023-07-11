@@ -25,7 +25,7 @@ const OrderListCard = ({ navigation, id, value, name, item, orderDate, deliveryD
                 <AppText style={styles.p7}>Delivery Date: <AppText style={styles.p7b}>{moment(deliveryDate).utc().format('YYYY-MM-DD')}</AppText></AppText>
                 {/* <AppText style={styles.p7}>Doc Entry: <AppText style={styles.p7b}>{docEntry}</AppText></AppText> */}
                 <AppText style={styles.p6}>Remarks: <AppText style={styles.p6b}>{item.remarks}</AppText></AppText>
-           
+
 
             </TouchableOpacity>
         </View>

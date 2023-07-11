@@ -17,6 +17,8 @@ import RNPickerSelect from "react-native-picker-select";
 import { ProgressDialog } from "react-native-simple-dialogs";
 import postOrder from "../api/postOrder";
 import DropDownPicker from "react-native-dropdown-picker";
+import allCustomersApi from "../api/allCustomers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AddBusinessPartner = ({ navigation, route }) => {
   const [progressVisible, setprogressVisible] = useState(false);
@@ -30,10 +32,13 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const [cardForeignName, setCardForeignName] = useState("");
   const [cardName, setCardName] = useState("");
   const [cardType, setCardType] = useState("");
+  const [slp, setSlp] = useState(0);
 
   const [CNIC, setCNIC] = useState("");
   const [STRN, setSTRN] = useState("");
   const [NTN, setNTN] = useState("");
+  const [Address, setAddress] = useState("");
+
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -70,6 +75,18 @@ const AddBusinessPartner = ({ navigation, route }) => {
     { label: "Advance", value: 1 },
   ]);
 
+  const [openS, setOpenS] = useState(false);
+  const [valueS, setValueS] = useState(null);
+  const [Customers, setCustomers] = useState([]);
+  const [Customer, setCustomer] = useState("");
+
+
+  const [openR, setOpenR] = useState(false);
+  const [valueR, setValueR] = useState(null);
+  const [Regions, setRegions] = useState([]);
+  const [Region, setRegion] = useState("");
+
+
   const createobj = () => {
     let obj = {
       email: email,
@@ -83,10 +100,10 @@ const AddBusinessPartner = ({ navigation, route }) => {
       phone2: phone2,
       cardForeignName: cardForeignName,
       customerLegalEntity: entity1,
-      cardType: cardType,
+      cardType: "L",
       cardName: cardName,
       series: 78,
-      slpCodeForBP: 10,
+      slpCodeForBP: Customer,
     };
     postPartner(obj);
   };
@@ -99,8 +116,13 @@ const AddBusinessPartner = ({ navigation, route }) => {
       Alert.alert("Error", "Payment Term is required", [{ text: "OK" }]);
     } else if (phone1 == "") {
       Alert.alert("Error", "Mobile Number is required", [{ text: "OK" }]);
-    }
-    else {
+    } else if (approvedCreditLimit == 0) {
+      Alert.alert("Error", "Approved Credit Limit is required", [{ text: "OK" }]);
+    } else if (CNIC == "") {
+      Alert.alert("Error", "CNIC is required", [{ text: "OK" }]);
+    } else if (Address == "") {
+      Alert.alert("Error", "Address is required", [{ text: "OK" }]);
+    } else {
       setprogressVisible(true);
       const response = await postOrder.PostPartner(obj);
       setprogressVisible(false);
@@ -115,6 +137,39 @@ const AddBusinessPartner = ({ navigation, route }) => {
     }
   };
 
+
+  const getAllCustomers = async (code) => {
+    //  setprogressVisible(true);
+    // alert(code)
+    const response = await allCustomersApi.getAllEmploess();
+    console.log("customer", response);
+    // setprogressVisible(false);
+    if (!response.ok)
+      return Alert.alert("Couldn't retrieve the customers List");
+    setCustomers(response.data.data);
+  };
+
+  
+  const getRegions = async (code) => {
+    //  setprogressVisible(true);
+    // alert(code)
+    const response = await allCustomersApi.getRegionsAll();
+    console.log("regions", response);
+    // setprogressVisible(false);
+    if (!response.ok)
+      return Alert.alert("Couldn't retrieve the Regions List");
+      setRegions(response.data.Data);
+  };
+
+  const getUserDetails = async () => {
+    const jsonValue = await AsyncStorage.getItem("@user_Details");
+    getAllCustomers(JSON.parse(jsonValue).salePersonCode);
+    getRegions();
+    setSlp(JSON.parse(jsonValue).salePersonCode);
+
+    // getPOHeaderData(JSON.parse(jsonValue).salePersonCode);
+  };
+
   const pickerStyle = {
     inputAndroid: {
       color: "black",
@@ -122,6 +177,11 @@ const AddBusinessPartner = ({ navigation, route }) => {
       margin: 0,
     },
   };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
   return (
     <SafeAreaView style={{ height: "100%" }}>
       <View style={{ paddingBottom: 10 }}>
@@ -137,22 +197,11 @@ const AddBusinessPartner = ({ navigation, route }) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 70 }}
       >
-        <View
+        {/*        <View
           style={{ marginHorizontal: sizes.base_margin, marginVertical: 10 }}
         >
           <AppText style={styles.label}>Card Type*</AppText>
           <View style={styles.picker}>
-            {/*      <RNPickerSelect
-              name={"Card Type"}
-              onValueChange={(value, indx) => setCardType(value)}
-              items={[
-                { label: "Vendor", value: "S" },
-                { label: "Customer", value: "C" },
-                { label: "Lead", value: "L" },
-              ]}
-              useNativeAndroidPickerStyle={false}
-              style={pickerStyle}
-            /> */}
             <DropDownPicker
               open={open}
               value={value}
@@ -166,7 +215,8 @@ const AddBusinessPartner = ({ navigation, route }) => {
               }}
             />
           </View>
-        </View>
+        </View> */}
+
         <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
           <AppText style={styles.label}>Card Name*</AppText>
           <TextInput
@@ -208,7 +258,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
           </View>
         </View>
         <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
-          <AppText style={styles.label}>Card Foreign Name</AppText>
+          <AppText style={styles.label}>Contact Person</AppText>
           <TextInput
             style={styles.input}
             placeholder="Enter Card Foreign Name"
@@ -216,7 +266,29 @@ const AddBusinessPartner = ({ navigation, route }) => {
             onChangeText={(value) => setCardForeignName(value)}
           />
         </View>
-
+        <View
+          style={{ marginHorizontal: sizes.base_margin, marginVertical: 10 }}
+        >
+          <AppText style={styles.label}>Sales Employee*</AppText>
+          <View style={styles.picker}>
+            <DropDownPicker
+              open={openS}
+              value={valueS}
+              // items={items}
+              items={Customers?.map(option => ({
+                label: option.slpName,
+                value: option.slpCode,
+              }))}
+              setOpen={setOpenS}
+              setValue={setValueS}
+              setItems={setCustomers}
+              listMode="MODAL"
+              onSelectItem={item => {
+                setCustomer(item.value)
+              }}
+            />
+          </View>
+        </View>
         <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
           <AppText style={styles.label}>CNIC</AppText>
           <TextInput
@@ -247,6 +319,40 @@ const AddBusinessPartner = ({ navigation, route }) => {
           />
         </View>
 
+        <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
+          <AppText style={styles.label}>Address *</AppText>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Address"
+            value={Address}
+            onChangeText={(value) => setAddress(value)}
+          />
+        </View>
+
+        <View
+          style={{ marginHorizontal: sizes.base_margin, marginVertical: 10 }}
+        >
+          <AppText style={styles.label}>Region</AppText>
+          <View style={styles.picker}>
+            <DropDownPicker
+              open={openR}
+              value={valueR}
+              // items={items}
+              items={Regions?.map(option => ({
+                label: option.Name,
+                value: option.Code,
+              }))}
+              setOpen={setOpenR}
+              setValue={setValueR}
+              setItems={setRegions}
+              listMode="MODAL"
+              onSelectItem={item => {
+                setRegion(item.value)
+              }}
+            />
+          </View>
+        </View>
+
         <View style={styles.row}>
           <View style={styles.childView}>
             <AppText style={styles.label}>E-mail</AppText>
@@ -270,7 +376,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         </View>
         <View style={styles.row}>
           <View style={styles.childView}>
-            <AppText style={styles.label}>Mobile Number</AppText>
+            <AppText style={styles.label}>Mobile Number *</AppText>
             <TextInput
               style={styles.input}
               placeholder="Enter Mobile Number"
@@ -290,7 +396,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         </View>
 
         <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
-          <AppText style={styles.label}>Approved Credit Limit</AppText>
+          <AppText style={styles.label}>Approved Credit Limit*</AppText>
           <TextInput
             style={styles.input}
             keyboardType="numeric"
@@ -302,7 +408,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         <View
           style={{ marginHorizontal: sizes.base_margin, marginVertical: 10 }}
         >
-          <AppText style={styles.label}>Payment Terms</AppText>
+          <AppText style={styles.label}>Payment Terms *</AppText>
           <View style={styles.picker}>
             <DropDownPicker
               open={open3}
