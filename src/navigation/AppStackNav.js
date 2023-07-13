@@ -73,6 +73,8 @@ import PostExpenseUpdate from "../screens/PostExpenseUpdate";
 // Noor/Orders-Module
 import StackCoordinator from "./StackCoordnator";
 import StackOfficer from "./StackOfficer"
+
+import DrfatPendingDetail from "../screens/DraftPendingDetail";
 const { Navigator, Screen } = createStackNavigator();
 
 const AppStackNav = ({ navigation }) => {
@@ -131,6 +133,11 @@ const AppStackNav = ({ navigation }) => {
       <Screen
         name="DailyRecievableReport"
         component={DailyRecievableReport}
+        options={{ headerShown: false }}
+      />
+      <Screen
+        name="DrfatPendingDetail"
+        component={DrfatPendingDetail}
         options={{ headerShown: false }}
       />
       <Screen
@@ -306,7 +313,7 @@ const AppStackNav = ({ navigation }) => {
           headerShown: false,
         }}
       />
-        <Screen
+      <Screen
         name="PostExpenseUpdate"
         component={PostExpenseUpdate}
         options={{
@@ -407,7 +414,7 @@ const AppStackNav = ({ navigation }) => {
           headerShown: false,
         }}
       />
-          <Screen
+      <Screen
         name="StackOfficer"
         component={StackOfficer}
         options={{
@@ -434,14 +441,14 @@ const AppStackNav = ({ navigation }) => {
         options={{ headerShown: false }}
         component={AppDrawerNav2}
         navigation={navigation}
-        // initialRouteName="Signup"
+      // initialRouteName="Signup"
       />
       <Screen
         name="AppDrawerNav3"
         options={{ headerShown: false }}
         component={AppDrawerNav3}
         navigation={navigation}
-        // initialRouteName="Signup"
+      // initialRouteName="Signup"
       />
     </Navigator>
   );

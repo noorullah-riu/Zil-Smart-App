@@ -183,7 +183,7 @@ const Home = ({ navigation }) => {
   const barData = stat3
     .filter((value) => value.quantity)
     .map((value, index) => ({
-      y: value.quantity,
+      y: value.total,
       x: value.month,
     }));
   //console.log(barData);
@@ -200,7 +200,7 @@ const Home = ({ navigation }) => {
         <View style={styles.cartcontainer0}>
           <View style={{}}>
             <AppText style={styles.p1}>
-              Previous {stat3?.length} month's Sale Quantity
+              Previous {stat3?.length} month's Sale's Amount
             </AppText>
           </View>
           {/* 

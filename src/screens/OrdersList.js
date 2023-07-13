@@ -287,6 +287,7 @@ const Orders = ({ navigation }) => {
               deliveryDate={item.docDueDate}
               docEntry={item.docNum}
               navigation={navigation}
+              Pendining={true}
             />
           );
         }}

@@ -43,6 +43,8 @@ const PostOrder = ({ route, navigation }) => {
   const [todaysdate, setTodaysdate] = useState("");
   const [todaysdate1, setTodaysdate1] = useState("");
 
+  const [Name, setName] = useState("");
+
   const [remarks, setRemarks] = useState("");
   const [seriesNo, setSeriesNo] = useState("");
   const [type, setType] = useState("");
@@ -211,7 +213,7 @@ const PostOrder = ({ route, navigation }) => {
     sosq["customerName"] = customer.CardName;
     (sosq["deliveryDate"] = fromdate), //;
       (sosq["series"] = 181);
-    sosq["remarks"] = remarks;
+    sosq["remarks"] =`${remarks} + Posted by ${Name} from Mobile App`;
     sosq["docDueDate"] = todaysdate;
     sosq["docDate"] = todaysdate;
     sosq["vatGroup"] = vatGroup; //
@@ -287,6 +289,8 @@ const PostOrder = ({ route, navigation }) => {
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
     setUserDetails(JSON.parse(jsonValue));
+    setName(JSON.parse(jsonValue).name);
+
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   };
 

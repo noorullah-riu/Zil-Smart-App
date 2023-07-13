@@ -4,22 +4,28 @@ import AppText from './AppText';
 import colors from "./colors";
 import AppRow from './AppRow';
 
-const DraftOrdersListCard = ({ navigation, id, value, name, item, orderDate, deliveryDate, docEntry }) => {
+const DraftOrdersListCard = ({ navigation, id, value, name, item, orderDate, deliveryDate, docEntry, }) => {
     // console.log("docnum:",item)
+
     return (
         <View style={styles.card1}>
-            <TouchableOpacity onPress={() => navigation.navigate("DrfatOrderDetail", { docEntry, item })}>
-                <AppRow style={styles.row1}>
+            <TouchableOpacity onPress={() => navigation.navigate("DrfatPendingDetail", { docEntry, item })}>
+                {/*     <AppRow style={styles.row1}>
                     <AppText style={styles.p2}># {id}</AppText>
                     <AppText style={styles.p3}>{item.DocCurrency} <AppText style={styles.p3}>{item.DocCurrency === "PKR" ? item.DocTotal : item.DocTotalFC}</AppText></AppText>
+                </AppRow> */}
+                <AppRow style={styles.row1}>
+                    <AppText style={styles.p2}># {id}</AppText>
+                    {/*<AppText  style={styles.p3}>{item.DocCurrency} <AppText style={styles.p3}>{item.DocCurrency ==="PKR" ? item.DocTotal : item.DocTotalFC}</AppText></AppText>*/}
+                    {item.isUpdated ? <><AppText style={styles.p6b}>Updated</AppText></> : <><AppText style={styles.p6b}>Original</AppText></>}
                 </AppRow>
                 <AppRow style={styles.row1}>
                     <AppText style={styles.p4}>{name}</AppText>
                 </AppRow>
                 <AppText style={styles.p6}>Order Date:     <AppText style={styles.p6b}>{orderDate.slice(0, 10)}</AppText></AppText>
-                <AppText style={styles.p7}>Delivery Date: <AppText style={styles.p7b}>{deliveryDate.slice(0, 10)}</AppText></AppText>
-                <AppText style={styles.p7}>Doc Entry: <AppText style={styles.p7b}>{docEntry}</AppText></AppText>
-                <AppText style={styles.p6}>Remarks: <AppText style={styles.p6b}>{item.remarks}</AppText></AppText>
+                <AppText style={styles.p7}>Delivery Date:  <AppText style={styles.p7b}>{deliveryDate.slice(0, 10)}</AppText></AppText>
+                <AppText style={styles.p7}>Doc Entry:      <AppText style={styles.p7b}>{docEntry}</AppText></AppText>
+                <AppText style={styles.p6}>Remarks:        <AppText style={styles.p6b}>{item.remarks}</AppText></AppText>
 
             </TouchableOpacity>
         </View>

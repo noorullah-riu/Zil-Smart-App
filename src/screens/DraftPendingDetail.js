@@ -20,7 +20,7 @@ import draftOrderTableApi from "../api/draftOrderTable";
 import postOrderApi from "../api/postOrder";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const DrfatOrderDetail = ({ route, navigation }) => {
+const DrfatPendingDetail = ({ route, navigation }) => {
   const { item, id, docEntry } = route.params;
   console.log(item,"Item prop here===>");
   const [progressVisible, setprogressVisible] = useState(true);
@@ -55,7 +55,7 @@ const DrfatOrderDetail = ({ route, navigation }) => {
     console.log(response.data.data, "order detail obj ====>");
   };
 
-  const getDrfatOrderItemsNew = async (docEntry) => {
+  const getDrfatOrderItemsNew = async () => {
     const response = await draftOrderTableApi.getDraftOrderNew(item.docEntry);
     //  console.log("Order detail object",response.data);
     setprogressVisible(false);
@@ -77,8 +77,8 @@ const DrfatOrderDetail = ({ route, navigation }) => {
   useEffect(() => {
     getUserDetails();
   //  getDrfatOrderHeader(docEntry);
-  //    getDrfatOrderItemsNew();
-      getDrfatOrderTable(docEntry);
+      getDrfatOrderItemsNew();
+    //  getDrfatOrderTable(docEntry);
 
     console.log("itemdetail:", item);
   }, []);
@@ -232,7 +232,7 @@ const DrfatOrderDetail = ({ route, navigation }) => {
   );
 };
 
-export default DrfatOrderDetail;
+export default DrfatPendingDetail;
 
 const styles = StyleSheet.create({
   loginBtnStyle: {

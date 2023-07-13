@@ -43,6 +43,7 @@ const AddActivity = ({ navigation, route }) => {
   const [images, setImages] = useState({});
   const [base64Images, setBase64Images] = useState([]);
   const [slp, setSlp] = useState({});
+  const [Name, setName] = useState("");
 
   useEffect(() => {
     getUserDetails();
@@ -76,6 +77,7 @@ const AddActivity = ({ navigation, route }) => {
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
     setSlp(JSON.parse(jsonValue).salePersonCode);
+    setName(JSON.parse(jsonValue).name);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   };
 
@@ -107,6 +109,8 @@ const AddActivity = ({ navigation, route }) => {
     activity["base64BitCheckOut"] = "";
     activity["clgCode"] = 0;
     activity["address"] = "";
+    activity["CreatedBy"] = Name;
+    
     activity["multipleImages"] = resBase64Imgs;
     console.log(activity);
     const response = await postActivityApi.postActivity(activity);

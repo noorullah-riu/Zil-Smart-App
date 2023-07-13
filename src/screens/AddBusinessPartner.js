@@ -33,6 +33,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
   const [cardName, setCardName] = useState("");
   const [cardType, setCardType] = useState("");
   const [slp, setSlp] = useState(0);
+  const [Name, setName] = useState("");
 
   const [CNIC, setCNIC] = useState("");
   const [STRN, setSTRN] = useState("");
@@ -99,11 +100,16 @@ const AddBusinessPartner = ({ navigation, route }) => {
       phone1: phone1,
       phone2: phone2,
       cardForeignName: cardForeignName,
+      ContactPersonName: cardForeignName,
       customerLegalEntity: entity1,
       cardType: "L",
+      AddressID: Address,
       cardName: cardName,
       series: 78,
       slpCodeForBP: Customer,
+      GroupCode: Region,
+      CreatedBy: Name
+
     };
     postPartner(obj);
   };
@@ -122,7 +128,10 @@ const AddBusinessPartner = ({ navigation, route }) => {
       Alert.alert("Error", "CNIC is required", [{ text: "OK" }]);
     } else if (Address == "") {
       Alert.alert("Error", "Address is required", [{ text: "OK" }]);
-    } else {
+    } else if (Region == "") {
+      Alert.alert("Error", "Region is required", [{ text: "OK" }]);
+    }
+    else {
       setprogressVisible(true);
       const response = await postOrder.PostPartner(obj);
       setprogressVisible(false);
@@ -149,7 +158,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
     setCustomers(response.data.data);
   };
 
-  
+
   const getRegions = async (code) => {
     //  setprogressVisible(true);
     // alert(code)
@@ -158,13 +167,15 @@ const AddBusinessPartner = ({ navigation, route }) => {
     // setprogressVisible(false);
     if (!response.ok)
       return Alert.alert("Couldn't retrieve the Regions List");
-      setRegions(response.data.Data);
+    setRegions(response.data.Data);
   };
 
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
+    console.log(jsonValue, "=====>");
     getAllCustomers(JSON.parse(jsonValue).salePersonCode);
     getRegions();
+    setName(JSON.parse(jsonValue).name);
     setSlp(JSON.parse(jsonValue).salePersonCode);
 
     // getPOHeaderData(JSON.parse(jsonValue).salePersonCode);
@@ -261,7 +272,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
           <AppText style={styles.label}>Contact Person</AppText>
           <TextInput
             style={styles.input}
-            placeholder="Enter Card Foreign Name"
+            placeholder="Enter Contact Person Name"
             value={cardForeignName}
             onChangeText={(value) => setCardForeignName(value)}
           />
@@ -432,7 +443,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
       />
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={createobj} style={styles.loginBtnStyle}>
-          <AppButton text="Next" iconFreeButton />
+          <AppButton text="Add BP" iconFreeButton />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

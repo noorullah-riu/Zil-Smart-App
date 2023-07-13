@@ -161,7 +161,7 @@ const PostOrderEdit = ({ route, navigation }) => {
     sosq["customerCode"] = itemx.customerCode;
     sosq["customerName"] = itemx.customerName;
     sosq["deliveryDate"] = todaysdate,//"2023/05/24",//date;
-    sosq["series"] = 181;
+      sosq["series"] = 181;
     sosq["remarks"] = remarks;
     sosq["docDueDate"] = todaysdate;
     sosq["docDate"] = todaysdate;
@@ -176,8 +176,8 @@ const PostOrderEdit = ({ route, navigation }) => {
     sosq["DocEntry"] = itemx.docEntry;
 
     (saleOrder["saleOrderAndSaleQutation"] = sosq),
-      (saleOrder["masterItems"] = draftTableDetail), // cartItem,// draftTableDetail;
-      console.log(saleOrder,"saleOrder payload update:");
+      (saleOrder["masterItems"] = cartItem),// draftTableDetail), // ,// draftTableDetail;
+      console.log(saleOrder, "--------saleOrder payload update:---------");
     setprogressVisible(true);
     const response = await postOrderApi.updateOrder(saleOrder);
     console.log("saleOrder response:", response.data);
@@ -249,8 +249,8 @@ const PostOrderEdit = ({ route, navigation }) => {
     value === "USD"
       ? setDollarRate(usdRate)
       : value === "RMB"
-      ? setDollarRate(rmbRate)
-      : null;
+        ? setDollarRate(rmbRate)
+        : null;
   };
   const footer = () => {
     const handleDiscountInput = (value) => {
@@ -347,7 +347,7 @@ const PostOrderEdit = ({ route, navigation }) => {
             }}
           />
 
-     {/*      <View>
+          {/*      <View>
             <View style={{}}>
               <AppText style={styles.p1}>Delivery Date</AppText>
             </View>
@@ -509,7 +509,7 @@ const PostOrderEdit = ({ route, navigation }) => {
         headerTitle="Edit Order"
       />
 
-  {/*     <TouchableOpacity
+      <TouchableOpacity
         onPress={() =>
           navigation.navigate("ItemDetailListEdit", {
             draftTableDetail: draftTableDetail,
@@ -520,7 +520,7 @@ const PostOrderEdit = ({ route, navigation }) => {
         style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
       >
         <Text style={{ color: "green" }}>Add Items</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       <AppRow style={styles.r1}>
         <AppText style={styles.p1_0}>Item Name</AppText>
         <AppText style={styles.p2}>Qty</AppText>
