@@ -29,7 +29,7 @@ import { set } from "react-native-reanimated";
 const { width: screenWidth } = Dimensions.get("window");
 // const imageWidthHeight = (screenWidth - 60) / 2 - 20;
 
-const ItemsListDetailScreen = ({
+const ItemDetailEdit = ({
   route,
   navigation,
   /* index,
@@ -295,6 +295,9 @@ const ItemsListDetailScreen = ({
       currentItem.itemName = name;
       // currentItem.totalPcs = currentItem.cartons * currentItem.qty;
       currentItem.lineTotal = pcsPCarton * Cartons * lineTotal;
+      currentItem.pcsPerDzn=pcsPCarton;
+      currentItem.cartons=Cartons;
+
       currentItem.totalPcs = Cartons * pcsPCarton;
       setCartItem([...cartItem, currentItem]);
 
@@ -337,7 +340,7 @@ const ItemsListDetailScreen = ({
         title="Back"
         bckBtnImg={require("../assets/back-button.png")}
         navigation={navigation}
-        headerTitle="Item Detail Post"
+        headerTitle="Item Detail Edit"
       />
       <View style={styles.card1}>
         <View style={styles.textContainer}>
@@ -511,7 +514,7 @@ const ItemsListDetailScreen = ({
   );
 };
 
-export default React.memo(ItemsListDetailScreen);
+export default React.memo(ItemDetailEdit);
 
 const styles = StyleSheet.create({
   wrapper: {},

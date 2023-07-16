@@ -32,10 +32,12 @@ import { ProgressDialog, Dialog } from "react-native-simple-dialogs";
 import currencyRateApi from "../api/currencyRate";
 import * as Location from "expo-location";
 
-const PostOrderEdit = ({ route, navigation }) => {
+
+const PostOrderEdit2 = ({ route, navigation }) => {
   const { draftTableDetail, itemx } = route.params;
-  console.log(draftTableDetail, "draftTableDetail");
-  console.log(itemx, "itemx");
+ // console.log(draftTableDetail, "draftTableDetail");
+  //console.log(itemx, "itemx");
+
   const [customer, setCustomerDetails] = useState({});
   const [user, setUserDetails] = useState({});
   const { setPreCategoriesRouteVal } = useContext(preCategoriesRouteContext);
@@ -47,10 +49,10 @@ const PostOrderEdit = ({ route, navigation }) => {
   const [todaysdate, setTodaysdate] = useState("");
   const [todaysdate1, setTodaysdate1] = useState("");
 
-  const [remarks, setRemarks] = useState(itemx.remarks);
+  const [remarks, setRemarks] = useState();
   const [seriesNo, setSeriesNo] = useState("");
   const [type, setType] = useState("");
-  const [subTotal, setSubTotal] = useState(itemx.docTotal);
+  const [subTotal, setSubTotal] = useState();
   const [grandTotal, setGrandTotal] = useState(0);
   const [grandTotal1, setGrandTotal1] = useState(0);
 
@@ -506,16 +508,13 @@ const PostOrderEdit = ({ route, navigation }) => {
         title="Back"
         bckBtnImg={require("../assets/back-button.png")}
         navigation={navigation}
-        headerTitle="Edit Order E"
+        headerTitle="Edit Order 2"
       />
 
       <TouchableOpacity
-           onPress={() =>
-            navigation.navigate("ItemDetailListEdit", {
-              draftTableDetail: draftTableDetail,
-              itemx: itemx,
-            })
-          }
+        onPress={() =>
+          navigation.navigate("ItemDetailListEdit")
+        }
         //  onPress={() => alert("go to items page")}
         style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
       >
@@ -535,7 +534,7 @@ const PostOrderEdit = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
-export default PostOrderEdit;
+export default PostOrderEdit2;
 
 const styles = StyleSheet.create({
   card1: {

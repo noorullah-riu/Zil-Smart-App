@@ -74,6 +74,7 @@ import PostExpenseUpdate from "../screens/PostExpenseUpdate";
 import StackCoordinator from "./StackCoordnator";
 import StackOfficer from "./StackOfficer"
 
+import ItemDetailEdit from "../screens/ItemDetailEdit";
 import DrfatPendingDetail from "../screens/DraftPendingDetail";
 const { Navigator, Screen } = createStackNavigator();
 
@@ -171,6 +172,11 @@ const AppStackNav = ({ navigation }) => {
         options={{ headerShown: false }}
       />
       <Screen
+        name="ItemDetailEdit"
+        component={ItemDetailEdit}
+        options={{ headerShown: false }}
+      />
+            <Screen
         name="ItemListDetailScreen"
         component={ItemListDetailScreen}
         options={{ headerShown: false }}

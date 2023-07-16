@@ -27,6 +27,7 @@ const PostOrderEditCard = ({
   findSubTotal,
   cartons,
   pcsPerDzn,
+  pcsC,
 }) => {
   // console.log("selected item",currentItem)
   const [updatedQty, setUpdatedQty] = useState(quantity);
@@ -114,7 +115,7 @@ const PostOrderEditCard = ({
 
           <AppColumn style={styles.c2}>
             <AppRow>
-              <AppText style={styles.p6b}>{currentItem.pcsPerDzn*currentItem.cartons}</AppText>
+              <AppText style={styles.p6b}>{currentItem.pcsPerDzn*currentItem.cartons }</AppText>
             </AppRow>
           </AppColumn>
 

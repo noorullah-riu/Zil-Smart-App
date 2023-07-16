@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, memo } from "react";
 import {
   SafeAreaView,
   FlatList,
@@ -15,22 +15,49 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { preCategoriesRouteContext } from "../context/PreCategoriesRoute";
 import allItemsWithWareHouseApi from "../api/allItemsWithWareHouse";
 import ItemsListDetailCard from "../components/ItemsListDetailCard";
+import ItemListMinimalCard from "../components/ItemListMinimalCard";
+import ItemCardUpdate from "../components/ItemCardUpdate";
 import allGroupItemsApi from "../api/allGroupItems";
 import AppInput from "../components/AppInput";
+import DropDownPicker from "react-native-dropdown-picker";
+import AppText from "../components/AppText";
 
 const ItemDetailListEdit = ({ navigation, route }) => {
   const { draftTableDetail, itemx } = route.params;
+
   const [itemQty, setitemQty] = useState(1);
-  const [progressVisible, setprogressVisible] = useState(true);
+  const [progressVisible, setprogressVisible] = useState(false);
+  //  const { itemGroupCode } = route.params;
+  //  const { itemGroupCode } = route.params;
+  var itemGroupCode = 1;
   const [itemList, setItemList] = useState([]);
   const [allItemList, setAllItemList] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
+
   const [userDetails, setUserDetails] = useState({});
   const { preCategoriesRouteVal } = useContext(preCategoriesRouteContext);
 
+  const [jobType, setJobType] = useState("");
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Stationary", value: "Stationary" },
+    { label: "Duct", value: "Duct" },
+    { label: "BOPP", value: "BOPP" },
+    { label: "Masking", value: "Masking" },
+  ]);
+  const handleJobType = (text) => {
+    //  console.log(text);
+    setJobType(text?.value);
+    getItemDetailList(text?.value);
+    //  currentItem.jobType = text?.value;
+  };
+
   useEffect(() => {
-    const itemGroupCode="something";
-    getItemDetailList(itemGroupCode);
+    console.log("Hello", itemGroupCode);
+
+    // getItemDetailList(1);
+
     // getUserDetails();
     // console.log("IN ITEMS: preCategoriesRouteVal::", itemGroupCode, itemCode);
   }, []);
@@ -46,10 +73,13 @@ const ItemDetailListEdit = ({ navigation, route }) => {
   };
 
   const nextPress = () => {
+    // setCartItem(draftTableDetail);
+    //  navigation.navigate("PostOrderEdit");
     navigation.navigate("PostOrderEdit", {
       draftTableDetail: draftTableDetail,
-      itemx:itemx,
+      itemx: itemx,
     })
+
   };
   const viewDetail = () => {
     navigation.navigate("ViewItemDetail", {});
@@ -63,8 +93,9 @@ const ItemDetailListEdit = ({ navigation, route }) => {
     if (!response.ok) return alert("Couldn't retrieve the Item Group list");
     // console.log(response.data);
     var items = response.data.data.filter((obj) => obj.name !== "Select Item");
-    setItemList(items.filter((obj)=>obj.name !== ""));
-    setAllItemList(items.filter((obj)=>obj.name !== ""));
+    console.log(items, "-----------------list--------->");
+    setItemList(items.filter((obj) => obj.name !== ""));
+    setAllItemList(items.filter((obj) => obj.name !== ""));
 
     setprogressVisible(false);
   };
@@ -76,24 +107,24 @@ const ItemDetailListEdit = ({ navigation, route }) => {
   });
   const handleSearch = text => {
     const formattedQuery = text.toUpperCase();
-    var data = allItemList.filter(function(item){
+    var data = allItemList.filter(function (item) {
       return item.name.toUpperCase().includes(formattedQuery);
     });
     setItemList(data);
   }
   const renderHeader = () => (
-      <AppInput
-          onChangeText={handleSearch}
-          placeholder='Search'
-          inputWrapperStyle={{
-            borderRadius: 25,
-            borderColor: '#333',
-            height: 50,
-            marginTop: -20,
-            marginHorizontal: 10,
-            backgroundColor: '#fff',
-          }}
-      />
+    <AppInput
+      onChangeText={handleSearch}
+      placeholder='Search'
+      inputWrapperStyle={{
+        borderRadius: 25,
+        borderColor: '#333',
+        height: 50,
+        marginTop: -20,
+        marginHorizontal: 10,
+        backgroundColor: '#fff',
+      }}
+    />
   )
   const renderItemsList = () => {
     return (
@@ -103,10 +134,10 @@ const ItemDetailListEdit = ({ navigation, route }) => {
         data={itemList}
         renderItem={({ item, index }) => {
           return (
-            <ItemsListDetailCard
+            <ItemCardUpdate
               name={item.name} //ItemName
-              imagePath={""}
-              price={item.price} // Price
+              imagePath={""}  
+              pricex={item.price} // Price
               navigation={navigation}
               currentItem={item}
               index={index}
@@ -119,57 +150,7 @@ const ItemDetailListEdit = ({ navigation, route }) => {
       />
     );
   };
-/* 
-  Object {
-    "$id": "4",
-    "adV_IT": null,
-    "bcdCode": null,
-    "cardCode": null,
-    "cardName": null,
-    "cartons": "3",
-    "catalog": null,
-    "docDate": null,
-    "docDueDate": null,
-    "docNum": null,
-    "dscription": null,
-    "itemCode": "FG003399",
-    "itemName": "Panda 46mm x 280yds 38mic Standard Golden",
-    "itemRemarks": null,
-    "lineNum": null,
-    "lineTotal": "39812.99",
-    "numAtCard": null,
-    "pcsPerDzn": "36",
-    "price": "368.6388",
-    "priceBefDi": null,
-    "quantity": null,
-    "rowDiscPrcnt": null,
-    "taxOnly": null,
-    "tax_Amount": null,
-    "tax_Rate": null,
-    "totalPcs": "108",
-    "u_Main_Category": null,
-    "u_location": "",
-    "uomCode": null,
-    "wareHouseName": null,
-  },
-  Object {
-    "$id": "2",
-    "adjustmentPrice": 0,
-    "availableQty": "0",
-    "basePrice": 11,
-    "cartons": 2,
-    "discount": 0,
-    "id": 0,
-    "itemCode": "WST000014",
-    "jobType": "Rewinding",
-    "lineTotal": 388.08000000000004,
-    "name": "Rewinding Core Wastage",
-    "pcsPerCartons": "3",
-    "price": 11,
-    "printedcost": 22,
-    "qty": 2,
-    "vatGourpSa": "S1",
-  }, */
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -178,8 +159,37 @@ const ItemDetailListEdit = ({ navigation, route }) => {
         title="Back"
         bckBtnImg={require("../assets/back-button.png")}
         navigation={navigation}
-        headerTitle="Item Detail List"
+        headerTitle="Item Detail List Demo"
       />
+
+      <View
+        style={{
+          marginHorizontal: 10,
+          marginTop: 30,
+          flexDirection: "row",
+        }}
+      >
+        <View style={{ width: "40%" }}>
+          <AppText style={styles.p1}>Select Item Type</AppText>
+        </View>
+        <View
+          style={{ width: "60%", marginTop: Platform.OS == "ios" ? 0 : -15 }}
+        >
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            listMode="MODAL"
+            onSelectItem={item => {
+              handleJobType(item)
+            }}
+          />
+        </View>
+      </View>
+
       <ProgressDialog
         visible={progressVisible}
         title="Loading data"
@@ -201,7 +211,7 @@ const ItemDetailListEdit = ({ navigation, route }) => {
   );
 };
 
-export default ItemDetailListEdit;
+export default memo(ItemDetailListEdit);
 const styles = StyleSheet.create({
   row: {
     marginVertical: 5,
@@ -223,3 +233,6 @@ const styles = StyleSheet.create({
     paddingBottom: Platform.OS === "android" ? 100 : 20,
   },
 });
+
+
+
