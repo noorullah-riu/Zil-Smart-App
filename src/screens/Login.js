@@ -112,8 +112,8 @@ const LoginScreen = ({ navigation }) => {
     return (
       <Formik
         initialValues={{
-          UserCode: "azmat",
-          Password: "12345",
+          UserCode: "",
+          Password: "",
         }}
         onSubmit={(values) => handleCustomerUserLogin(values)}
         validationSchema={validationSchema1}

@@ -156,6 +156,7 @@ const PostOrderEdit = ({ route, navigation }) => {
   const { routeVal } = useContext(sosqContext);
 
   const postOrder = async () => {
+
     sosq["SapUserCode"] = user.sapUserCOde; //
     sosq["salePersonCode"] = user.salePersonCode; //
     sosq["customerCode"] = itemx.customerCode;
@@ -170,10 +171,13 @@ const PostOrderEdit = ({ route, navigation }) => {
     sosq["localORImport"] = type; //
     sosq["seriesString"] = seriesNo; //
     sosq["docCurrency"] = currencyType;
+
     sosq["docRate"] = dollarRate;
     sosq["discountPercent"] = discount; //
     sosq["U_location"] = location; //
+    sosq["saleOrderType"] = "P"; //
     sosq["DocEntry"] = itemx.docEntry;
+     
 
     (saleOrder["saleOrderAndSaleQutation"] = sosq),
       (saleOrder["masterItems"] = cartItem),// draftTableDetail), // ,// draftTableDetail;
