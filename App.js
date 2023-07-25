@@ -12,6 +12,7 @@ export default function App() {
   const [preCategoriesRouteVal, setPreCategoriesRouteVal] = useState("");
   const [cartItem, setCartItem] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [isApproved, setisApproved] = useState(false);
 
   return (
     <sosqContext.Provider value={{ routeVal, setRouteVal }}>
@@ -19,7 +20,7 @@ export default function App() {
         value={{ preCategoriesRouteVal, setPreCategoriesRouteVal }}
       >
         <customersList.Provider value={{ customers, setCustomers }}>
-          <addToCartContext.Provider value={{ cartItem, setCartItem }}>
+          <addToCartContext.Provider value={{ cartItem, setCartItem,isApproved,setisApproved }}>
             <MyApp />
           </addToCartContext.Provider>
         </customersList.Provider>

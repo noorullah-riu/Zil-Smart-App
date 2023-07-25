@@ -19,10 +19,12 @@ import DraftOrderDetailCard from "../components/DraftOrderDetailCard";
 import draftOrderTableApi from "../api/draftOrderTable";
 import postOrderApi from "../api/postOrder";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ProgressDialog } from "react-native-simple-dialogs";
 
-const DrfatOrderDetail = ({ route, navigation }) => {
+const RTODetailScreen = ({ route, navigation }) => {
   const { item, docEntry } = route.params;
-  console.log(item,"Item prop here===>");
+ // console.log(item, "Item prop here===>");
+ console.log("<==== Details screen ===>");
   const [progressVisible, setprogressVisible] = useState(true);
   const [slp, setSlp] = useState({});
   const [date, setDate] = useState("");
@@ -55,13 +57,13 @@ const DrfatOrderDetail = ({ route, navigation }) => {
     console.log(response.data.data, "order detail obj ====>");
   };
 
-  const getDrfatOrderItemsNew = async (docEntry) => {
+  const getDrfatOrderItemsNew = async () => {
     const response = await draftOrderTableApi.getDraftOrderNew(item.docEntry);
     //  console.log("Order detail object",response.data);
     setprogressVisible(false);
     if (!response.ok) return alert("Couldn't retrieve the Order Detail");
     setDraftTableDetail(response.data.data);
-    console.log(response.data.data, "order detail obj ====>");
+   // console.log(response.data.data, "order detail obj ====>");
   };
 
   const getUserDetails = async () => {
@@ -76,11 +78,11 @@ const DrfatOrderDetail = ({ route, navigation }) => {
   };
   useEffect(() => {
     getUserDetails();
-  //  getDrfatOrderHeader(docEntry);
-  //    getDrfatOrderItemsNew();
-      getDrfatOrderTable(docEntry);
+    //  getDrfatOrderHeader(docEntry);
+    getDrfatOrderItemsNew();
+    //  getDrfatOrderTable(docEntry);
 
-    console.log("itemdetail:", item);
+    console.log("item:", item);
   }, []);
 
   const [remarks, setRemarks] = useState("");
@@ -91,54 +93,84 @@ const DrfatOrderDetail = ({ route, navigation }) => {
     setShow(false);
   };
   const postOrder = async () => {
-    sosq["SapUserCode"] = user.SapUserCode;
-    sosq["salePersonCode"] = user.Id;
+    sosq["SapUserCode"] = user.sapUserCOde; //
+    sosq["salePersonCode"] = user.salePersonCode;
+    sosq["customerCode"] =item.customerCode,// draftHeadDetail.CustomerCode;
+    sosq["customerName"] = item.customerName,//draftHeadDetail.CustomerName;
+    sosq["documentEntry"] = docEntry,//item.docNum;
+    sosq["series"] = 181;
+    sosq["deliveryDate"] = item.deliveryDate,//draftHeadDetail.DocDate;
+    sosq["remarks"] =item.remarks,// draftHeadDetail.Remarks;
+    sosq["docDate"] = item.docDate//,draftHeadDetail.DocDate;
+    sosq["DocDueDate"] =item.docDueDate,// draftHeadDetail.DocDate;
 
-    sosq["customerCode"] = draftHeadDetail.CustomerCode;
-    sosq["customerName"] = draftHeadDetail.CustomerName;
-    sosq["deliveryDate"] = draftHeadDetail.DocDate;
-    sosq["remarks"] = draftHeadDetail.Remarks;
-    sosq["docDate"] = draftHeadDetail.DocDate;
-    sosq["DocDueDate"] = draftHeadDetail.DocDate;
-    sosq["vatGroup"] = draftHeadDetail.VatGroup;
+    sosq["docCurrency"] = item.docCurrency,//draftHeadDetail.DocCurrency;
+    sosq["docRate"] =item.docRate,// draftHeadDetail.DocRate;
+    sosq["discountPercent"] =item.docDiscPrcnt,// draftHeadDetail.DiscountPer;
+    sosq["saleOrderType"] = "A";
+    sosq["DocEntry"] = docEntry;
 
-    sosq["localORImport"] = draftHeadDetail.LocalORImport;
-    sosq["seriesString"] = draftHeadDetail.SeriesString;
-    sosq["docCurrency"] = draftHeadDetail.DocCurrency;
-    sosq["docRate"] = draftHeadDetail.DocRate;
-    sosq["discountPercent"] = draftHeadDetail.DiscountPer;
+
+  /*   sosq["SapUserCode"] = user.sapUserCOde; //
+    sosq["salePersonCode"] = user.salePersonCode; //
+    sosq["customerCode"] = itemx.customerCode;
+    sosq["customerName"] = itemx.customerName;
+    sosq["documentEntry"] = itemx.docNum;
+    sosq["series"] = 181;
+    sosq["deliveryDate"] = todaysdate,//"2023/05/24",//date;
+    sosq["remarks"] = remarks;
+    sosq["docDate"] = todaysdate;
+    sosq["docDueDate"] = todaysdate;
+    sosq["docCurrency"] = currencyType;
+    sosq["docRate"] = dollarRate;
+    sosq["discountPercent"] = discount; //
+    sosq["saleOrderType"] = "A"; //
+    sosq["DocEntry"] = itemx.docEntry; */
+
+    sosq["vatGroup"] = item.vatGroup; //
+    sosq["localORImport"] = null; //
+    sosq["seriesString"] = null; 
+    sosq["U_location"] = null; //
+   
+
 
     saleOrder["saleOrderAndSaleQutation"] = sosq;
     saleOrder["masterItems"] = draftTableDetail;
-    console.log("saleOrder1:", saleOrder);
+  //
 
-    setprogressVisible(true);
-    const response = await postOrderApi.postOrder(saleOrder);
-    console.log("saleOrder response 111222:", response.data);
+    console.log("approveOrder:", saleOrder);
+
+     setprogressVisible(true);
+    const response = await postOrderApi.approveOrder(saleOrder);
+    console.log("approveOrder response 111222:", response.data);
     setprogressVisible(false);
 
-    if (response.data.Code === 0) {
-      Alert.alert("Success", "Successfully Posted!", [{ text: "OK" }]);
-      navigation.navigate("Home");
-    }
+    if (response.data.code === 0) {
+        Alert.alert("Success", "Successfully Approved!", [{ text: "OK" }]);
+        navigation.navigate("Home");
+    //    setCartItem([]);
+      } else {
+        Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
+      }
 
-    if (!response.ok) return Alert.alert("Unable to post Order");
+      if (!response.ok) return Alert.alert("Unable to Approve Order");
+
   };
   const footer = () => {
     return (
       <ScrollView>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("PostOrderEdit", {
-                draftTableDetail: draftTableDetail,
-                itemx: item,
-              })
-            }
-            style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
-          >
-            <Text style={{ color: "green" }}>Edit Order</Text>
-          </TouchableOpacity>
-  
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("PostOrderEdit", {
+              draftTableDetail: draftTableDetail,
+              itemx: item,
+            })
+          }
+          style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
+        >
+          <Text style={{ color: "green" }}>Edit Order</Text>
+        </TouchableOpacity>
+
 
         <View style={styles.bottomContainer}>
           <AppRow style={styles.row1}>
@@ -169,7 +201,7 @@ const DrfatOrderDetail = ({ route, navigation }) => {
 
           <AppRow>
             <AppText multiline style={styles.date1}>
-              Order Remarks:{" "}
+              Order Remarks:
             </AppText>
             <AppText style={styles.remHeading}>
               <AppText multiline>{item.remarks}</AppText>
@@ -215,7 +247,7 @@ const DrfatOrderDetail = ({ route, navigation }) => {
         title="Back"
         bckBtnImg={require("../assets/back-button.png")}
         navigation={navigation}
-        headerTitle="Order Detail"
+        headerTitle="Order Detail -"
       />
 
       {footer()}
@@ -228,11 +260,30 @@ const DrfatOrderDetail = ({ route, navigation }) => {
       </AppRow>
 
       <View>{renderOrderDetail()}</View>
+
+      <ProgressDialog
+        visible={progressVisible}
+        title="Posting Data"
+        message="Please wait..."
+      />
+
+      <TouchableOpacity
+        style={{ marginTop: 40 }}
+        onPress={() => postOrder()}>
+        <AppButton
+          text="ADD ORDER"
+          iconFreeButton
+          loginBtnStyle={styles.loginBtnStyle}
+          navigation={navigation}
+          navigation1="Login"
+        />
+      </TouchableOpacity>
+
     </SafeAreaView>
   );
 };
 
-export default DrfatOrderDetail;
+export default RTODetailScreen;
 
 const styles = StyleSheet.create({
   loginBtnStyle: {

@@ -76,6 +76,7 @@ import StackOfficer from "./StackOfficer"
 
 import ItemDetailEdit from "../screens/ItemDetailEdit";
 import DrfatPendingDetail from "../screens/DraftPendingDetail";
+import RTODetailScreen from "../screens/RTODetalsScreen";
 const { Navigator, Screen } = createStackNavigator();
 
 const AppStackNav = ({ navigation }) => {
@@ -141,6 +142,12 @@ const AppStackNav = ({ navigation }) => {
         component={DrfatPendingDetail}
         options={{ headerShown: false }}
       />
+            <Screen
+        name="RTODetailScreen"
+        component={RTODetailScreen}
+        options={{ headerShown: false }}
+      />
+
       <Screen
         name="MonthalyCommissionReport"
         component={MonthalyCommissionReport}

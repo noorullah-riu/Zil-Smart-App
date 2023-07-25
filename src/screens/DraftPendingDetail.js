@@ -22,7 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DrfatPendingDetail = ({ route, navigation }) => {
   const { item, id, docEntry } = route.params;
-  console.log(item,"Item prop here===>");
+  console.log(item, "Item prop here===>");
   const [progressVisible, setprogressVisible] = useState(true);
   const [slp, setSlp] = useState({});
   const [date, setDate] = useState("");
@@ -76,8 +76,8 @@ const DrfatPendingDetail = ({ route, navigation }) => {
   };
   useEffect(() => {
     getUserDetails();
-  //  getDrfatOrderHeader(docEntry);
-      getDrfatOrderItemsNew();
+    //  getDrfatOrderHeader(docEntry);
+    getDrfatOrderItemsNew();
     //  getDrfatOrderTable(docEntry);
 
     console.log("itemdetail:", item);
@@ -127,18 +127,18 @@ const DrfatPendingDetail = ({ route, navigation }) => {
   const footer = () => {
     return (
       <ScrollView>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("PostOrderEdit", {
-                draftTableDetail: draftTableDetail,
-                itemx: item,
-              })
-            }
-            style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
-          >
-            <Text style={{ color: "green" }}>Edit Order</Text>
-          </TouchableOpacity>
-  
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("PostOrderEdit", {
+              draftTableDetail: draftTableDetail,
+              itemx: item,
+            })
+          }
+          style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
+        >
+          <Text style={{ color: "green" }}>Edit Order</Text>
+        </TouchableOpacity>
+
 
         <View style={styles.bottomContainer}>
           <AppRow style={styles.row1}>
@@ -169,7 +169,7 @@ const DrfatPendingDetail = ({ route, navigation }) => {
 
           <AppRow>
             <AppText multiline style={styles.date1}>
-              Order Remarks:{" "}
+              Order Remarks:
             </AppText>
             <AppText style={styles.remHeading}>
               <AppText multiline>{item.remarks}</AppText>
@@ -215,7 +215,7 @@ const DrfatPendingDetail = ({ route, navigation }) => {
         title="Back"
         bckBtnImg={require("../assets/back-button.png")}
         navigation={navigation}
-        headerTitle="Order Detail"
+        headerTitle="Order Detail -"
       />
 
       {footer()}
@@ -228,6 +228,19 @@ const DrfatPendingDetail = ({ route, navigation }) => {
       </AppRow>
 
       <View>{renderOrderDetail()}</View>
+
+  {/*     <TouchableOpacity
+        style={{ marginTop: 40 }}
+        onPress={() => postOrder()}>
+        <AppButton
+          text="ADD ORDER"
+          iconFreeButton
+          loginBtnStyle={styles.loginBtnStyle}
+          navigation={navigation}
+          navigation1="Login"
+        />
+      </TouchableOpacity> */}
+
     </SafeAreaView>
   );
 };

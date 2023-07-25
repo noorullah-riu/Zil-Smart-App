@@ -21,6 +21,7 @@ const PostOrderEditCard = ({
   navigation,
   index,
   name,
+  total,
   price,
   quantity,
   currentItem,
@@ -101,7 +102,7 @@ const PostOrderEditCard = ({
 }
   useEffect(() => {
     // console.log("post order card:", cartItem);
-   setT(currentItem.pcsPerDzn*currentItem.cartons* currentItem.price);
+  //setT(currentItem.pcsPerDzn*currentItem.cartons* currentItem.price);
   }, []);
   return (
     <View style={styles.container}>
@@ -123,7 +124,8 @@ const PostOrderEditCard = ({
             <AppText style={styles.p7b}>{currentItem.price}</AppText>
           </AppColumn>
           <AppColumn style={styles.c3}>
-            <AppText style={styles.p8b}>{T.toFixed()}</AppText>
+           <AppText style={styles.p8b}>{total.toFixed(4)}</AppText>
+       
           </AppColumn>
           <AppColumn></AppColumn>
         </AppRow>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -34,13 +34,17 @@ import * as Location from "expo-location";
 
 const PostOrderEdit = ({ route, navigation }) => {
   const { draftTableDetail, itemx } = route.params;
-  console.log(draftTableDetail, "draftTableDetail");
-  console.log(itemx, "itemx");
+  const { setCartItem, cartItem, isApproved, setisApproved } = useContext(addToCartContext);
+  // console.log(draftTableDetail, "draftTableDetail ------->>");
+  // console.log(cartItem, "cartItem ------->>");
+  // console.log(itemx, "itemx");
   const [customer, setCustomerDetails] = useState({});
+
+  const [localCart, setlocalCart] = useState([]);
   const [user, setUserDetails] = useState({});
   const { setPreCategoriesRouteVal } = useContext(preCategoriesRouteContext);
-  const { setCartItem, cartItem } = useContext(addToCartContext);
-  console.log(cartItem, "cartItem ------->>");
+
+  // console.log(cartItem, "cartItem ------->>");
   const [sosq, setSoSq] = useState({});
   const [saleOrder, setSaleOrder] = useState({});
   const [progressVisible, setprogressVisible] = useState(false);
@@ -52,7 +56,10 @@ const PostOrderEdit = ({ route, navigation }) => {
   const [type, setType] = useState("");
   const [subTotal, setSubTotal] = useState(itemx.docTotal);
   const [grandTotal, setGrandTotal] = useState(0);
-  const [grandTotal1, setGrandTotal1] = useState(0);
+
+  const count = useRef(itemx.docTotal);
+
+  const [grandTotaloc, setGrandTotalloc] = useState(grandTotal);
 
   const [dollarRate, setDollarRate] = useState(0);
   const [usdRate, setUsdRate] = useState(0);
@@ -60,6 +67,8 @@ const PostOrderEdit = ({ route, navigation }) => {
 
   const [discount, setDiscount] = useState(0);
   const [discountAmount, setDiscountAmount] = useState(0);
+
+  const { routeVal } = useContext(sosqContext);
 
   const [vat, setVat] = useState("");
   const [rate, setRate] = useState("");
@@ -76,164 +85,118 @@ const PostOrderEdit = ({ route, navigation }) => {
   const [vatGroup, setVatGroup] = useState("");
   const [location, setLocation] = useState("");
 
+  const [date, setDate] = useState(itemx.deliveryDate);
+
   const [show, setShow] = useState(false);
 
   const findSubTotal = () => {
     let res = 0;
-    //  setCartItem
-    draftTableDetail.forEach((element) => {
-      // res += parseInt(element.lineTotal);
-      //    res += parseInt(element.totalPcs * element.price);
+    // var c=cartItem
+    cartItem.forEach((element) => {
       res += parseInt(element.cartons * element.pcsPerDzn * element.price);
+      //  res += parseInt(element.price);
+      //  alert(" item")
+      //  console.log(element, "cart items ---<<<")
     });
+    // count.current = res;
     setSubTotal(res);
     //  alert(res);
   };
 
-  const [date, setDate] = useState(itemx.deliveryDate);
 
-  useEffect(() => {
-    // getAllVatGroups();
-    findSubTotal();
+  const findSubTotal2 = () => {
+    let res = 0;
+    // var c=cartItem
+    cartItem.forEach((element) => {
+      res += parseInt(element.cartons * element.pcsPerDzn * element.price);
+      //  res += parseInt(element.price);
+      //  alert(" item")
+      //  console.log(element, "cart items ---<<<")
+    });
+    count.current = res;
+    setSubTotal(res);
 
-    setCartItem(draftTableDetail);
-    getCustomerDetails();
-    getUserDetails();
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-      }
-      let location = await Location.getCurrentPositionAsync({});
-      let text = "Waiting..";
-      if (location) {
-        text = location.coords.latitude + " , " + location.coords.longitude;
-        console.log("location:", text);
-        setLocation(text.toString());
-      }
-    })();
-    // getAllCurrencies();
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    // console.log("new Date():",date, month,year);
-    if (date < 10) {
-      date = "0" + date;
-    }
-    if (month < 10) {
-      month = "0" + month;
-    }
-
-    setTodaysdate(month + "/" + date + "/" + +year);
-    // getCurrencyRate(date + "/" + month + "/" + year);
-
-    setTodaysdate(year + "/" + month + "/" + +date);
-    setTodaysdate1(date + "/" + month + "/" + year);
-  }, []);
-
-  const onDateChange = (event, selectedDate) => {
-    let newDate = selectedDate || date;
-    setDate(newDate);
-    setShow(false);
-  };
-  const onVatSelect = (value) => {
-    setVatGroup(value);
-
-    if (value) {
-      setRate(vatGroups.filter((obj) => obj.Code === value)[0].Rate);
-      let rate =
-        (vatGroups.filter((obj) => obj.Code === value)[0].Rate / 100) *
-        grandTotal;
-      // console.log("gt", rate + grandTotal);
-      setGrandTotal1((rate + grandTotal).toFixed(2));
-    }
+    //  alert(res);
   };
 
-  const onSelectSeries = (value) => {
-    // console.log("in onSelectSeries:", value);
-    setSeriesNo(value);
-  };
-  const { routeVal } = useContext(sosqContext);
+
+
+
+  /*    React.useEffect(() => {
+       const unsubscribe = navigation.addListener('focus', () => {
+         // The screen is focused
+         // Call any action
+         //  alert("focus Executed")
+            findSubTotal();
+       //  setCartItem(draftTableDetail);
+         const timeoutID = window.setTimeout(() => {
+           findSubTotal();
+           alert("timeout");
+         }, 4000);
+     
+         return () => window.clearTimeout(timeoutID );
+       });
+   
+       // Return the function to unsubscribe from the event so it gets removed on unmount
+       return unsubscribe;
+     }, [navigation]);  */
+
+  const objectsEqual = (o1, o2) =>
+    Object.keys(o1).length === Object.keys(o2).length
+    && Object.keys(o1).every(p => o1[p] === o2[p]);
 
   const postOrder = async () => {
-
-    sosq["SapUserCode"] = user.sapUserCOde; //
-    sosq["salePersonCode"] = user.salePersonCode; //
-    sosq["customerCode"] = itemx.customerCode;
-    sosq["customerName"] = itemx.customerName;
-    sosq["deliveryDate"] = todaysdate,//"2023/05/24",//date;
+  /*   if (cartItem.length == localCart.length) {
+      alert("No Change in item List");
+    }  */  if (subTotal == count.current.toFixed(0)) {
+      alert("No Change in item, Please Modify your order list");
+    } else {
+      //   alert("Update Order Now");
+      sosq["SapUserCode"] = user.sapUserCOde; //
+      sosq["salePersonCode"] = user.salePersonCode; //
+      sosq["customerCode"] = itemx.customerCode;
+      sosq["customerName"] = itemx.customerName;
+      sosq["deliveryDate"] = todaysdate,//"2023/05/24",//date;
       sosq["series"] = 181;
-    sosq["remarks"] = remarks;
-    sosq["docDueDate"] = todaysdate;
-    sosq["docDate"] = todaysdate;
-    sosq["vatGroup"] = vatGroup; //
-    sosq["documentEntry"] = itemx.docNum;
-    sosq["localORImport"] = type; //
-    sosq["seriesString"] = seriesNo; //
-    sosq["docCurrency"] = currencyType;
+      sosq["remarks"] = remarks;
+      sosq["docDueDate"] = todaysdate;
+      sosq["docDate"] = todaysdate;
+      sosq["vatGroup"] = vatGroup; //
+      sosq["documentEntry"] = itemx.docNum;
+      sosq["localORImport"] = type; //
+      sosq["seriesString"] = seriesNo; //
+      sosq["docCurrency"] = currencyType;
+      sosq["docRate"] = dollarRate;
+      sosq["discountPercent"] = discount; //
+      sosq["U_location"] = location; //
+      if (isApproved) {
+        sosq["saleOrderType"] = "A"; //
+      } else {
+        sosq["saleOrderType"] = "P"; //
+      }
+      sosq["DocEntry"] = itemx.docEntry;
+      (saleOrder["saleOrderAndSaleQutation"] = sosq),
+        (saleOrder["masterItems"] = cartItem),
 
-    sosq["docRate"] = dollarRate;
-    sosq["discountPercent"] = discount; //
-    sosq["U_location"] = location; //
-    sosq["saleOrderType"] = "P"; //
-    sosq["DocEntry"] = itemx.docEntry;
-     
+        console.log(saleOrder, "--------saleOrder payload update:---------");
+      setprogressVisible(true);
+      const response = await postOrderApi.updateOrder(saleOrder);
+      console.log("saleOrder response:", response.data);
+      setprogressVisible(false);
 
-    (saleOrder["saleOrderAndSaleQutation"] = sosq),
-      (saleOrder["masterItems"] = cartItem),// draftTableDetail), // ,// draftTableDetail;
-      console.log(saleOrder, "--------saleOrder payload update:---------");
-    setprogressVisible(true);
-    const response = await postOrderApi.updateOrder(saleOrder);
-    console.log("saleOrder response:", response.data);
-    setprogressVisible(false);
+      if (response.data.code === 0) {
+        Alert.alert("Success", "Successfully Posted!", [{ text: "OK" }]);
+        navigation.navigate("Home");
+        setCartItem([]);
+      } else {
+        Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
+      }
 
-    if (response.data.code === 0) {
-      Alert.alert("Success", "Successfully Posted!", [{ text: "OK" }]);
-      navigation.navigate("Home");
-      setCartItem([]);
-    } else {
-      Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
+      if (!response.ok) return Alert.alert("Unable to post Order");
+
     }
-
-    if (!response.ok) return Alert.alert("Unable to post Order");
   };
 
-  const postQuotation = async () => {
-    // console.log("postQuotation called");
-
-    sosq["SapUserCode"] = user.sapUserCOde; //
-    sosq["salePersonCode"] = user.salePersonCode; //
-    sosq["customerCode"] = customer.CardCode;
-    sosq["customerName"] = customer.CardName;
-    sosq["deliveryDate"] = date;
-    sosq["series"] = 89;
-    sosq["remarks"] = remarks;
-    sosq["docDueDate"] = todaysdate;
-    sosq["docDate"] = todaysdate;
-    sosq["vatGroup"] = vatGroup; //
-    sosq["localORImport"] = type; //
-    sosq["seriesString"] = seriesNo; //
-    sosq["docCurrency"] = currencyType;
-    sosq["docRate"] = dollarRate;
-    sosq["discountPercent"] = discount; //
-    saleOrder["saleOrderAndSaleQutation"] = sosq;
-    saleOrder["masterItems"] = cartItem;
-
-    console.log("saleQUOTATION", saleOrder);
-    setprogressVisible(true);
-    const response = await postQuotationApi.postQuotation(saleOrder);
-    console.log("in postQuotation", response);
-    setprogressVisible(false);
-    if (response.data.code === 0) {
-      Alert.alert("Success", "Successfully Posted!", [{ text: "OK" }]);
-      navigation.navigate("Home");
-      setCartItem([]);
-    } else {
-      Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
-    }
-
-    if (!response.ok) return Alert.alert("Unable to post Quotation");
-  };
 
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
@@ -248,14 +211,6 @@ const PostOrderEdit = ({ route, navigation }) => {
     setUserDetails(JSON.parse(userJsonValue));
   };
 
-  const onSelectCurrency = (value) => {
-    setCurrencyType(value);
-    value === "USD"
-      ? setDollarRate(usdRate)
-      : value === "RMB"
-        ? setDollarRate(rmbRate)
-        : null;
-  };
   const footer = () => {
     const handleDiscountInput = (value) => {
       setDiscount(value);
@@ -265,6 +220,7 @@ const PostOrderEdit = ({ route, navigation }) => {
       setDiscountAmount(discountamount);
       let gt = subTotal - (value / 100) * subTotal;
       setGrandTotal(gt);
+      //  findSubTotal();
     };
     const handleDiscountAmount = (value) => {
       setDiscountAmount(value);
@@ -410,6 +366,22 @@ const PostOrderEdit = ({ route, navigation }) => {
             title="Posting Data"
             message="Please wait..."
           />
+          {/*           <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
+
+            <TouchableOpacity
+              style={{ flex: 1, backgroundColor: colors.secondary }}
+              onPress={() => findSubTotal()}>
+              <Text style={{ padding: 10, color: "#fff", textAlign: "center" }}>Calculate Total</Text>
+            </TouchableOpacity>
+            <View style={{ flex: 0.2 }}></View>
+            <TouchableOpacity
+              style={{ flex: 1, backgroundColor: colors.secondary }}
+              onPress={() => postOrder()}>
+              <Text style={{ padding: 10, color: "#fff", textAlign: "center" }}>UPDATE ORDER</Text>
+            </TouchableOpacity>
+
+          </View> */}
+
 
           <TouchableOpacity onPress={() => postOrder()}>
             <AppButton
@@ -424,58 +396,6 @@ const PostOrderEdit = ({ route, navigation }) => {
       </ScrollView>
     );
   };
-  const header = () => {
-    return (
-      <AppRow style={styles.r1}>
-        <AppText style={styles.p1_0}>Item Name</AppText>
-        <AppText style={styles.p2}>Crts</AppText>
-        <AppText style={styles.p3}>Price</AppText>
-        <AppText style={styles.p4}>Total</AppText>
-      </AppRow>
-    );
-  };
-
-  /*   saleOrder: Object {
-    "masterItems": Array [
-      Object {
-        "$id": "4413",
-        "adjustmentPrice": 0,
-        "availableQty": "0",
-        "basePrice": 11,
-        "cartons": 44,
-        "discount": 0,
-        "id": 0,
-        "itemCode": "FG002284",
-        "itemName": "Panda 23mm x 38yds 38mic Super Golden",
-        "jobType": "Rewinding",
-        "lineTotal": 5459.5199999999995,
-        "name": "Panda 23mm x 38yds 38mic Super Golden",
-        "pcsPerCartons": "2",
-        "price": 11,
-        "printedcost": 22,
-        "qty": 44,
-        "vatGourpSa": "S1",
-      },
-    ],
-    "saleOrderAndSaleQutation": Object {
-      "SapUserCode": "azmat",
-      "U_location": "31.5011902 , 74.3182414",
-      "customerCode": "C00025",
-      "customerName": "Fazal-e-Rabi",
-      "deliveryDate": "2022/11/16",
-      "discountPercent": "2",
-      "docCurrency": "",
-      "docDate": "2022/11/15",
-      "docDueDate": "2022/11/15",
-      "docRate": 0,
-      "localORImport": "",
-      "remarks": "Ip",
-      "salePersonCode": 1,
-      "series": 162,
-      "seriesString": "",
-      "vatGroup": "",
-    },
-  } */
 
   const renderItemsList = (navigation) => {
     return (
@@ -490,6 +410,7 @@ const PostOrderEdit = ({ route, navigation }) => {
               name={item.itemName}
               quantity={item.totalPcs}
               price={item.price}
+              total={item.pcsPerDzn * item.cartons * item.price}
               index={index}
               findSubTotal={findSubTotal}
               navigation={navigation}
@@ -503,6 +424,65 @@ const PostOrderEdit = ({ route, navigation }) => {
     );
   };
 
+  /*      React.useEffect(() => {
+  
+        const timeoutID = window.setTimeout(() => {
+          findSubTotal();
+          alert("timeout");
+        }, 4000);
+    
+        return () => window.clearTimeout(timeoutID );
+    }, []);  */
+
+
+  useEffect(() => {
+    findSubTotal();
+  }, [cartItem]);
+
+  useEffect(() => {
+    // getAllVatGroups();
+    //  alert("useeffect Executed")
+
+    setCartItem(draftTableDetail);
+    setlocalCart(draftTableDetail);
+
+    // setGrandTotalloc(grandTotal);
+
+    findSubTotal2();
+    getCustomerDetails();
+    //  count.current = subTotal;
+
+    getUserDetails();
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      let text = "Waiting..";
+      if (location) {
+        text = location.coords.latitude + " , " + location.coords.longitude;
+        console.log("location:", text);
+        setLocation(text.toString());
+      }
+    })();
+
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+    // console.log("new Date():",date, month,year);
+    if (date < 10) {
+      date = "0" + date;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    setTodaysdate(month + "/" + date + "/" + +year);
+    setTodaysdate(year + "/" + month + "/" + +date);
+    setTodaysdate1(date + "/" + month + "/" + year);
+  }, []);
+
   return (
     <SafeAreaView>
       <AppHeader
@@ -510,20 +490,21 @@ const PostOrderEdit = ({ route, navigation }) => {
         title="Back"
         bckBtnImg={require("../assets/back-button.png")}
         navigation={navigation}
-        headerTitle="Edit Order E"
+        headerTitle="Edit Order-"
       />
 
       <TouchableOpacity
-           onPress={() =>
-            navigation.navigate("ItemDetailListEdit", {
-              draftTableDetail: draftTableDetail,
-              itemx: itemx,
-            })
-          }
+        onPress={() =>
+          navigation.navigate("ItemDetailListEdit", {
+            draftTableDetail: draftTableDetail,
+            itemx: itemx,
+          })
+        }
         //  onPress={() => alert("go to items page")}
         style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
       >
-        <Text style={{ color: "green" }}>Add Items</Text>
+           <Text style={{ color: "green" }}>Add Items</Text>
+     {/*    <Text style={{ color: "green" }}>{count.current.toFixed(0)} - {subTotal}--Add Items</Text> */}
       </TouchableOpacity>
       <AppRow style={styles.r1}>
         <AppText style={styles.p1_0}>Item Name</AppText>

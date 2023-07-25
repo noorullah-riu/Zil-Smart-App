@@ -290,7 +290,8 @@ const ItemsListDetailScreen = ({
       currentItem.jobType = "Rewinding"; //jobType;
       currentItem.$id = Math.floor(Math.random() * 1000);
       //  currentItem.discount = 0;
-      // currentItem.adjustmentPrice = 0;
+       currentItem.PrntedCost = PrntedCost;
+
       currentItem.vatGourpSa = "S1";
       currentItem.itemName = name;
       // currentItem.totalPcs = currentItem.cartons * currentItem.qty;

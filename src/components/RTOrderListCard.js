@@ -1,24 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet, Image, SafeAreaView, View, ScrollView, TouchableOpacity } from "react-native";
 import AppText from './AppText';
 import colors from "./colors";
 import AppRow from './AppRow';
-import moment from "moment";
-import { addToCartContext } from "../context/addToCartContext";
 
-const OrderListCard = ({ navigation, id, value, name, item, orderDate, deliveryDate, docEntry }) => {
-    const { isApproved, setisApproved } = useContext(addToCartContext);
-
+const RTOrderListCard = ({ navigation, id, value, name, item, orderDate, deliveryDate, docEntry, }) => {
     // console.log("docnum:",item)
-    const funNavigate = () => {
-        setisApproved(true);
-        navigation.navigate("DrfatOrderDetail", { docEntry, item });
 
-    }
     return (
         <View style={styles.card1}>
-            {/* <TouchableOpacity onPress={ () => navigation.navigate("OrderDetail", {id,item})}> */}
-            <TouchableOpacity onPress={() => funNavigate()}>
+            <TouchableOpacity onPress={() => navigation.navigate("RTODetailScreen", { docEntry, item })}>
+                {/*     <AppRow style={styles.row1}>
+                    <AppText style={styles.p2}># {id}</AppText>
+                    <AppText style={styles.p3}>{item.DocCurrency} <AppText style={styles.p3}>{item.DocCurrency === "PKR" ? item.DocTotal : item.DocTotalFC}</AppText></AppText>
+                </AppRow> */}
                 <AppRow style={styles.row1}>
                     <AppText style={styles.p2}># {id}</AppText>
                     {/*<AppText  style={styles.p3}>{item.DocCurrency} <AppText style={styles.p3}>{item.DocCurrency ==="PKR" ? item.DocTotal : item.DocTotalFC}</AppText></AppText>*/}
@@ -26,20 +21,18 @@ const OrderListCard = ({ navigation, id, value, name, item, orderDate, deliveryD
                 </AppRow>
                 <AppRow style={styles.row1}>
                     <AppText style={styles.p4}>{name}</AppText>
-
                 </AppRow>
-                <AppText style={styles.p6}>Order Date:     <AppText style={styles.p6b}>{moment(orderDate).utc().format('YYYY-MM-DD')}</AppText></AppText>
-                <AppText style={styles.p7}>Delivery Date: <AppText style={styles.p7b}>{moment(deliveryDate).utc().format('YYYY-MM-DD')}</AppText></AppText>
-                {/* <AppText style={styles.p7}>Doc Entry: <AppText style={styles.p7b}>{docEntry}</AppText></AppText> */}
-                <AppText style={styles.p6}>Remarks: <AppText style={styles.p6b}>{item.remarks}</AppText></AppText>
-
+                <AppText style={styles.p6}>Order Date: RTO    <AppText style={styles.p6b}>{orderDate.slice(0, 10)}</AppText></AppText>
+                <AppText style={styles.p7}>Delivery Date:  <AppText style={styles.p7b}>{deliveryDate.slice(0, 10)}</AppText></AppText>
+                <AppText style={styles.p7}>Doc Entry:      <AppText style={styles.p7b}>{docEntry}</AppText></AppText>
+                <AppText style={styles.p6}>Remarks:        <AppText style={styles.p6b}>{item.remarks}</AppText></AppText>
 
             </TouchableOpacity>
         </View>
     );
 }
 
-export default OrderListCard;
+export default RTOrderListCard;
 
 const styles = StyleSheet.create({
     card1: {
@@ -54,6 +47,12 @@ const styles = StyleSheet.create({
     row1: {
         justifyContent: "space-between",
         marginVertical: 2,
+
+    },
+    p4: {
+        color: colors.card_h2,
+        fontWeight: "bold",
+        fontSize: Platform.OS === "ios" ? 18 : 16,
 
     },
     row2: {
@@ -76,12 +75,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
 
     },
-    p4: {
-        color: colors.card_h2,
-        fontWeight: "bold",
-        fontSize: Platform.OS === "ios" ? 18 : 16,
 
-    },
     p5: {
         color: colors.card_h2,
         fontSize: Platform.OS === "ios" ? 16 : 14,
@@ -95,7 +89,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     p6b: {
-        color: colors.blue,
+        color: colors.secondary,
         fontSize: Platform.OS === "ios" ? 16 : 14,
     },
     p7: {
@@ -107,4 +101,6 @@ const styles = StyleSheet.create({
         color: colors.blue,
         fontSize: Platform.OS === "ios" ? 16 : 14,
     },
+
+
 })

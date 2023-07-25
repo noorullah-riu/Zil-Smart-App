@@ -36,6 +36,14 @@ const Ledger = ({ navigation, route }) => {
 
   const [cardCode, setCardCode] = useState("");
   const [name, setName] = useState("");
+  const [creditLimit, setcreditLimit] = useState("");
+  const [creditDays, setcreditDays] = useState("");
+  const [totalDebit, settotalDebit] = useState("");
+  const [totalCredit, settotalCredit] = useState("");
+  const [closingBalance, setclosingBalance] = useState("");
+
+
+
 
   //const [date, setDate] = useState(new Date())
   const [open, setOpen] = useState(false);
@@ -263,15 +271,14 @@ const Ledger = ({ navigation, route }) => {
       <p style="margin-left: 550px; margin-top: -40px; font-weight: 600">
         Credit Limit:
       </p>
-      <p style="margin-left: 700px; margin-top: -35px">7,500,000.00</p>
+      <p style="margin-left: 700px; margin-top: -35px">${creditLimit}</p>
     </div>
     <div style="margin-top: 60px; margin-left: 50px; margin-right: 50px">
       <p style="margin-left: 550px; margin-top: -40px; font-weight: 600">
         Credit Days:
       </p>
-      <p style="margin-left: 700px; margin-top: -35px">30 Days</p>
+      <p style="margin-left: 700px; margin-top: -35px">${creditDays}</p>
     </div>
-    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
     <!-- Table PART -->
     <table
@@ -422,7 +429,7 @@ const Ledger = ({ navigation, route }) => {
           "
         >
           <p class="s3" style="padding-right: 20pt; text-align: center">
-          Line Memo
+            Overdue
           </p>
         </td>
       </tr>
@@ -467,14 +474,29 @@ const Ledger = ({ navigation, route }) => {
       customerCode
     );
     console.log(response.data, "---------- data here of ledger");
-    setReports1(response.data.data);
-    var html = ``;
-    var totalCredit = 0;
-    var totalDebit = 0;
-    response.data?.data?.map((item) => {
-      totalCredit += item.credit;
-      totalDebit += item.debit;
+    console.log(response.data.data.details, "---------- details here of ledger");
 
+    console.log(response.data.data.customerName, "----------customerName");
+    setName(response.data.data.customerName);
+
+    console.log(response.data.data.creditLimit, "----------creditLimit");
+    setcreditLimit(response.data.data.creditLimit);
+
+    console.log(response.data.data.creditDays, "----------creditDays");
+    setcreditDays(response.data.data.creditDays);
+
+    console.log(response.data.data.totalDebit, "----------totalDebit");
+    settotalDebit(response.data.data.totalDebit);
+
+    console.log(response.data.data.totalCredit, "----------totalCredit");
+    settotalCredit(response.data.data.totalCredit);
+
+    console.log(response.data.data.closingBalance, "----------closingBalance");
+    setclosingBalance(response.data.data.closingBalance);
+
+    setReports1(response.data.data.details);
+    var html = ``;
+    response.data?.data?.details?.map((item) => {
       html =
         html +
         `
@@ -493,7 +515,7 @@ const Ledger = ({ navigation, route }) => {
       "
     >
       <p class="s3" style="padding-right: 4pt; text-align: center">
-      ${item.postingDate.split("T")[0]}
+    item.date.split("T")[0]
       </p>
     </td>
     <td
@@ -506,12 +528,8 @@ const Ledger = ({ navigation, route }) => {
         border-bottom-style: solid;
         border-bottom-width: 1pt;
         border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 2pt; text-align: center">${
-        item.docStatus
-      }</p>
+        border-right-width: 1pt;">
+      <p class="s3" style="padding-right: 2pt; text-align: center">${item.docType}</p>
     </td>
     <td
       style="
@@ -523,12 +541,8 @@ const Ledger = ({ navigation, route }) => {
         border-bottom-style: solid;
         border-bottom-width: 1pt;
         border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 2pt; text-align: center">
-      ${item.docNum}
-      </p>
+        border-right-width: 1pt;">
+      <p class="s3" style="padding-right: 2pt; text-align: center">${item.docNo}</p>
     </td>
     <td
       style="
@@ -540,12 +554,8 @@ const Ledger = ({ navigation, route }) => {
         border-bottom-style: solid;
         border-bottom-width: 1pt;
         border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 4pt; text-align: center">${
-        item.debit
-      }</p>
+        border-right-width: 1pt;">
+      <p class="s3" style="padding-right: 4pt; text-align: center">${item.debit}</p>
     </td>
     <td
       style="
@@ -557,18 +567,12 @@ const Ledger = ({ navigation, route }) => {
         border-bottom-style: solid;
         border-bottom-width: 1pt;
         border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
+        border-right-width: 1pt;">
       <p
         class="s3"
         style="
           padding-right: 3pt;
-          text-align: center;
-        "
-      >
-      ${item.credit}
-      </p>
+          text-align: center;">${item.credit}</p>
     </td>
 
     <td
@@ -581,12 +585,8 @@ const Ledger = ({ navigation, route }) => {
         border-bottom-style: solid;
         border-bottom-width: 1pt;
         border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 4pt; text-align: center">
-        8.216,066.69
-      </p>
+        border-right-width: 1pt;">
+      <p class="s3" style="padding-right: 4pt; text-align: center">${item.balance}</p>
     </td>
     <td
       style="
@@ -598,11 +598,9 @@ const Ledger = ({ navigation, route }) => {
         border-bottom-style: solid;
         border-bottom-width: 1pt;
         border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
+        border-right-width: 1pt;">
       <p class="s3" style="padding-right: 4pt; text-align: center">
-        ${item.dueDate.split("T")[0]}
+        item.dueDate.split("T")[0]
       </p>
     </td>
     <td
@@ -615,16 +613,11 @@ const Ledger = ({ navigation, route }) => {
         border-bottom-style: solid;
         border-bottom-width: 1pt;
         border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 20pt; text-align: center">
-  ${item.lineMemo}
-      </p>
+        border-right-width: 1pt;">
+      <p class="s3" style="padding-right: 20pt; text-align: center">${item.overDue}</p>
     </td>
   </tr>
-
-    `;
+ `;
     });
 
     html += `</table>
@@ -676,30 +669,29 @@ cellspacing="0"
       border-right-width: 1pt;
     "
   >
-    <p class="t3" style="text-align: right">${parseFloat(totalDebit).toFixed(
-      2
-    )}</p>
 
-    <p class="t3" style="text-align: right">${parseFloat(totalCredit).toFixed(
-      2
-    )}</p>
+  <p class="t3" style="text-align: right">${totalDebit}</p>
+  <p class="t3" style="text-align: right">${totalCredit}</p>
+  <p class="t3" style="text-align: right">${closingBalance}</p> 
 
-    <p class="t3" style="text-align: right">${parseFloat(
-      totalCredit - totalDebit
-    ).toFixed(2)}</p>
+
   </td>
 </tr>
 </table>
 </body>
 </html>`;
 
+    /* 
+    <p class="t3" style="text-align: right">${parseFloat(totalDebit).toFixed(2)}</p>
+    <p class="t3" style="text-align: right">${parseFloat(totalCredit).toFixed(2)}</p>
+    <p class="t3" style="text-align: right">${parseFloat(totalCredit - totalDebit).toFixed(2)}</p> */
     setHtml2(html);
 
-    if (response?.data?.data?.length) setName(response?.data?.data[0].cardName);
+    // if (response?.data?.data?.length) setName(response?.data?.data[0].cardName);
     setprogressVisible(false);
-    console.log("getLedgerReport", response?.data?.data?.length);
-    setOpenBal(response?.data?.OpenBalance);
-    setCloseBal(response?.data?.CloseBalance);
+    //  console.log("getLedgerReport", response?.data?.data?.length);
+    // setOpenBal(response?.data?.OpenBalance);
+    //  setCloseBal(response?.data?.CloseBalance);
     if (response?.data?.Code === 0) setDateView(false);
     if (response?.data?.data?.length === 0)
       return Alert.alert("No record found");
@@ -888,11 +880,11 @@ cellspacing="0"
   const listHeader = () => {
     return (
       <AppRow style={styles.headerCard}>
-        <AppText style={styles.headerP4}>Posting Date</AppText>
-        <AppText style={styles.headerP4}>Invoice#</AppText>
+        <AppText style={styles.headerP4}>Customer</AppText>
+        <AppText style={styles.headerP4}>Balance</AppText>
         <AppText style={styles.headerP4}>Debit</AppText>
         <AppText style={styles.headerP4}>Credit</AppText>
-        <AppText style={styles.headerP4}>Balance</AppText>
+        <AppText style={styles.headerP4}>Due Balance</AppText>
       </AppRow>
     );
   };
@@ -906,16 +898,12 @@ cellspacing="0"
         renderItem={({ item, index }) => {
           return (
             <SaleReportCard
-              OpeningBalance={item.OpeningBalance}
-              customer={item.account}
-              salePerson={item.currency}
-              inv={item.baseRef}
-              date={item.postingDate}
-              itemCode={item.itemCode}
-              description={item.memo}
+              balance={item.balance}
+              customer={item.customerName}
               debit={item.debit}
               credit={item.credit}
-              total={item.lineTotal}
+              overDueBalance={item.overDueBalance}
+
             />
           );
         }}

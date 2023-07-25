@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { SafeAreaView, FlatList, View, StyleSheet, Alert, useWindowDimensions,  Pressable,TouchableOpacity } from "react-native";
+import { SafeAreaView, FlatList, View, StyleSheet, Alert, useWindowDimensions, Pressable, TouchableOpacity } from "react-native";
 import AppHeader from "../components/AppHeader";
 import OrderListCard from "../components/OrderListCard";
 import colors from "../components/colors";
@@ -14,8 +14,9 @@ import { preCategoriesRouteContext } from "../context/PreCategoriesRoute";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import draftOrdersListApi from "../api/draftOrdersList";
 import DraftOrdersListCard from "../components/DraftOrdersList";
+import RTOrderListCard from "../components/RTOrderListCard";
 import approvedSaleOrdersApi from "../api/approvedSaleOrders";
-import {ProgressDialog} from "react-native-simple-dialogs";
+import { ProgressDialog } from "react-native-simple-dialogs";
 
 const Orders = ({ navigation }) => {
   const [progressVisible, setprogressVisible] = useState(false);
@@ -24,6 +25,7 @@ const Orders = ({ navigation }) => {
   const [userCode, setUserCode] = useState("");
   const [ordersList, setOrdersList] = useState([]);
   const [draftOrdersList, setDraftOrdersList] = useState([]);
+  const [ReadyToOrderL, setReadyToOrderL] = useState([]);
 
   const { preCategoriesRouteVal, setPreCategoriesRouteVal } = useContext(
     preCategoriesRouteContext
@@ -89,52 +91,82 @@ const Orders = ({ navigation }) => {
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
     setSlp(JSON.parse(jsonValue).SalePersonCode);
-   // console.log("getUserDetails ---->",JSON.parse(jsonValue))
+    // console.log("getUserDetails ---->",JSON.parse(jsonValue))
     getDraftOrdersList(JSON.parse(jsonValue).salePersonCode)
     getApprovedSaleOrders(JSON.parse(jsonValue).salePersonCode)
+    getReadyToOrderList(JSON.parse(jsonValue).salePersonCode)
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   };
 
 
   const getApprovedSaleOrders = async (slp) => {
-  //  alert(slp);
-  if (fromdate == "") {
-    alert("From Date is Required");
-  } else if (todate == "") {
-    alert("To Date is Required");
-  } else {
-    setprogressVisible(true);
-    const response = await approvedSaleOrdersApi.getApprovedSaleOrderDate(slp,fromdate,todate);
-    console.log("response from approved sale orders api1", response.data.data);
-    setprogressVisible(false);
-    setIsFetching(false);
-    if (!response.ok)
-      return Alert.alert("Couldn't retrieve the customers List");
-    if (response.data.data) setOrdersList(response.data.data);
-    else {
-      Alert.alert("No approved sale orders found!");
-      setOrdersList([]);
+    //  alert(slp);
+    if (fromdate == "") {
+      alert("From Date is Required");
+    } else if (todate == "") {
+      alert("To Date is Required");
+    } else {
+      setprogressVisible(true);
+      const response = await approvedSaleOrdersApi.getApprovedSaleOrderDate(slp, fromdate, todate);
+      console.log("response from approved sale orders api1", response.data.data);
+      setprogressVisible(false);
+      setIsFetching(false);
+      if (!response.ok)
+        return Alert.alert("Couldn't retrieve the customers List");
+      if (response.data.data) setOrdersList(response.data.data);
+      else {
+        Alert.alert("No approved sale orders found!");
+        setOrdersList([]);
+      }
     }
-  }
   };
 
   const getDraftOrdersList = async (slp) => {
     setprogressVisible(true);
-    const response = await draftOrdersListApi.getDrfatOrdersListDate(slp,fromdate,todate);
-    console.log("response from draft Orders List api", response.data.data);
+    const response = await draftOrdersListApi.getDrfatOrdersListDate(slp, fromdate, todate);
+    console.log("response from pending sale Orders List api", response.data.data);
     setprogressVisible(false);
     if (!response.ok)
-      return Alert.alert("Couldn't retrieve the draftOrders List");
+      return Alert.alert("Couldn't retrieve the pending sale List");
     if (response.data.data) setDraftOrdersList(response.data.data);
     else {
-      Alert.alert("No sale orders found!");
+      Alert.alert("No pending sale orders found!");
       // setOrdersList([]);
     }
   };
 
+  const getReadyToOrderList = async (slp) => {
+    setprogressVisible(true);
+    const response = await draftOrdersListApi.getReadyToOrderOrdersListDate(slp, fromdate, todate);
+    console.log("response from draft Orders List api", response.data.data);
+    setprogressVisible(false);
+    if (!response.ok)
+      return Alert.alert("Couldn't retrieve the ReadyToOrder List");
+    if (response.data.data) setReadyToOrderL(response.data.data);
+    else {
+      Alert.alert("No Ready To orders found!");
+      // setOrdersList([]);
+    }
+  };
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // The screen is focused
+      // Call any action
+      setfromDate("");
+      settoDate("");
+      setDraftOrdersList([]);
+      setOrdersList([]);
+      setReadyToOrderL([]);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+
   useEffect(() => {
     console.log("preCategoriesRouteVal in orders List", preCategoriesRouteVal);
-   // getUserDetails();
+    // getUserDetails();
     setPreCategoriesRouteVal("ordersList");
   }, []);
   const onRefresh = () => {
@@ -256,8 +288,8 @@ const Orders = ({ navigation }) => {
         }}
       >
         <View style={{ width: "100%", marginHorizontal: 5 }}>
-          <TouchableOpacity 
-          onPress={() => getUserDetails()}
+          <TouchableOpacity
+            onPress={() => getUserDetails()}
           >
             <AppButton
               text="Get Orders"
@@ -279,6 +311,30 @@ const Orders = ({ navigation }) => {
         renderItem={({ item, index }) => {
           return (
             <DraftOrdersListCard
+              id={item.docEntry}
+              value={item.docTotal}
+              name={item.customerName}
+              item={item}
+              orderDate={item.docDate}
+              deliveryDate={item.docDueDate}
+              docEntry={item.docEntry}
+              navigation={navigation}
+              Pendining={true}
+            />
+          );
+        }}
+        keyExtractor={(item) => item.DocNum}
+      />
+    );
+  };
+
+  const render3rdList = () => {
+    return (
+      <FlatList
+        data={ordersList}
+        renderItem={({ item, index }) => {
+          return (
+            <OrderListCard
               id={item.docNum}
               value={item.docTotal}
               name={item.customerName}
@@ -295,15 +351,16 @@ const Orders = ({ navigation }) => {
       />
     );
   };
-  const renderOrderList = () => {
+
+  const renderOrderList2 = () => {
     return (
       <FlatList
-        data={ordersList}
-      //  onRefresh={() => onRefresh()}
-      //  refreshing={isFetching}
+        data={ReadyToOrderL}
+        //  onRefresh={() => onRefresh()}
+        //  refreshing={isFetching}
         renderItem={({ item, index }) => {
           return (
-            <OrderListCard
+            <RTOrderListCard
               id={item.docNum}
               value={item.docTotal}
               name={item.customerName}
@@ -311,7 +368,7 @@ const Orders = ({ navigation }) => {
               orderDate={item.docDate}
               deliveryDate={item.deliveryDate}
               navigation={navigation}
-              docEntry={item.docNum}
+              docEntry={item.docEntry}
 
             />
           );
@@ -323,30 +380,36 @@ const Orders = ({ navigation }) => {
   const FirstRoute = () => {
     return (
       <View style={styles.routetwo}>
-
-
-      {renderOrderList()}
+        {renderDraftOrderList()}
       </View>
     );
   };
   const SecondRoute = () => {
     return (
       <View style={styles.routetwo}>
-
-        {renderDraftOrderList()}
+        {renderOrderList2()}
+      </View>
+    );
+  };
+  const ThirdRoute = () => {
+    return (
+      <View style={styles.routetwo}>
+        {render3rdList()}
       </View>
     );
   };
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: "all", title: "Approved" },
-    { key: "today", title: "PENDING" },
+    { key: "one", title: "PENDING" },
+    { key: "two", title: "Ready to Order" },
+    { key: "three", title: "Approved" },
   ]);
 
   const renderScene = SceneMap({
-    all: FirstRoute,
-    today: SecondRoute,
+    one: FirstRoute,
+    two: SecondRoute,
+    three: ThirdRoute,
   });
 
   const renderTabBar = (props) => (
@@ -384,9 +447,9 @@ const Orders = ({ navigation }) => {
         headerTitle="Orders List"
         myRoute="order"
       />
-       {DocDateSelectionView()}
+      {DocDateSelectionView()}
 
-       <TabView
+      <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
@@ -395,9 +458,9 @@ const Orders = ({ navigation }) => {
         navigation={navigation}
       />
       <ProgressDialog
-          visible={progressVisible}
-          title="Loading Data"
-          message="Please wait..."
+        visible={progressVisible}
+        title="Loading Data"
+        message="Please wait..."
       />
     </SafeAreaView>
   );

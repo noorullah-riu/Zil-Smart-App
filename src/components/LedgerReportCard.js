@@ -3,34 +3,26 @@ import { StyleSheet, View } from "react-native";
 import AppText from "./AppText";
 import colors from "./colors";
 import AppRow from "./AppRow";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import AppColumn from "./AppColumn";
-import { Ionicons } from "@expo/vector-icons";
+
 
 const card1 = ({
   customer,
-  salePerson,
-  inv,
-  date,
-  itemCode,
-  description,
   debit,
   credit,
-  total,
-  OpeningBalance,
+  overDueBalance,
+  balance,
 }) => {
   useEffect(() => {
     // findLineTotal();
   }, []);
 
-  const [initBal, setInitBal] = useState(parseInt(OpeningBalance));
+  const [initBal, setInitBal] = useState(parseInt(balance));
 
   const findLineTotal = () => {
     const lineTotal =
       parseInt(debit) !== 0
-        ? parseInt(OpeningBalance) + parseInt(debit)
-        : parseInt(OpeningBalance) - parseInt(credit);
+        ? parseInt(balance) + parseInt(debit)
+        : parseInt(balance) - parseInt(credit);
     setInitBal(lineTotal);
     console.log("lineTotal is", lineTotal);
     return lineTotal;
@@ -38,11 +30,12 @@ const card1 = ({
 
   return (
     <AppRow style={styles.card1}>
-          <AppText style={styles.p4}>{date.split("T")[0]}</AppText>
-          <AppText style={styles.p4}>{inv}</AppText>
+        {/*   <AppText style={styles.p4}>{date.split("T")[0]}</AppText> */}
+        <AppText style={styles.p4}>{customer}</AppText>
+          <AppText style={styles.p4}>{balance}</AppText>
           <AppText style={styles.p4}>{debit}</AppText>
           <AppText style={styles.p4}>{credit}</AppText>
-          <AppText style={styles.p4}>{total.toFixed(2)}</AppText>
+          <AppText style={styles.p4}>{overDueBalance}</AppText>
     </AppRow>
   );
 };
