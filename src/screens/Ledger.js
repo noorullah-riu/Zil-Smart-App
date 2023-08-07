@@ -38,6 +38,8 @@ const Ledger = ({ navigation, route }) => {
   const [name, setName] = useState("");
   const [creditLimit, setcreditLimit] = useState("");
   const [creditDays, setcreditDays] = useState("");
+  const [openingBalance, setopeningBalance] = useState("");
+
   const [totalDebit, settotalDebit] = useState("");
   const [totalCredit, settotalCredit] = useState("");
   const [closingBalance, setclosingBalance] = useState("");
@@ -106,334 +108,215 @@ const Ledger = ({ navigation, route }) => {
   const html1 = `
   <!DOCTYPE html>
   <html lang="en">
-    <head>
+  
+  <head>
       <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device width,initial scale =1.0" />
+      <meta name="viewport" />
       <meta name="keywords" content="HTML,CSS" />
       <meta name="description" content="....." />
   
       <title>Bp Ledger Report (ZIL)</title>
       <style>
-        h1 {
-          color: black;
-          font-family: Calibri, sans-serif;
-          font-style: normal;
-          font-weight: bold;
-          text-decoration: none;
-          font-size: 22pt;
-        }
-        .s1 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: normal;
-          text-decoration: none;
-          font-size: 11.5pt;
-        }
-        .s2 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 700;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s21 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 136pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s22 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 133pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s23 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 116pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s24 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 178pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s25 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: 100;
-          padding-left: 156pt;
-          text-align: left;
-          text-decoration: none;
-          font-size: 10pt;
-        }
-        .s3 {
-          color: black;
-          font-family: Calibri, sans-serif;
-          font-style: normal;
-          font-weight: bold;
-          text-decoration: none;
-          font-size: 8pt;
-        }
-        .s4 {
-          color: black;
-          font-family: "Times New Roman", serif;
-          font-style: normal;
-          font-weight: normal;
-          text-decoration: none;
-          font-size: 8pt;
-        }
-        img {
-          width: 150px;
-          height: 150px;
-          float: left;
-          margin-left: 50px;
-          margin-right: 30px;
-          margin-top: 50px;
-        }
+          .s3 {
+              color: black;
+              font-family: Calibri, sans-serif;
+              font-style: normal;
+              text-decoration: none;
+              font-size: 8pt;
+              margin: 5px;
+          }
   
-        .t3 {
-          color: black;
-          font-family: Calibri, sans-serif;
-          font-style: normal;
-          font-weight: bold;
-          font-size: 10pt;
-          margin-left: 20px;
-          margin-right: 20px;
-        }
+          img {
+              float: left;
+              margin-left: 50px;
+              margin-right: 0px;
+              margin-top: 0px;
+          }
+          h1,h2,h3,h4,h4,h5,h6,p {
+              font-family: Calibri, sans-serif;
+              font-style: normal;
+          }
+  
+          .t3 {
+              color: black;
+              font-family: Calibri, sans-serif;
+              font-size: small;font-weight: bold;
+          }
+  
+          .lastTable {
+              width: 20%;
+              border-style: solid;
+              border-width: 1pt;
+          }
+  
+          .lastTable2 {
+              border-style: solid;
+              border-width: 1px;
+          }
+  
+          .tCell10 {
+              width: 10%;
+              border-style: solid;
+              border-width: 1pt;
+            
+          }
+  
+          .tCell10E {
+              width: 10%;
+  
+          }
+  
+          img {
+              width: 150px;
+              height: 80px;
+  
+          }
       </style>
-    </head>
+  </head>
   
-    <body>
-      <!-- HEADER PART -->
-  
-      <img
-      style="
-      height:100px;
-      width:200px;
-      "
-        src="http://192.168.1.8:5555/Content/34234.PNG"
-        alt="logo"
-      />
-      <u>
-        <p
-          style="
-            text-align: center;
-            padding-right: 200px;
-            font-size: 20px;
-            font-weight: 800;
-            padding-top: 40px;
-          "
-        >
-          A Project Of Zakori Group
-        </p>
-        <h2 style="text-align: center; padding-right: 200px">
-          ZAKORI INDUSTRIES (PVT) LIMITED,PAKISTAN
-        </h2>
-        <h3 style="text-align: center; padding-right:0px">
-          LEADER IN ALL KIND OF SELF ADHESIVE TAPES
-        </h3>
-      </u>
-      <h2
-        style="
-          font-size: 16px;
-          font-weight: 600;
+  <body>
+      <!-- HEADER PART     <img style=" src="http://192.168.1.8:5555/Content/34234.PNG" alt="logo" />  -->
+      <div>
+          <div style="display: inline-block;margin-top: 10px;">
+              <img src="http://182.180.92.42:5555/Content/34234.PNG" alt="logo" />
+          </div>
+          <div style="display: inline-block; width: 100px;">
+          </div>
+          <div style="display: inline-block;margin-top: 0px;margin-bottom: -10px;margin-top: -20px;">
+              <div style="margin-top:10px;margin-bottom: -15px;">
+                  <h5 style="text-align: center;">
+                      A Project Of Zakori Group
+                  </h5>
+              </div>
+              <div style="margin-top:-10px;margin-bottom: -10px;">
+                  <h4 style="text-align: center;text-decoration: underline;margin-top: -10px;
+               font-weight: bold ;
+              ">
+                      ZAKORI INDUSTRIES (PVT) LIMITED,PAKISTAN
+                  </h4>
+              </div>
+              <div style="margin-top:-15px;margin-bottom: -15px;">
+                  <h6 style="text-align: center;margin-top: -10px;">
+                      LEADER IN ALL KIND OF SELF ADHESIVE TAPES
+                  </h6>
+              </div>
+          </div>
+      </div>
+      <div>
+          <h4 style="
           text-align: center;
-          margin-top: 50px;
-        "
-      >
-        Bussiness Partner Ledger
-      </h2>
-    <div style="margin-top: 60px; margin-left: 50px; margin-right: 50px">
-      <p style="display: table-cell; font-weight: 600">Customer Name:</p>
-      <p style="margin-left: 150px; margin-top: -20px">${name}</p>
-      <p style="margin-left: 550px; margin-top: -40px; font-weight: 600">
-        Credit Limit:
-      </p>
-      <p style="margin-left: 700px; margin-top: -35px">${creditLimit}</p>
-    </div>
-    <div style="margin-top: 60px; margin-left: 50px; margin-right: 50px">
-      <p style="margin-left: 550px; margin-top: -40px; font-weight: 600">
-        Credit Days:
-      </p>
-      <p style="margin-left: 700px; margin-top: -35px">${creditDays}</p>
-    </div>
-
-    <!-- Table PART -->
-    <table
-      style="
+              font-weight: bold;">
+              Customer Ledger Report
+          </h4>
+      </div>
+  
+      <div style="margin-top: -20px;margin-left: 50px;margin-right: 50px; align-self: center;">
+          <div style="display: inline-block;width: 70%; ">
+              <div style="display: inline-block;">
+                  <p style="font-size: small; ">Customer Name:</p>
+              </div>
+              <div style="display: inline-block;margin-left: 10px;">
+                  <p style="font-size: small;font-weight: bold">${name}</p>
+              </div>
+          </div>
+  
+          <div style="display: inline-block;width: auto;">
+              <div style="display: inline-block;">
+                  <p style="font-size: small  ;">Credit Limit:</p>
+              </div>
+              <div style="display: inline-block;">
+                  <p style="font-size: small; margin-left: 10px;font-weight: bold">${creditLimit}</p>
+              </div>
+          </div>
+      </div>
+  
+      <div style="margin-top: -15px;margin-bottom: -10px; margin-left: 50px;margin-right: 50px; align-self: center;">
+          <div style="display: inline-block;width: 70%; ">
+          </div>
+  
+          <div style="display: inline-block; width: auto">
+              <div style="display: inline-block;">
+                  <p style="font-size: small ;">Credit Days:</p>
+              </div>
+              <div style="display: inline-block;">
+                  <p style="font-size: small;margin-left: 10px;font-weight: bold">${creditDays}</p>
+              </div>
+          </div>
+      </div>
+  
+  
+      <table style="
         border-collapse: collapse;
-        margin-top: 60px;
         margin-left: 50px;
         margin-right: 50px;
-        width: 90%;
-      "
-      cellspacing="0"
-    >
-      <tr style="height: 4pt; background-color: gainsboro">
-        <td
-          style="
-            width: 10%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p class="s3" style="padding-right: 4pt; text-align: center">Date</p>
-        </td>
-        <td
-          style="
-            width: 8%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p class="s3" style="padding-right: 2pt; text-align: center">
-            Doc Type
-          </p>
-        </td>
-        <td
-          style="
-            width: 10%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p class="s3" style="padding-right: 2pt; text-align: center">
-            Doc No #
-          </p>
-        </td>
-        <td
-          style="
-            width: 12%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p class="s3" style="padding-right: 4pt; text-align: center">Debit</p>
-        </td>
-        <td
-          style="
-            width: 12%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p
-            class="s3"
-            style="
-              padding-right: 3pt;
-
-              text-align: center;
-            "
-          >
-            Credit
-          </p>
-        </td>
-
-        <td
-          style="
-            width: 10%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p class="s3" style="padding-right: 4pt; text-align: center">
-            Balance
-          </p>
-        </td>
-        <td
-          style="
-            width: 10%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p class="s3" style="padding-right: 4pt; text-align: center">
-            Due Date
-          </p>
-        </td>
-        <td
-          style="
-            width: 18%;
-            border-top-style: solid;
-            border-top-width: 1pt;
-            border-left-style: solid;
-            border-left-width: 1pt;
-            border-bottom-style: solid;
-            border-bottom-width: 1pt;
-            border-right-style: solid;
-            border-right-width: 1pt;
-          "
-        >
-          <p class="s3" style="padding-right: 20pt; text-align: center">
-            Overdue
-          </p>
-        </td>
-      </tr>
-      `;
+        width: 90%;">
+          <tr>
+              <td class="tCell10">
+                  <p class="s3" style="font-weight: bold; text-align: center">Date</p>
+              </td>
+              <td class="tCell10">
+                  <p class="s3" style="font-weight: bold;text-align: center">
+                      Doc Type
+                  </p>
+              </td>
+              <td class="tCell10">
+                  <p class="s3" style="font-weight: bold; text-align: center">
+                      Doc No #
+                  </p>
+              </td>
+              <td class="tCell10">
+                  <p class="s3" style="font-weight: bold; text-align: center">Debit</p>
+              </td>
+              <td class="tCell10">
+                  <p class="s3" style="font-weight: bold;text-align: center;">
+                      Credit
+                  </p>
+              </td>
+  
+              <td class="tCell10">
+                  <p class="s3" style="font-weight: bold;text-align: center">
+                      Balance
+                  </p>
+              </td>
+              <td class="tCell10">
+                  <p class="s3" style="font-weight: bold; text-align: center">
+                      Due Date
+                  </p>
+              </td>
+              <td class="lastTable">
+                  <p class="s3" style="font-weight: bold;text-align: center">
+                      Overdue
+                  </p>
+              </td>
+          </tr>
+  
+          <tr style="height: 0pt;">
+              <td class="tCell10E">
+              </td>
+              <td class="tCell10E">
+                  <p class="s3" style=" text-align: center">O.B</p>
+              </td>
+              <td class="tCell10E">
+  
+              </td>
+              <td class="tCell10E">
+              </td>
+              <td class="tCell10E">
+  
+              </td>
+  
+              <td class="tCell10E">
+                  <p class="s3" style="text-align: center">
+                      ${openingBalance}
+                  </p>
+              </td>
+              <td class="tCell10E">
+  
+              </td>
+          </tr>
+  
+  
+  `;
 
   const [html2, setHtml2] = useState(``);
 
@@ -465,9 +348,15 @@ const Ledger = ({ navigation, route }) => {
     console.log("in handleDateChange", date);
     settoDate(date);
   };
-  const getLedgerReport = async () => {
+  const getLedgerReportA = async () => {
     console.log(fromdate, todate, customerCode);
     setprogressVisible(true);
+    var totalDebit1 = "";
+    var totalCredit1 = "";
+    var closingBalance1 = "";
+    var totalOverdue1 = "";
+    var openingBalance1 = "";
+
     const response = await ledgerReportApi.getLedgerReport(
       fromdate,
       todate,
@@ -485,14 +374,29 @@ const Ledger = ({ navigation, route }) => {
     console.log(response.data.data.creditDays, "----------creditDays");
     setcreditDays(response.data.data.creditDays);
 
+    console.log(response.data.data.openingBalance, "----------openingBalance");
+    setopeningBalance(response.data.data.openingBalance);
+
     console.log(response.data.data.totalDebit, "----------totalDebit");
-    settotalDebit(response.data.data.totalDebit);
+    // settotalDebit(response.data.data.totalDebit);
+    totalDebit1 = response.data.data.totalDebit;
 
     console.log(response.data.data.totalCredit, "----------totalCredit");
-    settotalCredit(response.data.data.totalCredit);
+    // settotalCredit(response.data.data.totalCredit);
+    totalCredit1 = response.data.data.totalCredit;
 
     console.log(response.data.data.closingBalance, "----------closingBalance");
-    setclosingBalance(response.data.data.closingBalance);
+    //setclosingBalance(response.data.data.closingBalance);
+    closingBalance1 = response.data.data.closingBalance;
+
+    console.log(response.data.data.totalOverDue, "----------totaloverdue");
+    //setclosingBalance(response.data.data.closingBalance);
+    totalOverdue1 = response.data.data.totalOverDue;
+
+    console.log(response.data.data.openingBalance, "----------openingBalance");
+    //setclosingBalance(response.data.data.closingBalance);
+    openingBalance1 = response.data.data.openingBalance;
+
 
     setReports1(response.data.data.details);
     var html = ``;
@@ -500,198 +404,78 @@ const Ledger = ({ navigation, route }) => {
       html =
         html +
         `
-    <tr style="height: 4pt">
-    <td
-      style="
-        width: 10%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;
-      "
-    >
-      <p class="s3" style="padding-right: 4pt; text-align: center">
-    item.date.split("T")[0]
-      </p>
-    </td>
-    <td
-      style="
-        width: 8%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;">
-      <p class="s3" style="padding-right: 2pt; text-align: center">${item.docType}</p>
-    </td>
-    <td
-      style="
-        width: 10%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;">
-      <p class="s3" style="padding-right: 2pt; text-align: center">${item.docNo}</p>
-    </td>
-    <td
-      style="
-        width: 12%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;">
-      <p class="s3" style="padding-right: 4pt; text-align: center">${item.debit}</p>
-    </td>
-    <td
-      style="
-        width: 12%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;">
-      <p
-        class="s3"
-        style="
-          padding-right: 3pt;
-          text-align: center;">${item.credit}</p>
-    </td>
+        <tr style="height: 0pt">
+            <td class="tCell10">
+                <p class="s3" style="padding-right: 4pt; text-align: center">
+                    ${item.date}
+                </p>
+            </td>
+            <td class="tCell10">
+                <p class="s3" style="padding-right: 2pt; text-align: center">${item.docType}</p>
+            </td>
+            <td class="tCell10">
+                <p class="s3" style="padding-right: 2pt; text-align: center">${item.docNo}</p>
+            </td>
+            <td class="tCell10">
+                <p class="s3" style="padding-right: 4pt; text-align: center">${item.debitString}</p>
+            </td>
+            <td class="tCell10">
+                <p class="s3" style="
+              padding-right: 3pt;
+              text-align: center;">${item.creditString}</p>
+            </td>
 
-    <td
-      style="
-        width: 10%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;">
-      <p class="s3" style="padding-right: 4pt; text-align: center">${item.balance}</p>
-    </td>
-    <td
-      style="
-        width: 10%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;">
-      <p class="s3" style="padding-right: 4pt; text-align: center">
-        item.dueDate.split("T")[0]
-      </p>
-    </td>
-    <td
-      style="
-        width: 18%;
-        border-top-style: solid;
-        border-top-width: 1pt;
-        border-left-style: solid;
-        border-left-width: 1pt;
-        border-bottom-style: solid;
-        border-bottom-width: 1pt;
-        border-right-style: solid;
-        border-right-width: 1pt;">
-      <p class="s3" style="padding-right: 20pt; text-align: center">${item.overDue}</p>
-    </td>
-  </tr>
- `;
+            <td class="tCell10">
+                <p class="s3" style="padding-right: 4pt; text-align: center">${item.balanceString}</p>
+            </td>
+            <td class="tCell10">
+                <p class="s3" style="padding-right: 4pt; text-align: center">
+                    ${item.dueDate}
+                </p>
+            </td>
+            <td class="lastTable">
+                <p class="s3" style="padding-right: 20pt; text-align: center">${item.overDue}</p>
+            </td>
+        </tr>
+       `;
     });
 
-    html += `</table>
-<p style="text-indent: 0pt;text-align: left;"><br/></p>
-<h2 style="padding-top: 3pt;text-indent: 0pt;text-align: right;padding-right:40pt;">Summary</h2>
-<p style="text-indent: 0pt;text-align: left;"><br/></p>
+    html += `
+    </table>
+    <table style="
+      margin-right: 30px;
+      width: 40%;
+      float: right;
+      ">
+        <th style="text-align: left;padding-left: 25px;padding-top: 10px;padding-bottom: 10px;font-size: small;font-weight: bold;">Summary</th>
+        <tr style="height: 0px">
+            <td class="lastTable2">
+                <p class="t3" style="text-align: left;padding-left:5px ">Total Debit:</p>
+                <p class="t3" style="text-align: left;padding-left:5px">Total Credit:</p>
+                <p class="t3" style="text-align: left;padding-left:5px">Closing Balance:</p>
+                <p class="t3" style="text-align: left;margin-left:5px;  background-color: rgb(215, 213, 213);">Total Overdue:</p>
+            </td>
+
+            <td class="lastTable2">
+                <p class="t3" style="text-align: right;padding-right:5px">${totalDebit1}</p>
+                <p class="t3" style="text-align: right;padding-right:5px">${totalCredit1}</p>
+                <p class="t3" style="text-align: right;padding-right:5px">${closingBalance1}</p>
+                <p class="t3" style="text-align: right;margin-right:5px;   background-color: rgb(215, 213, 213);">${totalOverdue1}</p>
 
 
-<table
-style="
-  border-collapse: collapse;
-
-  margin-left: 50px;
-  margin-right: 50px;
-  width: 40%;
-  float: right;
-"
-cellspacing="0"
->
-<tr style="height: 4pt">
-  <td
-    style="
-      width: 20%;
-      border-top-style: solid;
-      border-top-width: 1pt;
-      border-left-style: solid;
-      border-left-width: 1pt;
-      border-bottom-style: solid;
-      border-bottom-width: 1pt;
-      border-right-style: solid;
-      border-right-width: 1pt;
-    "
-  >
-    <p class="t3" style="text-align: left">Total Debit:</p>
-    <p class="t3" style="text-align: left">Total Credit:</p>
-    <p class="t3" style="text-align: left">Closing Balance:</p>
-  </td>
-
-  <td
-    style="
-      width: 20%;
-      border-top-style: solid;
-      border-top-width: 1pt;
-      border-left-style: solid;
-      border-left-width: 1pt;
-      border-bottom-style: solid;
-      border-bottom-width: 1pt;
-      border-right-style: solid;
-      border-right-width: 1pt;
-    "
-  >
-
-  <p class="t3" style="text-align: right">${totalDebit}</p>
-  <p class="t3" style="text-align: right">${totalCredit}</p>
-  <p class="t3" style="text-align: right">${closingBalance}</p> 
-
-
-  </td>
-</tr>
-</table>
+            </td>
+        </tr>
+    </table>
 </body>
-</html>`;
 
-    /* 
-    <p class="t3" style="text-align: right">${parseFloat(totalDebit).toFixed(2)}</p>
-    <p class="t3" style="text-align: right">${parseFloat(totalCredit).toFixed(2)}</p>
-    <p class="t3" style="text-align: right">${parseFloat(totalCredit - totalDebit).toFixed(2)}</p> */
+</html>
+`;
+
     setHtml2(html);
 
     // if (response?.data?.data?.length) setName(response?.data?.data[0].cardName);
     setprogressVisible(false);
     //  console.log("getLedgerReport", response?.data?.data?.length);
-    // setOpenBal(response?.data?.OpenBalance);
-    //  setCloseBal(response?.data?.CloseBalance);
     if (response?.data?.Code === 0) setDateView(false);
     if (response?.data?.data?.length === 0)
       return Alert.alert("No record found");
@@ -813,7 +597,7 @@ cellspacing="0"
         }}
       >
         <View style={{ width: "50%", marginHorizontal: 5 }}>
-          <TouchableOpacity onPress={() => getLedgerReport()}>
+          <TouchableOpacity onPress={() => getLedgerReportA()}>
             <AppButton
               text="Get Ledger"
               iconFreeButton
@@ -833,7 +617,7 @@ cellspacing="0"
                   fontWeight: "bold",
                 }}
               >
-                Export Invoice{" "}
+                Export Ledgers
               </AppText>
             </View>
           </TouchableOpacity>

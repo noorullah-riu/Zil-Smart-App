@@ -34,7 +34,7 @@ import * as Location from "expo-location";
 
 const PostOrderEdit = ({ route, navigation }) => {
   const { draftTableDetail, itemx } = route.params;
-  const { setCartItem, cartItem, isApproved, setisApproved } = useContext(addToCartContext);
+  const { setCartItem, cartItem, isApproved, setisApproved, Total, setTotal } = useContext(addToCartContext);
   // console.log(draftTableDetail, "draftTableDetail ------->>");
   // console.log(cartItem, "cartItem ------->>");
   // console.log(itemx, "itemx");
@@ -54,9 +54,9 @@ const PostOrderEdit = ({ route, navigation }) => {
   const [remarks, setRemarks] = useState(itemx.remarks);
   const [seriesNo, setSeriesNo] = useState("");
   const [type, setType] = useState("");
-  const [subTotal, setSubTotal] = useState(itemx.docTotal);
+  //const [subTotal, setSubTotal] = useState(itemx.docTotal);
+  const [subTotal, setSubTotal] = useState();
   const [grandTotal, setGrandTotal] = useState(0);
-
   const count = useRef(itemx.docTotal);
 
   const [grandTotaloc, setGrandTotalloc] = useState(grandTotal);
@@ -89,57 +89,6 @@ const PostOrderEdit = ({ route, navigation }) => {
 
   const [show, setShow] = useState(false);
 
-  const findSubTotal = () => {
-    let res = 0;
-    // var c=cartItem
-    cartItem.forEach((element) => {
-      res += parseInt(element.cartons * element.pcsPerDzn * element.price);
-      //  res += parseInt(element.price);
-      //  alert(" item")
-      //  console.log(element, "cart items ---<<<")
-    });
-    // count.current = res;
-    setSubTotal(res);
-    //  alert(res);
-  };
-
-
-  const findSubTotal2 = () => {
-    let res = 0;
-    // var c=cartItem
-    cartItem.forEach((element) => {
-      res += parseInt(element.cartons * element.pcsPerDzn * element.price);
-      //  res += parseInt(element.price);
-      //  alert(" item")
-      //  console.log(element, "cart items ---<<<")
-    });
-    count.current = res;
-    setSubTotal(res);
-
-    //  alert(res);
-  };
-
-
-
-
-  /*    React.useEffect(() => {
-       const unsubscribe = navigation.addListener('focus', () => {
-         // The screen is focused
-         // Call any action
-         //  alert("focus Executed")
-            findSubTotal();
-       //  setCartItem(draftTableDetail);
-         const timeoutID = window.setTimeout(() => {
-           findSubTotal();
-           alert("timeout");
-         }, 4000);
-     
-         return () => window.clearTimeout(timeoutID );
-       });
-   
-       // Return the function to unsubscribe from the event so it gets removed on unmount
-       return unsubscribe;
-     }, [navigation]);  */
 
   const objectsEqual = (o1, o2) =>
     Object.keys(o1).length === Object.keys(o2).length
@@ -148,10 +97,10 @@ const PostOrderEdit = ({ route, navigation }) => {
   const postOrder = async () => {
   /*   if (cartItem.length == localCart.length) {
       alert("No Change in item List");
-    }  */  if (subTotal == count.current.toFixed(0)) {
-      alert("No Change in item, Please Modify your order list");
+    }  */  if (subTotal == Total.toFixed(0)) {
+      alert("No Change in item, Please Modify your order list", Total);
     } else {
-      //   alert("Update Order Now");
+      alert("Update Order Now");
       sosq["SapUserCode"] = user.sapUserCOde; //
       sosq["salePersonCode"] = user.salePersonCode; //
       sosq["customerCode"] = itemx.customerCode;
@@ -178,7 +127,7 @@ const PostOrderEdit = ({ route, navigation }) => {
       (saleOrder["saleOrderAndSaleQutation"] = sosq),
         (saleOrder["masterItems"] = cartItem),
 
-        console.log(saleOrder, "--------saleOrder payload update:---------");
+        console.log(Total, "--------saleOrder payload update:---------");
       setprogressVisible(true);
       const response = await postOrderApi.updateOrder(saleOrder);
       console.log("saleOrder response:", response.data);
@@ -434,21 +383,68 @@ const PostOrderEdit = ({ route, navigation }) => {
         return () => window.clearTimeout(timeoutID );
     }, []);  */
 
+  const findSubTotal = () => {
+    let res = 0;
+    // var c=cartItem
+    cartItem.forEach((element) => {
+      res += parseInt(element.cartons * element.pcsPerDzn * element.price);
+      //  res += parseInt(element.price);
+      //  alert(" item")
+      //  console.log(element, "cart items ---<<<")
+    });
+    // count.current = res;
+    //   setTotal(res);
+    setSubTotal(res);
+    //  alert(res);
+  };
+
+
+  const findCartTotal = () => {
+    let res1 = 0;
+    // var c=cartItem
+    cartItem.forEach((element) => {
+      res1 += parseInt(element.cartons * element.pcsPerDzn * element.price);
+      //  res += parseInt(element.price);
+      //  alert(" item")
+      //  console.log(element, "cart items ---<<<")
+    });
+    count.current = res1;
+    setTotal(res1);
+    //  alert(res);
+  };
+
+  /*   
+    useEffect(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+        // The screen is focused
+        // Call any action
+       findSubTotalandcart();
+      ///   setTotal(itemx.docTotal);
+      });
+  
+      // Return the function to unsubscribe from the event so it gets removed on unmount
+      return unsubscribe;
+    }, [navigation]); */
+
 
   useEffect(() => {
     findSubTotal();
+    // alert("cartitem effect");
   }, [cartItem]);
 
-  useEffect(() => {
-    // getAllVatGroups();
-    //  alert("useeffect Executed")
 
+  useEffect(() => {
+    if (Total == subTotal) {
+      findCartTotal();
+      //  alert("subtotal effect");
+    }
+  }, [subTotal]);
+
+  useEffect(() => {
     setCartItem(draftTableDetail);
     setlocalCart(draftTableDetail);
-
-    // setGrandTotalloc(grandTotal);
-
-    findSubTotal2();
+    findSubTotal();
+    findCartTotal();
     getCustomerDetails();
     //  count.current = subTotal;
 
@@ -503,8 +499,8 @@ const PostOrderEdit = ({ route, navigation }) => {
         //  onPress={() => alert("go to items page")}
         style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
       >
-           <Text style={{ color: "green" }}>Add Items</Text>
-     {/*    <Text style={{ color: "green" }}>{count.current.toFixed(0)} - {subTotal}--Add Items</Text> */}
+        {/*  <Text style={{ color: "green" }}>Add Items</Text> */}
+        <Text style={{ color: "green" }}>T{Total}--RT{subTotal}--Add Items</Text>
       </TouchableOpacity>
       <AppRow style={styles.r1}>
         <AppText style={styles.p1_0}>Item Name</AppText>
