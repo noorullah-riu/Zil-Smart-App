@@ -132,15 +132,28 @@ const Ledger = ({ navigation, route }) => {
               margin-right: 0px;
               margin-top: 0px;
           }
-          h1,h2,h3,h4,h4,h5,h6,p {
+  
+          h1,
+          h2,
+          h3,
+          h4,
+          h4,
+          h5,
+          h6,
+          p {
               font-family: Calibri, sans-serif;
               font-style: normal;
           }
   
           .t3 {
+  
               color: black;
               font-family: Calibri, sans-serif;
-              font-size: small;font-weight: bold;
+              font-style: normal;
+              font-weight: bold;
+              font-size: 10pt;
+              margin-left: 20px;
+              margin-right: 20px;
           }
   
           .lastTable {
@@ -151,14 +164,15 @@ const Ledger = ({ navigation, route }) => {
   
           .lastTable2 {
               border-style: solid;
-              border-width: 1px;
+              border-width: 1pt;
+  
           }
   
           .tCell10 {
               width: 10%;
               border-style: solid;
               border-width: 1pt;
-            
+  
           }
   
           .tCell10E {
@@ -175,6 +189,7 @@ const Ledger = ({ navigation, route }) => {
   </head>
   
   <body>
+  
       <!-- HEADER PART     <img style=" src="http://192.168.1.8:5555/Content/34234.PNG" alt="logo" />  -->
       <div>
           <div style="display: inline-block;margin-top: 10px;">
@@ -184,16 +199,16 @@ const Ledger = ({ navigation, route }) => {
           </div>
           <div style="display: inline-block;margin-top: 0px;margin-bottom: -10px;margin-top: -20px;">
               <div style="margin-top:10px;margin-bottom: -15px;">
-                  <h5 style="text-align: center;">
+                  <h6 style="text-align: center;">
                       A Project Of Zakori Group
-                  </h5>
+                  </h6>
               </div>
               <div style="margin-top:-10px;margin-bottom: -10px;">
-                  <h4 style="text-align: center;text-decoration: underline;margin-top: -10px;
+                  <h5 style="text-align: center;text-decoration: underline;margin-top: -10px;
                font-weight: bold ;
               ">
                       ZAKORI INDUSTRIES (PVT) LIMITED,PAKISTAN
-                  </h4>
+                  </h5>
               </div>
               <div style="margin-top:-15px;margin-bottom: -15px;">
                   <h6 style="text-align: center;margin-top: -10px;">
@@ -203,118 +218,118 @@ const Ledger = ({ navigation, route }) => {
           </div>
       </div>
       <div>
-          <h4 style="
+          <h5 style="
           text-align: center;
               font-weight: bold;">
               Customer Ledger Report
-          </h4>
+          </h5>
       </div>
   
-      <div style="margin-top: -20px;margin-left: 50px;margin-right: 50px; align-self: center;">
+      <div style="margin-top: -20px;margin-left: 10px;margin-right: 10px; align-self: center;">
           <div style="display: inline-block;width: 70%; ">
               <div style="display: inline-block;">
-                  <p style="font-size: small; ">Customer Name:</p>
+                  <p style="font-size: small;">Customer Name:</p>
               </div>
               <div style="display: inline-block;margin-left: 10px;">
-                  <p style="font-size: small;font-weight: bold">${name}</p>
+                  <p style="font-size: small;font-weight: bold ">${name}</p>
               </div>
           </div>
   
           <div style="display: inline-block;width: auto;">
               <div style="display: inline-block;">
-                  <p style="font-size: small  ;">Credit Limit:</p>
+                  <p style="font-size: small;">Credit Limit:</p>
               </div>
               <div style="display: inline-block;">
-                  <p style="font-size: small; margin-left: 10px;font-weight: bold">${creditLimit}</p>
+                  <p style="font-size: small;font-weight: bold; margin-left: 10px;">${creditLimit}</p>
               </div>
           </div>
       </div>
   
-      <div style="margin-top: -15px;margin-bottom: -10px; margin-left: 50px;margin-right: 50px; align-self: center;">
+      <div style="margin-top: -25px;margin-bottom: -10px; margin-left: 10px;margin-right: 10px; align-self: center;">
           <div style="display: inline-block;width: 70%; ">
           </div>
   
           <div style="display: inline-block; width: auto">
               <div style="display: inline-block;">
-                  <p style="font-size: small ;">Credit Days:</p>
+                  <p style="font-size: small;">Credit Days:</p>
               </div>
               <div style="display: inline-block;">
-                  <p style="font-size: small;margin-left: 10px;font-weight: bold">${creditDays}</p>
+                  <p style="font-size: small;font-weight: bold;margin-left: 10px;">${creditDays}</p>
               </div>
           </div>
       </div>
+      <div>
   
-  
-      <table style="
+          <table style="
         border-collapse: collapse;
-        margin-left: 50px;
-        margin-right: 50px;
-        width: 90%;">
-          <tr>
-              <td class="tCell10">
-                  <p class="s3" style="font-weight: bold; text-align: center">Date</p>
-              </td>
-              <td class="tCell10">
-                  <p class="s3" style="font-weight: bold;text-align: center">
-                      Doc Type
-                  </p>
-              </td>
-              <td class="tCell10">
-                  <p class="s3" style="font-weight: bold; text-align: center">
-                      Doc No #
-                  </p>
-              </td>
-              <td class="tCell10">
-                  <p class="s3" style="font-weight: bold; text-align: center">Debit</p>
-              </td>
-              <td class="tCell10">
-                  <p class="s3" style="font-weight: bold;text-align: center;">
-                      Credit
-                  </p>
-              </td>
+        margin-left: 0%;
+        margin-right: 0%;
+        width: 98%;
+        ">
+              <tr>
+                  <td class="tCell10">
+                      <p class="s3" style="font-weight: bold; text-align: center">Date</p>
+                  </td>
+                  <td class="tCell10">
+                      <p class="s3" style="font-weight: bold;text-align: center">
+                          Doc Type
+                      </p>
+                  </td>
+                  <td class="tCell10">
+                      <p class="s3" style="font-weight: bold; text-align: center">
+                          Doc No #
+                      </p>
+                  </td>
+                  <td class="tCell10">
+                      <p class="s3" style="font-weight: bold; text-align: center">Debit</p>
+                  </td>
+                  <td class="tCell10">
+                      <p class="s3" style="font-weight: bold;text-align: center;">
+                          Credit
+                      </p>
+                  </td>
   
-              <td class="tCell10">
-                  <p class="s3" style="font-weight: bold;text-align: center">
-                      Balance
-                  </p>
-              </td>
-              <td class="tCell10">
-                  <p class="s3" style="font-weight: bold; text-align: center">
-                      Due Date
-                  </p>
-              </td>
-              <td class="lastTable">
-                  <p class="s3" style="font-weight: bold;text-align: center">
-                      Overdue
-                  </p>
-              </td>
-          </tr>
+                  <td class="tCell10">
+                      <p class="s3" style="font-weight: bold;text-align: center">
+                          Balance
+                      </p>
+                  </td>
+                  <td class="tCell10">
+                      <p class="s3" style="font-weight: bold; text-align: center">
+                          Due Date
+                      </p>
+                  </td>
+                  <td class="lastTable">
+                      <p class="s3" style="font-weight: bold;text-align: center">
+                          Overdue
+                      </p>
+                  </td>
+              </tr>
   
-          <tr style="height: 0pt;">
-              <td class="tCell10E">
-              </td>
-              <td class="tCell10E">
-                  <p class="s3" style=" text-align: center">O.B</p>
-              </td>
-              <td class="tCell10E">
+              <tr style="height: 0pt;">
+                  <td class="tCell10E">
+                  </td>
+                  <td class="tCell10E">
+                      <p class="s3" style=" text-align: center">O.B</p>
+                  </td>
+                  <td class="tCell10E">
   
-              </td>
-              <td class="tCell10E">
-              </td>
-              <td class="tCell10E">
+                  </td>
+                  <td class="tCell10E">
+                  </td>
+                  <td class="tCell10E">
   
-              </td>
+                  </td>
   
-              <td class="tCell10E">
-                  <p class="s3" style="text-align: center">
-                      ${openingBalance}
-                  </p>
-              </td>
-              <td class="tCell10E">
+                  <td class="tCell10E">
+                      <p class="s3" style="text-align: center">
+                          ${openingBalance}
+                      </p>
+                  </td>
+                  <td class="tCell10E">
   
-              </td>
-          </tr>
-  
+                  </td>
+              </tr>
   
   `;
 
@@ -405,67 +420,70 @@ const Ledger = ({ navigation, route }) => {
         html +
         `
         <tr style="height: 0pt">
-            <td class="tCell10">
-                <p class="s3" style="padding-right: 4pt; text-align: center">
-                    ${item.date}
-                </p>
-            </td>
-            <td class="tCell10">
-                <p class="s3" style="padding-right: 2pt; text-align: center">${item.docType}</p>
-            </td>
-            <td class="tCell10">
-                <p class="s3" style="padding-right: 2pt; text-align: center">${item.docNo}</p>
-            </td>
-            <td class="tCell10">
-                <p class="s3" style="padding-right: 4pt; text-align: center">${item.debitString}</p>
-            </td>
-            <td class="tCell10">
-                <p class="s3" style="
-              padding-right: 3pt;
-              text-align: center;">${item.creditString}</p>
-            </td>
+        <td class="tCell10">
+            <p class="s3" style=" text-align: center">
+                ${item.date}
+            </p>
+        </td>
+        <td class="tCell10">
+            <p class="s3" style="text-align: center">${item.docType}</p>
+        </td>
+        <td class="tCell10">
+            <p class="s3" style=" text-align: center">${item.docNo}</p>
+        </td>
+        <td class="tCell10">
+            <p class="s3" style=" text-align: center">${item.debit}</p>
+        </td>
+        <td class="tCell10">
+            <p class="s3" style="
+      text-align: center;">${item.credit}</p>
+        </td>
 
-            <td class="tCell10">
-                <p class="s3" style="padding-right: 4pt; text-align: center">${item.balanceString}</p>
-            </td>
-            <td class="tCell10">
-                <p class="s3" style="padding-right: 4pt; text-align: center">
-                    ${item.dueDate}
-                </p>
-            </td>
-            <td class="lastTable">
-                <p class="s3" style="padding-right: 20pt; text-align: center">${item.overDue}</p>
-            </td>
-        </tr>
+        <td class="tCell10">
+            <p class="s3" style="text-align: center">${item.balance}</p>
+        </td>
+        <td class="tCell10">
+            <p class="s3" style=" text-align: center">
+                ${item.dueDate}
+            </p>
+        </td>
+        <td class="lastTable">
+            <p class="s3" style="  font-size: 8pt; text-align: center">${item.overDue}</p>
+        </td>
+    </tr>
        `;
     });
 
     html += `
     </table>
-    <table style="
-      margin-right: 30px;
-      width: 40%;
-      float: right;
-      ">
-        <th style="text-align: left;padding-left: 25px;padding-top: 10px;padding-bottom: 10px;font-size: small;font-weight: bold;">Summary</th>
-        <tr style="height: 0px">
-            <td class="lastTable2">
-                <p class="t3" style="text-align: left;padding-left:5px ">Total Debit:</p>
-                <p class="t3" style="text-align: left;padding-left:5px">Total Credit:</p>
-                <p class="t3" style="text-align: left;padding-left:5px">Closing Balance:</p>
-                <p class="t3" style="text-align: left;margin-left:5px;  background-color: rgb(215, 213, 213);">Total Overdue:</p>
-            </td>
+    <div style="float: right;margin-right: 2%;">
+        <table>
+            <th style="text-align: left;padding-left: 25px;padding-top: 5px;padding-bottom: 5px;  font-family: Calibri, sans-serif;
+            font-style: normal;">Summary</th>
+            <tr style="height: 0px">
+                <td class="lastTable2">
+                    <p class="t3" style="text-align: left">Total Debit:</p>
+                    <p class="t3" style="text-align: left">Total Credit:</p>
+                    <p class="t3" style="text-align: left">Closing Balance:</p>
+                    <p class="t3" style="text-align: left;  background-color: rgb(215, 213, 213);">Total Overdue:
+                    </p>
+                </td>
 
-            <td class="lastTable2">
-                <p class="t3" style="text-align: right;padding-right:5px">${totalDebit1}</p>
-                <p class="t3" style="text-align: right;padding-right:5px">${totalCredit1}</p>
-                <p class="t3" style="text-align: right;padding-right:5px">${closingBalance1}</p>
-                <p class="t3" style="text-align: right;margin-right:5px;   background-color: rgb(215, 213, 213);">${totalOverdue1}</p>
+                <td class="lastTable2">
+                    <p class="t3" style="text-align: right">${totalDebit1}</p>
+                    <p class="t3" style="text-align: right">${totalCredit1}</p>
+                    <p class="t3" style="text-align: right">${closingBalance1}</p>
+                    <p class="t3" style="text-align: right;   background-color: rgb(215, 213, 213);">
+                        ${totalOverdue1}</p>
 
 
-            </td>
-        </tr>
-    </table>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
 </body>
 
 </html>

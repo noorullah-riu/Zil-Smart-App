@@ -111,8 +111,10 @@ const Orders = ({ navigation }) => {
       console.log("response from approved sale orders api1", response.data.data);
       setprogressVisible(false);
       setIsFetching(false);
-      if (!response.ok)
-        return Alert.alert("Couldn't retrieve the customers List");
+      if (!response.data){
+        Alert.alert("Couldn't retrieve approved sale orders");
+        setOrdersList([]);
+      }
       if (response.data.data) setOrdersList(response.data.data);
       else {
         Alert.alert("No approved sale orders found!");
@@ -126,12 +128,13 @@ const Orders = ({ navigation }) => {
     const response = await draftOrdersListApi.getDrfatOrdersListDate(slp, fromdate, todate);
     console.log("response from pending sale Orders List api", response.data.data);
     setprogressVisible(false);
-    if (!response.ok)
-      return Alert.alert("Couldn't retrieve the pending sale List");
+    if (!response.ok){
+      Alert.alert("Couldn't retrieve the pending sale List");
+    }
     if (response.data.data) setDraftOrdersList(response.data.data);
     else {
       Alert.alert("No pending sale orders found!");
-      // setOrdersList([]);
+      setDraftOrdersList([]);
     }
   };
 
@@ -145,7 +148,7 @@ const Orders = ({ navigation }) => {
     if (response.data.data) setReadyToOrderL(response.data.data);
     else {
       Alert.alert("No Ready To orders found!");
-      // setOrdersList([]);
+      setReadyToOrderL([]);
     }
   };
 /*   React.useEffect(() => {

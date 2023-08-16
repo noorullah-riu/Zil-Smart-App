@@ -40,6 +40,11 @@ const PendngOrderListReport = ({ navigation, route }) => {
     } else {
       setprogressVisible(true);
       const response = await POHeaderDetailsApi.getPOHeaderDetails(slp, Customer);
+      console.log(response.data.data, "-------->>>");
+      console.log(response.data.data[0].orderDetails, "-------->>>");
+
+
+
       setPOHeaderData(response?.data.data);
       setprogressVisible(false);
     }
@@ -100,6 +105,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
       setloading(true);
       function generatePDFTemplate() {
         let TotalYds = 0;
+        let TotalMtr = 0;
         let TotalCtns = 0;
         let GroupCtnsTotal = 0;
         let GroupYdsTotal = 0;
@@ -111,29 +117,28 @@ const PendngOrderListReport = ({ navigation, route }) => {
           .map((object) => {
             sNum++;
             GroupCtnsTotal = 0;
-            GroupYdsTotal = 0;
+            GroupYdsTotal = "";
             let rows = "";
             return `
         <tr>
           <td style="text-align:center;;font-size:small;">
            ${sNum}
           </td>
-          <td style="text-align:center;font-weight:700;font-size:small;">
+          <td style="text-align:center;font-weight:bold">
             ${object.docNum}
           </td>
-          <td style="text-align:center;font-weight:700;font-size:small;">
+          <td style="text-align:center;font-size:small;">
             Ctns
           </td>
 
-          <td colspan="4" style="text-align: left; font-weight:700; ">
+          <td colspan="4" style="text-align: left; font-weight:bold">
             ${object.cardName}
           </td>
           <td style="font-weight: bold;text-align: center; "></td>
           <td style="font-weight: bold;text-align: center;">
-            ${object.docDate.split(" ")[0]}
+            ${object.docDate}
           </td>
-          <td style="text-align: center;">${object.docDueDate.split(" ")[0]
-              }</td>
+          <td style="text-align: center;">${object.docDueDate}</td>
           <td style="font-weight: bold;text-align: center;"></td>
           <td style="font-weight: bold;text-align: center;"></td>
           <td style="font-weight: bold;text-align: center;"></td>
@@ -145,12 +150,14 @@ const PendngOrderListReport = ({ navigation, route }) => {
         <div>
         ${object.orderDetails
                 .map((innerObj) => {
-                  const yds = parseFloat(innerObj.yds);
-                  const cartons = parseFloat(innerObj.cartons);
-                  GroupCtnsTotal += parseFloat(innerObj.cartons);
-                  GroupYdsTotal += parseFloat(innerObj.yds);
-                  GroupMtrsReqTotal = "N.A";
+                  const yds = innerObj.ydsRequiredInt;
+                  const Mtr = innerObj.metersRequiredInt;
+                  const cartons = parseFloat(innerObj.remainingCartons);
+                  GroupCtnsTotal += parseFloat(innerObj.remainingCartons);
+                  GroupYdsTotal += innerObj.ydsRequired;
+                  GroupMtrsReqTotal = innerObj.metersRequired;
                   TotalYds += yds;
+                  TotalMtr += Mtr;
                   TotalCtns += cartons;
 
                   return `
@@ -158,7 +165,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
                 <td style="text-align: center;"></td>
                 <td style="text-align: center;"></td>
                 <td style="text-align: center;">
-                  ${cartons}
+                  ${innerObj.remainingCartons}
                 </td>
                 <td colspan="4" style="text-align: left;">
                   ${innerObj.itemName}
@@ -169,18 +176,18 @@ const PendngOrderListReport = ({ navigation, route }) => {
                 <td style="text-align: center;"></td>
                 <td style="text-align: center;"></td>
                 <td style="text-align: center;">
-                  ${innerObj.pcsPerDzn}
+                  ${innerObj.totalPcs}
                 </td>
                 <td style="text-align: center;">
-                  ${innerObj.quantity}
+                  ${innerObj.remainingQuantity}
                 </td>
                 <td style="text-align: center;">
-                  ${innerObj.lr}
+                  ${innerObj.lrRemainig}
                 </td>
                 <td style="text-align: center;">
-                  ${yds}
+                  ${innerObj.ydsRequired}
                 </td>
-                <td style="text-align: center;"> N.A </td>
+                <td style="text-align: center;">${innerObj.metersRequired}</td>
                 <td style="text-align: center;">
                   ${innerObj.productionStatus}
                 </td>
@@ -237,8 +244,8 @@ const PendngOrderListReport = ({ navigation, route }) => {
                 border-collapse: collapse;
               }
             body {
-              margin-left: 10px;
-              margin-right: 10px;
+              margin-left: 5px;
+              margin-right: 5px;
           }
           .demo14 {
             border: 0px solid black;
@@ -402,14 +409,9 @@ const PendngOrderListReport = ({ navigation, route }) => {
           
         <table class="demo14">
         <tr>
-          <td
-            style=" width: 34%; border-right-width:
-            0px;border-bottom-width: 0px; font-weight: bold;">
-            <img src="http://192.168.1.8:5555/Content/34234.PNG"
-            alt="logo"> </td>
           <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
        <u>
-      <h3 style="margin-top: 50px;">
+      <h3 style="margin-top: 5px;text-align:center">
       ZAKORI INDUSTRIES (PVT) LIMITED
       </h3>
        </u>
@@ -417,11 +419,11 @@ const PendngOrderListReport = ({ navigation, route }) => {
         </tr>
       </table>
     </u>
-      <div style=" background-color: darkgrey;text-align: center;margin-bottom: 4px;margin-top: 10px;">
+      <div style=" text-align: center;margin-bottom: 4px;margin-top:5px;">
         <u>
         <h4 style="
          height: 30px;
-         vertical-align: middle;
+        text-align:center;
          display:table-cell;
           ">
           Pending Order List
@@ -450,7 +452,10 @@ const PendngOrderListReport = ({ navigation, route }) => {
       </thead>
       <tbody>
         ${tableRows1}
-        <tr>
+        <div style="margin-top: 10px;">
+
+        </div>
+        <tr style="margin-top: 10px;">
           <td colspan="2" style="text-align: center;font-weight:1000;">Total</td>
           <td style="text-align: center;font-weight:1000;">${TotalCtns}</td>
           <td colspan="7" style="text-align: center;"></td>
@@ -458,7 +463,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
           <td style="text-align: center;"></td>
           <td style="text-align: center;"></td>
           <td style="text-align: center;font-weight:1000;">${TotalYds}</td>
-          <td style="text-align: center;font-weight:1000;">N.A</td>
+          <td style="text-align: center;font-weight:1000;">${TotalMtr}</td>
           <td style="text-align: center; "></td>
           <td style="text-align: center; "></td>
         </tr>

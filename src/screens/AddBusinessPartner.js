@@ -137,6 +137,22 @@ const AddBusinessPartner = ({ navigation, route }) => {
       setprogressVisible(false);
       if (response.data.code === 0) {
         Alert.alert("Success", "Successfully Posted Partner!", [{ text: "OK" }]);
+
+        setEmail("");
+        setCNIC("");
+        setFax("");
+        setNTN("");
+        setPaymentTerms(0);
+        setApprovedCreditLimit(0);
+        setPhone1("");
+        setPhone2("");
+        setCardForeignName("");
+        setEntity1("");
+        setAddress("");
+        setCardName("");
+        setName("");
+        setRegion("");
+        setCustomer("");
         navigation.navigate("Home");
       } else {
         Alert.alert("Error", response.data.Message, [{ text: "OK" }]);
