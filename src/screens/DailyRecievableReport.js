@@ -30,6 +30,7 @@ const DailyRecievableReport = ({ navigation, route }) => {
     setprogressVisible(true);
     const response = await POHeaderDetailsApi.getDailyRecievableHeaderDetails(slpCode);
     console.log(response?.data.data, "DalyRecivble ------>");
+    console.log(response?.data.data[0].details, "details ------>");
     setPOHeaderData(response?.data.data);
     setprogressVisible(false);
   };
@@ -97,170 +98,215 @@ const DailyRecievableReport = ({ navigation, route }) => {
       let GroupMtrsReqTotal = 0;
 
       let sNum = 0;
+ 
       const tableRows1 = p_oHeaderData
         .map((object) => {
+          let paidToDate=0
+          let docTotal=0;
+          let Balance = 0;
+
           sNum++;
           GroupCtnsTotal = 0;
+
           let rows = "";
           //   var gcreditDays=object.creditDays;
           //   var gcreditLine=object.creditLine;
           return `
-           <tr style="background-color:#c0c0c0;width: 100%; border: 2px solid #000000; ">
-                <td colspan="7" style="text-align:left;font-weight:700;font-size:small;">${object.cardName}</td>
+          <tr class="h2Style2">
+          <td colspan="7" style="font-weight:700;font-size:small;">${object.cardName}</td>
           </tr>
+
+          <tr>
+          <td colspan="3" style="border-right: 0px;">
+          </td>
+          <td colspan="2" class="cL" style="border-right: 0px; border-left: 0px;">
+            Credit Limit:<span class="txt">${object.creditLine}</span>
+          </td>
+          <td colspan="2" class="cL" style="border-right: 0px; border-left: 0px;">
+            Credit Days:<span class="txt">${object.creditDays}</span></td>
+          </tr>
+          <div>
            ${object.details
               .map((innerObj) => {
-                //  const yds = parseFloat(innerObj.yds);
-                //  const cartons = parseFloat(innerObj.cartons);
-                //  GroupCtnsTotal += parseFloat(innerObj.cartons);
-                //  GroupYdsTotal += parseFloat(innerObj.yds);
-                GroupMtrsReqTotal = "N.A";
-                //  TotalYds += yds;
-                //  TotalCtns += cartons;
-                return `
-            <tr>
-              <td colspan="3" style="text-align: left;font-weight: 600; font-size: smaller;border-right: 0px;">
-             
-              </td>
+                GroupMtrsReqTotal = 0;
+             //   Balance = innerObj.balance;
 
-            <td colspan="2"
-              style=" font-weight: 600;padding-left: 4%; font-size: smaller;border-left: 0px;border-right: 0px;font-size: 13px; ">
-              Credit Limit:<span style="margin-left: 4%; font-weight: 100"></span>
-            </td>
-            <td colspan="2"
-              style="padding-left: 6%; font-size: smaller;border-left: 0px;font-weight: 600;font-size: 13px;">Credit
-              Days:<span style="margin-left: 4%;font-weight: 100">30 Days</span></td>
-          </tr>
-          <tr>
-            <td rowspan="1" style="text-align: center;">${innerObj.docNum} </td>
-            <td rowspan="1" style="text-align: center;">${innerObj.invoiceDate}</td>
-            <td rowspan="1" style="text-align: center;">${innerObj.docTotal}</td>
-            <td rowspan="1" style="text-align: center;">${innerObj.paidToDate}</td>
-            <td rowspan="1" style="text-align: center;">${innerObj.balance}</td>
-            <td rowspan="1" style="text-align: center;">${innerObj.dueDate}</td>
-            <td rowspan="1" style="text-align: center;">${innerObj.dueDays}</td>
-          </tr>
-    
-    
-          <tr>
-            <td colspan="7" style="padding-left: 10%; text-align: center; font-weight: 600; font-size: small;border: 0px">
-              OverDue Balance:<span style="padding-left: 14%;">${innerObj.balance}</span>
-            </td>
-          </tr>`;
+                return `
+                <tr>
+                <td rowspan="1" class="txtCenter">${innerObj.docNum} </td>
+                <td rowspan="1" class="txtCenter">${innerObj.invoiceDate}</td>
+                <td rowspan="1" class="txtCenter">${innerObj.docTotal}</td>
+                <td rowspan="1" class="txtCenter">${innerObj.paidToDate}</td>
+                <td rowspan="1" class="txtCenter">${innerObj.balance}</td>
+                <td rowspan="1" class="txtCenter">${innerObj.dueDate}</td>
+                <td rowspan="1" class="txtCenter">${innerObj.dueDays}</td>
+                </tr>
+              `;
               })
               .join("")}
-      </div>
+
+              <tr>
+              <td rowspan="1" class="txtCenter"> </td>
+              <td rowspan="1" class="txtCenter"></td>
+              <td rowspan="1" class="txtCenter">${docTotal}</td>
+              <td rowspan="1" class="txtCenter">${paidToDate}</td>
+              <td rowspan="1" class="txtCenter">${Balance}</td>
+              <td rowspan="1" class="txtCenter"></td>
+              <td rowspan="1" class="txtCenter"></td>
+              </tr>
+
+              <tr>
+              <td colspan="7" style="padding-left: 10%; text-align: center; font-weight: 600; font-size: small;border: 0px">
+                OverDue Balance:<span style="padding-left: 14%;">${Balance}</span>
+              </td>
+               </tr>
+
+        </div>
         `;
         })
         .join("");
       const htmlTemplate = `
       <!DOCTYPE html>
       <html>
-        <head>
+      
+      <head>
         <title>Pending Order</title>
         <style>
-        body {
-        margin-left: 10px;
-        margin-right: 10px;
-             }
-      .demo {
-        border: 0.7px solid black;
-        border-collapse: collapse;
-        padding: 5px;
-        width: 100%;
-        font-size: 10px;
-        margin-top: -1%;
-      }
-      img {
-        margin-top:15px;
-        width: 130px;
-        height: 60px;
-        border: 0px solid #000000;
-        border-collapse: collapse;
-      }
-      .demo14 {
-        border: 0px solid black;
-        border-collapse: collapse;
-        width: 100%;
-      }
-      .demo14 td {
-        border: 0px solid #000000;
-      }
-      .demo th {
-        border: 0.7px solid #000000;
-        padding: 5px;
-        background: #ffffff;
-      }
-      .demo td {
-        border: 1px solid #000000;
-        padding: 5px;
-        font-size: 10px;
-      }
-      img {
-        width: 130px;
-        height: 70px;
-        border: 0px solid #000000;
-        border-collapse: collapse;
-      }
-  
-    </style>
-        </head>
-        <body>
-    <table class="demo14">
-    <tr>
-      <td
-        style=" width: 34%; border-right-width:
-        0px;border-bottom-width: 0px; font-weight: bold;">
-        <img src="http://192.168.1.8:5555/Content/34234.PNG"
-        alt="logo"> </td>
-      <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
-   <u>
-  <h3 style="margin-top: 50px;">
-  ZAKORI INDUSTRIES (PVT) LIMITED
-  </h3>
-   </u>
-</td>
-    </tr>
-  </table>
-</u>
-  <div style=" background-color: darkgrey;text-align: center;margin-bottom: 4px;margin-top: 10px;">
-    <u>
-    <h4 style="
-     height: 30px;
-     vertical-align: middle;
-     display:table-cell;
-      ">
-      Daily Receivable Report
-    </h4>
-  </div>
-</u>
-     <table class="demo">
-      <thead style="display: table-header-group;background-color:#c0c0c0;font-weight: 700;">
-      <tr>
-        <th rowspan="1" style="text-align: center; ">Inv.No#</th>
-        <th rowspan="1" style="text-align: center;">Invoice Date</th>
-        <th rowspan="1" style="text-align: center;">Invoice Total</th>
-        <th rowspan="1" style="text-align: center;">Paid</th>
-        <th rowspan="1" style="text-align: center;">Balance</th>
-        <th rowspan="1" style="text-align: center;">DueDate</th>
-        <th rowspan="1" style="text-align: center;">DueDays</th>
-       </tr>
-      </thead>
+          body {
+            margin-left: 10px;
+            margin-right: 10px;
+          }
+      
+          .demo {
+            border: 0.7px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+            width: 100%;
+            font-size: 10px;
+            margin-top: -1%;
+          }
+      
+          .demo th {
+            border: 0.7px solid #000000;
+            padding: 5px;
+          }
+      
+          .demo td {
+            border: 1px solid #000000;
+            padding: 5px;
+          }
+      
+          .fBoldCenter {
+            font-weight: bold;
+            text-align: center;
+          }
+      
+          .txtCenter {
+            text-align: center;
+          }
+      
+          .txtZakori {
+            height: 5px;
+            margin-top: 5px;
+            text-align: center;
+            text-decoration: underline;
+          }
+      
+          h1,
+          span,
+          td,
+          h2,
+          h3,
+          h4,
+          h4,
+          h5,
+          h6,
+          p {
+            font-family: Calibri, sans-serif;
+            font-style: normal;
+          }
+      
+          .AICenter {
+            align-items: center;
+          }
+      
+          .hStyle {
+            background-color: #bebdbd;
+            width: 100%;
+            border: 1px solid #000000;
+          }
+      
+          .h2Style {
+            background-color: #bebdbd;
+            width: 100%;
+            border: 2px solid #000000;
+          }
+          .h2Style2 {
+            width: 100%;
+            border: 2px solid #000000;
+          }
+      
+          .f7Small {
+            font-weight: 700;
+            font-size: small;
+          }
+      
+          .txt {
+            margin-left: 4%;
+            font-weight: 600
+          }
+      
+          .cL {
+            font-weight: 600;
+            padding-left: 4%;
+            font-size: small;
+            border-left: 0px;
+            border-right: 0px;
+      
+          }
+          .tDiv{
+            border: 0.7px solid black; border-collapse: collapse; margin-top: 0.5%; width: 5%; font-size: 10px;
+          }
+        </style>
+      </head>
+      
+      
+      <body>
+        <div class="AICenter">
+          <h3 class="txtZakori">
+            ZAKORI INDUSTRIES (PVT) LIMITED
+          </h3>
+        </div>
+        <div class="AICenter">
+          <h4 class="txtCenter">
+            Daily Receivable Report
+          </h4>
+        </div>
+        <table class="demo">
+          <thead>
+            <tr class="hStyle">
+              <th rowspan="1" class="fBoldCenter">Inv.No#</th>
+              <th rowspan="1" class="fBoldCenter">Invoice Date</th>
+              <th rowspan="1" class="fBoldCenter">Invoice Total</th>
+              <th rowspan="1" class="fBoldCenter">Paid</th>
+              <th rowspan="1" class="fBoldCenter">Balance</th>
+              <th rowspan="1" class="fBoldCenter">DueDate</th>
+              <th rowspan="1" class="fBoldCenter">DueDays</th>
+            </tr>
+         
+          </thead>
       
       <tbody>
+      <tr class="h2Style">
+      <td colspan="7" style="font-weight:700;font-size:small;">Azmat Ul Islam</td>
+      </tr>
         ${tableRows1}
       </tbody>
     </table>
     
-    <div style="display: flex; flex-direction: row;">
-    <table style="border: 0.7px solid black; border-collapse: collapse; padding: 3px; margin-left: 4%; margin-top: 0.5%; width: 5%; font-size: 10px;">
-        <tr>
-            <td style="font-weight: bold; text-align: center;">
-                Total
-            </td>
-        </tr>
-    </table>
-   </div>
+    <div class="tDiv">
+    <p class="fBoldCenter">Total</p>
+  </div>
         </body>
       </html>
     `;
@@ -273,6 +319,7 @@ const DailyRecievableReport = ({ navigation, route }) => {
       var htm = pdfTemplate;
       const { uri } = await Print.printToFileAsync({
         html: pdfTemplate,
+        base64: false,
       });
       if (Platform.OS === "ios") {
         await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });

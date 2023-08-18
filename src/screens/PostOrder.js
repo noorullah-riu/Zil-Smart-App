@@ -32,6 +32,7 @@ import allVatGroupsApi from "../api/allVatGroups";
 import { ProgressDialog, Dialog } from "react-native-simple-dialogs";
 import currencyRateApi from "../api/currencyRate";
 import * as Location from "expo-location";
+import moment from "moment";
 
 const PostOrder = ({ route, navigation }) => {
   const [customer, setCustomerDetails] = useState({});
@@ -89,9 +90,9 @@ const PostOrder = ({ route, navigation }) => {
     if (Platform.OS === "android") {
       setIsPickerShow(false);
     }
-    console.log("------------", value.getFullYear());
-    console.log("------------", value.getMonth());
-    console.log("------------", value.getDate());
+    //  console.log("------------", value.getFullYear());
+    // console.log("------------", value.getMonth());
+    //  console.log("------------", value.getDate());
 
     var date = value.getDate(); //Current Date
     var month = value.getMonth() + 1; //Current Month
@@ -102,9 +103,23 @@ const PostOrder = ({ route, navigation }) => {
       (month < 10 ? "0" + month : month) +
       "-" +
       (date < 10 ? "0" + date : date);
-    console.log("today", today);
+    //console.log("date", today);
     setfromDate(today);
     // handleDateChange(today);
+
+    // var days = 7;
+    // var date = new Date();
+    // var res = date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    // // alert(res);
+    // console.log("------------res", res);
+
+
+
+    // date = new Date(res);
+    // let a = moment(res).utc().format('YYYY-MM-DD')
+    // // alert(date)
+    // console.log("------------date", a);
+    //object.docDate.split(" ")[0]
   };
 
   /*   const [isPickerShow, setIsPickerShow] = useState(false);
@@ -141,11 +156,11 @@ const PostOrder = ({ route, navigation }) => {
   };
 
 
-  
+
 
   useEffect(() => {
     // getAllVatGroups();
-   // alert("effect");
+    // alert("effect");
     findSubTotal();
     getCustomerDetails();
     getUserDetails();
@@ -179,6 +194,17 @@ const PostOrder = ({ route, navigation }) => {
 
     setTodaysdate(year + "/" + month + "/" + +date);
     setTodaysdate1(date + "/" + month + "/" + year);
+
+    var days = 7;
+    var date = new Date();
+    var res = date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    // alert(res);
+    console.log("------------res", res);
+    date = new Date(res);
+    let a = moment(res).utc().format('YYYY-MM-DD')
+    // alert(date)
+    setfromDate(a);
+    console.log("------------date", a);
   }, []);
 
   const onDateChange = (event, selectedDate) => {
@@ -213,7 +239,7 @@ const PostOrder = ({ route, navigation }) => {
     sosq["customerName"] = customer.CardName;
     (sosq["deliveryDate"] = fromdate), //;
       (sosq["series"] = 181);
-    sosq["remarks"] =`${remarks} + Posted by ${Name} from Mobile App`;
+    sosq["remarks"] = `${remarks} + Posted by ${Name} from Mobile App`;
     sosq["docDueDate"] = todaysdate;
     sosq["docDate"] = todaysdate;
     sosq["vatGroup"] = vatGroup; //
@@ -476,7 +502,7 @@ const PostOrder = ({ route, navigation }) => {
             </View>
           </AppRow> */}
           <Pressable
-            onPress={() => setIsPickerShow(true)}
+          //  onPress={() => setIsPickerShow(true)}
             style={{
               flexDirection: "row",
               marginTop: 20,

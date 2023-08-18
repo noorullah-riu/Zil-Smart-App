@@ -40,13 +40,23 @@ const PendngOrderListReport = ({ navigation, route }) => {
     } else {
       setprogressVisible(true);
       const response = await POHeaderDetailsApi.getPOHeaderDetails(slp, Customer);
-      console.log(response.data.data, "-------->>>");
-      console.log(response.data.data[0].orderDetails, "-------->>>");
+    //  console.log(response.data.message, "-------->>>");
+      if (response.data.data !== null) {
+        console.log(response.data.data, "-------->>>");
+        //  console.log(response.data.data[0].orderDetails, "-------->>>");
+        setPOHeaderData(response?.data.data);
+        setprogressVisible(false);
+      } else if(response.data.message == "No record Found") {
+        setprogressVisible(false);
+        setPOHeaderData([]);
+        alert("No record Found")
+      }else {
+        setprogressVisible(false);
+        setPOHeaderData([]);
+        alert("Unable to load data,Try again")
+      }
 
 
-
-      setPOHeaderData(response?.data.data);
-      setprogressVisible(false);
     }
   };
 
@@ -121,32 +131,23 @@ const PendngOrderListReport = ({ navigation, route }) => {
             let rows = "";
             return `
         <tr>
-          <td style="text-align:center;;font-size:small;">
-           ${sNum}
-          </td>
-          <td style="text-align:center;font-weight:bold">
-            ${object.docNum}
-          </td>
-          <td style="text-align:center;font-size:small;">
-            Ctns
-          </td>
-
-          <td colspan="4" style="text-align: left; font-weight:bold">
-            ${object.cardName}
-          </td>
-          <td style="font-weight: bold;text-align: center; "></td>
-          <td style="font-weight: bold;text-align: center;">
-            ${object.docDate}
-          </td>
-          <td style="text-align: center;">${object.docDueDate}</td>
-          <td style="font-weight: bold;text-align: center;"></td>
-          <td style="font-weight: bold;text-align: center;"></td>
-          <td style="font-weight: bold;text-align: center;"></td>
-          <td style="font-weight: bold;text-align: center;"></td>
-          <td style="font-weight: bold;text-align: center;"></td>
-          <td style="font-weight: bold;text-align: center;"></td>
-          <td style="font-weight: bold;text-align: center;"></td>
-        </tr>
+        <td class="centerSmall">${sNum}</td>
+        <td class="centerSmall">${object.docNum}</td>
+        <td class="centerSmall">Ctns </td>
+        <td colspan="4" style="text-align: left; font-weight:700; ">
+          ${object.cardName}
+        </td>
+        <td></td>
+        <td class="fBoldCenter">${object.docDate.split(" ")[0]}</td>
+        <td class="txtCenter">${object.docDueDate.split(" ")[0]}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
         <div>
         ${object.orderDetails
                 .map((innerObj) => {
@@ -161,60 +162,40 @@ const PendngOrderListReport = ({ navigation, route }) => {
                   TotalCtns += cartons;
 
                   return `
-              <tr>
-                <td style="text-align: center;"></td>
-                <td style="text-align: center;"></td>
-                <td style="text-align: center;">
-                  ${innerObj.remainingCartons}
-                </td>
-                <td colspan="4" style="text-align: left;">
-                  ${innerObj.itemName}
-                </td>
-                <td style="text-align: center;">
-                  ${innerObj.status}
-                </td>
-                <td style="text-align: center;"></td>
-                <td style="text-align: center;"></td>
-                <td style="text-align: center;">
-                  ${innerObj.totalPcs}
-                </td>
-                <td style="text-align: center;">
-                  ${innerObj.remainingQuantity}
-                </td>
-                <td style="text-align: center;">
-                  ${innerObj.lrRemainig}
-                </td>
-                <td style="text-align: center;">
-                  ${innerObj.ydsRequired}
-                </td>
-                <td style="text-align: center;">${innerObj.metersRequired}</td>
-                <td style="text-align: center;">
-                  ${innerObj.productionStatus}
-                </td>
-                <td style="text-align: center;">
-                  ${innerObj.count}
-                </td>
-              </tr>`;
+                  <tr>
+                  <td></td>
+                  <td></td>
+                  <td class="txtCenter">${innerObj.remainingCartons}</td>
+                  <td colspan="4">${innerObj.itemName}</td>
+                  <td class="txtCenter">${innerObj.status} </td>
+                  <td></td>
+                  <td></td>
+                  <td class="txtCenter">${innerObj.totalPcs}</td>
+                  <td class="txtCenter">${innerObj.remainingQuantity}</td>
+                  <td class="txtCenter">${innerObj.lrRemainig}</td>
+                  <td class="txtCenter">${innerObj.ydsRequired}</td>
+                  <td class="txtCenter">${innerObj.metersRequired}</td>
+                  <td class="txtCenter">${innerObj.productionStatus}</td>
+                  <td class="txtCenter">${innerObj.count}</td>
+                </tr>`;
                 })
                 .join("")}
         <tr>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center; font-weight:700;">${GroupCtnsTotal}</td>
-          <td colspan="4" style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;font-weight:700; ">${GroupYdsTotal}</td>
-          <td style="text-align: center;font-weight:700; ">${GroupMtrsReqTotal}</td>
-          <td  style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-
-        </tr>
-
+        <td></td>
+        <td></td>
+        <td class="center700">${GroupCtnsTotal}</td>
+        <td colspan="4"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="center700">${GroupYdsTotal}</td>
+        <td class="center700">${GroupMtrsReqTotal}</td>
+        <td></td>
+        <td></td>
+      </tr>
        
       </div>
         `;
@@ -225,248 +206,142 @@ const PendngOrderListReport = ({ navigation, route }) => {
       <html>
         <head>
         <title>Pending Order</title>
-          <style>
-            table {
-              width: 100%;
-              border-collapse: collapse;
-            }
-            th, td {
-              padding: 8px;
-              text-align: left;
-              border-bottom: 1px solid #ddd;
-            }
-     
-              img {
-                margin-top:15px;
-                width: 130px;
-                height: 60px;
-                border: 0px solid #000000;
-                border-collapse: collapse;
-              }
-            body {
-              margin-left: 5px;
-              margin-right: 5px;
-          }
-          .demo14 {
-            border: 0px solid black;
-            border-collapse: collapse;
-            width: 100%;
-        }
-        img {
-          width: 130px;
-          height: 70px;
-          border: 0px solid #000000;
+        <style>
+        table {
+          width: 100%;
           border-collapse: collapse;
-      }
-          .demo {
-              border: 0.7px solid black;
-              border-collapse: collapse;
-              padding: 5px;
-              width: 100%;
-              font-size: 10px;
-          }
-          .demo1 {
-              border: 0.7px solid black;
-              border-collapse: collapse;
-              margin-top: 12px;
-              width: 60%;
-              margin-bottom: 6px;
-              font-size: 10px;
-          }
-          .demo1 td {
-              border: 0.7px solid #000000;
-              padding: 5px;
-          }
-      
-          .demo14 td {
-              border: 0px solid #000000;
-          }
-          .demo11 {
-            border: 0px solid #000000;
-            border-collapse: collapse;
-            margin-top: -16px;
-            width: 67%;
-            font-size: 10px;
         }
-        .demo11 td {
-            border: 0px;
+    
+        th,
+        td {
+          padding: 8px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
         }
-        .demo2 {
-            border: 0.7px solid #000000;
-            border-collapse: collapse;
-            width: 50%;
-            margin-bottom: 6px;
-            font-size: 10px;
-            margin-top: 12px;
-            margin-left: 40px;
+    
+        body {
+          margin-left: 10px;
+          margin-right: 10px;
         }
-        .demo2 td {
-            border: 0.7px solid #000000;
-            padding: 5px;
+    
+        .demo {
+          border: 0.7px solid black;
+          border-collapse: collapse;
+          margin-right: 50px;
+          width: 100%;
+          font-size: 10px;
         }
-        .demo22 {
-            border: 0px;
-            margin-top: -16px;
-            border-collapse: collapse;
-            width: 13%;
-            margin-left: 30px;
-            font-size: 10px;
-        }
-        .demo22 td {
-            border: 0px;
-        }
-        .demo3 {
-            border: 0.7px solid #000000;
-            border-collapse: collapse;
-            float: right;
-            width: 30%;
-            margin-top: 4px;
-            font-size: 10px;
-        }
-        .demo3 td {
-            border: 0.7px solid #000000;
-            padding: 5px;
-        }
+    
+    
         .demo th {
-            border: 0.7px solid #000000;
-            padding: 5px;
-            background: #ffffff;
+          border: 0.7px solid #000000;
+          padding: 5px;
+          background: #ffffff;
         }
+    
         .demo td {
-            border: 1px solid #000000;
-            padding: 5px;
-            font-size: 10px;
+          border: 1px solid #000000;
+          padding: 5px;
+          font-size: 10px;
         }
-        .vertical {
-            display: block;
-            margin-top: 118px;
-            overflow: hidden;
-            border-style: solid;
-            border-width: 1.5px;
-            border-color: #000;
-            border-top: 0px;
-            border-left: 0px;
-            border-right: 0px;
+    
+        .fBoldCenter {
+          font-weight: bold;
+          text-align: center
         }
-   
-        .Div1 {
-            border-style: solid;
-            width: 300px;
-            height: 100px;
-            margin-top: 20px;
-            float: right;
-            border-color: black;
-            border-width: 1px;
-            margin-bottom: 20px;
+    
+        .fBoldLeft {
+          font-weight: bold;
+          text-align: left
         }
-        .Div2 {
-            border-style: solid;
-            float: right;
-            width: 450px;
-            height: 108px;
-            margin-top: 6px;
-            border-color: black;
-            border-width: 1px;
-            margin-bottom: 20px;
+    
+        .centerSmall {
+          text-align: center;
+          font-weight: 700;
+          font-size: small;
         }
-        .Div {
-            border-style: solid;
-            height: 40px;
-            margin-top: -12px;
-            border-color: black;
-            border-width: 1px;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
+    
+        .center700 {
+          text-align: center;
+          font-weight: 700;
         }
-        .std-row {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin-top: 20px;
+    
+        .txtCenter {
+          text-align: center;
         }
-        .std-row2 {
-            display: flex;
-            flex-direction: row;
+    
+        .txtPendng {
+          height: 5px;
+          text-align: center;
+          text-decoration: underline;
         }
-        .std-row1 {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            margin-top: -10px;
+    
+        .txtZakori {
+          height: 5px;
+          margin-top: 5px;
+          text-align: center;
+          text-decoration: underline;
         }
-        .box {
-            margin-right: 5px;
+    
+        .pDiv {
+          border-right-width: 0px;
+          border-bottom-width: 0px;
+          font-weight: bold;
         }
-        .std-name-fields {
-            width: 200px;
-            border: 0px;
-            border-bottom: 1px solid #000;
-        }
-        </style>
+      </style>
         </head>
         <body>
           
-        <table class="demo14">
+        <table>
         <tr>
-          <td  style=" border-right-width: 0px;border-bottom-width: 0px;font-weight: bold;  ">  
-       <u>
-      <h3 style="margin-top: 5px;text-align:center">
-      ZAKORI INDUSTRIES (PVT) LIMITED
-      </h3>
-       </u>
-    </td>
+          <td class="pDiv">
+            <h3 class="txtZakori">
+              ZAKORI INDUSTRIES (PVT) LIMITED
+            </h3>
+          </td>
         </tr>
       </table>
-    </u>
-      <div style=" text-align: center;margin-bottom: 4px;margin-top:5px;">
-        <u>
-        <h4 style="
-         height: 30px;
-        text-align:center;
-         display:table-cell;
-          ">
+      </u>
+      <div>
+        <h4 class="txtPendng">
           Pending Order List
         </h4>
       </div>
-    </u>
      
-    <table class="demo" >
+      <table class="demo">
       <thead style="display: table-header-group; font-weight: 700;">
-        <td colspan="3" style="font-weight: bold;">Sno</td>
-        <td colspan="4" style="font-weight: bold; text-align: left;  ">
-            Description
+        <td colspan="3" class="fBoldLeft">Sno</td>
+        <td colspan="4" class="fBoldLeft">
+          Description
         </td>
-        <td style="font-weight: bold; text-align: center;">Status</td>
-        <td style="font-weight: bold; text-align: center;">Order Date</td>
-        <td style="font-weight: bold; text-align: center;">Dilivery Date</td>
-        <td style="font-weight: bold;">Pcs</td>
-        <td style="font-weight: bold; text-align: center;">Qty</td>
-        <td style="font-weight: bold; text-align: center;">LR's Qty</td>
-        <td style="font-weight: bold;">Yds Req</td>
-        <td style="font-weight: bold; text-align: center;">Mtrs Req</td>
-        <td style="font-weight: bold; text-align: center;">
-                Production Status
-            </td>
-        <td style="font-weight: bold;">Count</td>
+        <td class="fBoldCenter">Status</td>
+        <td class="fBoldCenter">Order Date</td>
+        <td class="fBoldCenter">Dilivery Date</td>
+        <td class="fBoldCenter">Pcs</td>
+        <td class="fBoldCenter">Qty</td>
+        <td class="fBoldCenter">LR's Qty</td>
+        <td class="fBoldCenter">Yds Req</td>
+        <td class="fBoldCenter">Mtrs Req</td>
+        <td class="fBoldCenter">Production Status</td>
+        <td class="fBoldLeft">Count</td>
       </thead>
+
       <tbody>
         ${tableRows1}
         <div style="margin-top: 10px;">
-
         </div>
-        <tr style="margin-top: 10px;">
-          <td colspan="2" style="text-align: center;font-weight:1000;">Total</td>
-          <td style="text-align: center;font-weight:1000;">${TotalCtns}</td>
-          <td colspan="7" style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;"></td>
-          <td style="text-align: center;font-weight:1000;">${TotalYds}</td>
-          <td style="text-align: center;font-weight:1000;">${TotalMtr}</td>
-          <td style="text-align: center; "></td>
-          <td style="text-align: center; "></td>
-        </tr>
+     <tr>
+        <td colspan="2" class="center700">Total</td>
+        <td class="center700">${TotalCtns}</td>
+        <td colspan="7"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="center700">${TotalYds}</td>
+        <td class="center700">${TotalMtr}</td>
+        <td></td>
+        <td></td>
+      </tr>
       </tbody>
     </table>
     
@@ -483,6 +358,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
         var htm = pdfTemplate;
         const { uri } = await Print.printToFileAsync({
           html: pdfTemplate,
+          base64: false,
         });
         if (Platform.OS === "ios") {
           await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
@@ -525,7 +401,7 @@ const PendngOrderListReport = ({ navigation, route }) => {
       <ProgressDialog
         visible={loading}
         title="Exporting Pdf"
-        message="Please wait..."
+        message="Please wait it can take longer..."
       />
 
       <View

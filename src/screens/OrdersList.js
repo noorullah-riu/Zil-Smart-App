@@ -166,11 +166,25 @@ const Orders = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]); */
 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // The screen is focused
+ 
+      setDraftOrdersList([]);
+      setOrdersList([]);
+      setReadyToOrderL([]);
+      setfromDate("");
+      settoDate("");    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
+    setPreCategoriesRouteVal("ordersList");
     console.log("preCategoriesRouteVal in orders List", preCategoriesRouteVal);
     // getUserDetails();
-    setPreCategoriesRouteVal("ordersList");
+
   }, []);
   const onRefresh = () => {
     setIsFetching(true);

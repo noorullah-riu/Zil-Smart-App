@@ -235,7 +235,7 @@ const AddActivity = ({ navigation, route }) => {
               onChangeText={(value) => handleRemarksInput(value)}
             />
           </View>
-          {showImageInput ? (
+          {/* {showImageInput ? (
             <>
               <View
                 style={{ paddingHorizontal: sizes.base_margin, marginTop: 15 }}
@@ -257,14 +257,16 @@ const AddActivity = ({ navigation, route }) => {
                 />
               </View>
             </>
-          ) : null}
+          ) : null} */}
         </View>
         <ProgressDialog
             visible={progressVisible}
             title="Loading data"
             message="Please wait..."
         />
-        <TouchableOpacity onPress={() => addActivity()}>
+        <TouchableOpacity 
+        style={{marginTop:40}}
+        onPress={() => addActivity()}>
           <AppButton
             text="ADD ACTIVITY"
             iconFreeButton

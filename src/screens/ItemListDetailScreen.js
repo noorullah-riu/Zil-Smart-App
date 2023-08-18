@@ -282,15 +282,13 @@ const ItemsListDetailScreen = ({
   const alterState = () => {
     if (!lineTotal > 0) {
       alert("All Fields Required");
-    } else if (value == null) {
-      alert("Job Type Required");
     }
     else {
       currentItem.id = 1; // index;
       currentItem.jobType = "Rewinding"; //jobType;
       currentItem.$id = Math.floor(Math.random() * 1000);
       //  currentItem.discount = 0;
-       currentItem.PrntedCost = PrntedCost;
+      currentItem.PrntedCost = PrntedCost;
 
       currentItem.vatGourpSa = "S1";
       currentItem.itemName = name;
@@ -376,6 +374,7 @@ const ItemsListDetailScreen = ({
             style={{ width: "60%", marginTop: Platform.OS == "ios" ? 0 : -15 }}
           >
             <DropDownPicker
+              placeholder="Rewinding"
               open={open}
               value={value}
               items={items}
