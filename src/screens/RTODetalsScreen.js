@@ -166,10 +166,11 @@ const RTODetailScreen = ({ route, navigation }) => {
               itemx: item,
             })
           }
-          style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
-        >
-          <Text style={{ color: "green" }}>Edit Order</Text>
-        </TouchableOpacity>
+        style={{ marginTop: 10, alignSelf: "flex-end",justifyContent:"center", borderRadius: 10, marginRight: 10, backgroundColor: colors.secondary, height: 30, width: "50%" }}
+      >
+        <Text style={{ color: "#fff", textAlign: "center",fontWeight:"bold" }}>Add Items</Text>
+        {/*    <Text style={{ color: "green" }}>T{Total}--RT{subTotal}--Add Items</Text> */}
+      </TouchableOpacity>
 
 
         <View style={styles.bottomContainer}>

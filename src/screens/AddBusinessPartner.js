@@ -319,6 +319,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
           <AppText style={styles.label}>CNIC</AppText>
           <TextInput
+            keyboardType={'phone-pad'}
             style={styles.input}
             placeholder="Enter CNIC NUMBER"
             value={CNIC}
@@ -329,6 +330,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
         <View style={{ marginHorizontal: sizes.base_margin, marginTop: 1 }}>
           <AppText style={styles.label}>STRN</AppText>
           <TextInput
+            keyboardType={'phone-pad'}
             style={styles.input}
             placeholder="Enter STRN NUMBER"
             value={STRN}
@@ -394,6 +396,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
           <View style={styles.childView}>
             <AppText style={styles.label}>Fax</AppText>
             <TextInput
+              keyboardType={'phone-pad'}
               style={styles.input}
               placeholder="Enter Fax no."
               value={fax}
@@ -405,6 +408,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
           <View style={styles.childView}>
             <AppText style={styles.label}>Mobile Number *</AppText>
             <TextInput
+              keyboardType={'phone-pad'}
               style={styles.input}
               placeholder="Enter Mobile Number"
               value={phone1}
@@ -414,6 +418,7 @@ const AddBusinessPartner = ({ navigation, route }) => {
           <View style={styles.childView}>
             <AppText style={styles.label}>Office Phone #</AppText>
             <TextInput
+              keyboardType={'phone-pad'}
               style={styles.input}
               placeholder="Enter Office Ph #"
               value={phone2}

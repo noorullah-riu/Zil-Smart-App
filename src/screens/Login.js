@@ -61,7 +61,7 @@ const LoginScreen = ({ navigation }) => {
       Customer.UserCode,
       Customer.Password
     );
-    console.log("in handleCompanyUserLogin", res?.data?.userDetails?.typeOfUser);
+    console.log("UserLogin", res?.data?.userDetails?.typeOfUser);
     if (res.data.code === 3) {
       Alert.alert("Error!", res.data.message, [
         { text: "OK", onPress: () => setprogressVisible(false) },

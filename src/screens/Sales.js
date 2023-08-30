@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -20,13 +20,13 @@ import RNPickerSelect from "react-native-picker-select";
 import DatePicker from "react-native-datepicker";
 import SaleReportCard from "../components/SaleReportCard";
 import AppButton from "../components/AppButton";
-import {customersList} from "../context/customresList";
+import { customersList } from "../context/customresList";
 import saleReportApi from "../api/saleReport";
 import allCustomersApi from "../api/allCustomers";
 import { ProgressDialog } from "react-native-simple-dialogs";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-const Sales = ({ navigation,route }) => {
+const Sales = ({ navigation, route }) => {
   const { customerCode, customerName, } = route.params;
   const [userId, setUserId] = useState({});
   const [allActivities, setAllActivities] = useState([]);
@@ -38,7 +38,7 @@ const Sales = ({ navigation,route }) => {
   const [salesTotal, setSalesTotal] = useState("");
   const [visible, setVisible] = useState(true);
   const [reports1, setReports1] = useState([]);
-  const {customers} = useContext(customersList);
+  const { customers } = useContext(customersList);
   const [customerList, setCustomers] = useState([]);
   const [coBusinessPartner, setCoBusinessPartner] = useState('');
 
@@ -98,11 +98,11 @@ const Sales = ({ navigation,route }) => {
   const pickerStyle = {
 
     inputAndroid: {
-        color: "black",
-        padding: 0,
-        margin: 0,
+      color: "black",
+      padding: 0,
+      margin: 0,
     },
-};
+  };
   useEffect(() => {
     getUserDetails();
     getUserDetails2();
@@ -110,36 +110,36 @@ const Sales = ({ navigation,route }) => {
 
   const getUserDetails2 = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
-    console.log("------------jsonValue",jsonValue);
- /*    if (!customers.length > 0)
-        getAllCustomers(
-            JSON.parse(jsonValue).salePersonCode,
-            JSON.parse(jsonValue).territory
-        );
-    else {
-        let cust = [];
-        customers.map((item) => {
-            cust.push({label: item.CardName, value: item.CardCode})
-        })
-        setCustomers(cust)
-    } */
+    console.log("------------jsonValue", jsonValue);
+    /*    if (!customers.length > 0)
+           getAllCustomers(
+               JSON.parse(jsonValue).salePersonCode,
+               JSON.parse(jsonValue).territory
+           );
+       else {
+           let cust = [];
+           customers.map((item) => {
+               cust.push({label: item.CardName, value: item.CardCode})
+           })
+           setCustomers(cust)
+       } */
     return jsonValue != null ? JSON.parse(jsonValue) : null;
-};
-const getAllCustomers = async (code, territory) => {
-  console.log("------------code",code);
-  console.log("------------territory",territory);
-  setprogressVisible(true);
-  const response = await allCustomersApi.getAllCustomers(code, territory);
-  setprogressVisible(false);
-  console.log("customersList", response.data);
-  if (!response.ok)
+  };
+  const getAllCustomers = async (code, territory) => {
+    console.log("------------code", code);
+    console.log("------------territory", territory);
+    setprogressVisible(true);
+    const response = await allCustomersApi.getAllCustomers(code, territory);
+    setprogressVisible(false);
+    console.log("customersList", response.data);
+    if (!response.ok)
       return Alert.alert("Couldn't retrieve the customers List");
-  var cust = [];
-  response.data.Data.map((item) => {
-      cust.push({label: item.CardName, value: item.CardCode})
-  })
-  setCustomers(cust);
-};
+    var cust = [];
+    response.data.Data.map((item) => {
+      cust.push({ label: item.CardName, value: item.CardCode })
+    })
+    setCustomers(cust);
+  };
 
   const [remarks, setRemarks] = useState("");
 
@@ -207,186 +207,11 @@ const getAllCustomers = async (code, territory) => {
 
   const DocDateSelectionView = () => (
     <>
-    {/*   <View style={{ flexDirection: "row" }}>
-        <View style={{ flex: 1 }}>
-          <View style={{ marginBottom: 5, alignItems: "center" }}>
-            <AppText style={styles.p1}>From Date</AppText>
-          </View>
-
-          <View>
-            <DatePicker
-              showIcon={false}
-              style={{ width: "100%" }}
-              date={fromdate}
-              mode="date"
-              placeholder=" Select date"
-              format="yyyy-MM-DD"
-              minDate="2000-01-01"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: "relative",
-                  left: 0,
-                  top: 0,
-                  marginLeft: 10,
-                },
-                dateInput: {
-                  marginTop: 15,
-                  borderColor: colors.white,
-                  backgroundColor: colors.white,
-                  borderRadius: 10,
-                  height: 60,
-                  alignItems: "flex-start",
-                  paddingLeft: 10,
-                  width: "100%",
-                  marginHorizontal: 10,
-                },
-              }}
-              onDateChange={(date) => {
-                handleDateChange(date);
-              }}
-            />
-          </View>
-        </View>
-        <View style={{ marginBottom: 0, flex: 1 }}>
-          <View style={{ marginBottom: 5, alignItems: "center" }}>
-            <AppText style={styles.p1}>To Date</AppText>
-          </View>
-
-          <View>
-            <DatePicker
-              showIcon={false}
-              style={{ width: "100%" }}
-              date={todate}
-              mode="date"
-              placeholder=" Select date"
-              format="yyyy-MM-DD"
-              minDate="2022-01-01"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: "relative",
-                  left: 0,
-                  top: 0,
-                  marginLeft: 10,
-                },
-                dateInput: {
-                  marginTop: 15,
-                  borderColor: colors.white,
-                  backgroundColor: colors.white,
-                  borderRadius: 10,
-                  height: 60,
-                  alignItems: "flex-start",
-                  paddingLeft: 10,
-                  width: "100%",
-                  marginHorizontal: 10,
-                },
-              }}
-              onDateChange={(date) => {
-                handleDateChange1(date);
-              }}
-            />
-          </View>
-        </View>
-      </View> */}
-
-
-<View style={{}}>
-        {/*       <View style={{ marginBottom: 10, width: "50%" }}>
-          <AppText
-            style={[
-              { marginHorizontal: sizes.base_margin, marginVertical: 14 },
-              styles.p1,
-            ]}
-          >
-            Date From
-          </AppText>
-          <View>
-            <DatePicker
-              modal
-              open={true}
-              showIcon={false}
-              style={{ width: "100%" }}
-              date={fromdate}
-              mode="date"
-              placeholder=" Select date"
-              format="yyyy-MM-DD"
-              minDate="2000-01-01"
-              confirmBtnText="Confirm"
-              display="default"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateInput: {
-                  marginTop: 15,
-                  borderColor: colors.white,
-                  backgroundColor: colors.white,
-                  borderRadius: 10,
-                  height: 50,
-                  alignItems: "flex-start",
-                  paddingLeft: 10,
-                  width: "100%",
-                  marginHorizontal: 10,
-                },
-              }}
-              onDateChange={(date) => {
-                handleDateChange(date);
-              }}
-            />
-          </View>
-        </View>
-        <View style={{ marginBottom: 10, width: "50%" }}>
-          <AppText
-            style={[
-              { marginHorizontal: sizes.base_margin, marginVertical: 14 },
-              styles.p1,
-            ]}
-          >
-            Date To
-          </AppText>
-          <View>
-            <DatePicker
-              showIcon={false}
-              style={{ width: "100%" }}
-              date={todate}
-              mode="date"
-              placeholder=" Select date"
-              format="yyyy-MM-DD"
-              minDate="2000-01-01"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: "relative",
-                  left: 0,
-                  top: 0,
-                  marginLeft: 10,
-                },
-                dateInput: {
-                  marginTop: 15,
-                  borderColor: colors.white,
-                  backgroundColor: colors.white,
-                  borderRadius: 10,
-                  height: 50,
-                  alignItems: "flex-start",
-                  paddingLeft: 10,
-                  width: "100%",
-                  marginHorizontal: 10,
-                },
-              }}
-              onDateChange={(date) => {
-                handleDateChange1(date);
-              }}
-            />
-          </View>
-        </View> */}
-
         <Pressable
           onPress={() => setIsPickerShow(true)}
           style={{
             flexDirection: "row",
-            marginTop: 20,
+            marginTop: 0,
             borderColor: "#aaa",
             borderWidth: 1,
           }}
@@ -430,12 +255,12 @@ const getAllCustomers = async (code, territory) => {
           />
         )}
 
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom:0 }}>
           <Pressable
             onPress={() => setIsPickerShow2(true)}
             style={{
               flexDirection: "row",
-              marginTop: 20,
+              marginTop: 10,
               borderColor: "#aaa",
               borderWidth: 1,
             }}
@@ -477,26 +302,9 @@ const getAllCustomers = async (code, territory) => {
             />
           )}
         </View>
-      </View>
-{/* 
-      <View style={{ marginTop: 20,}}>
-                    <AppText style={styles.p1}>Select Customer</AppText>
-                    <View
-                        style={styles.picker}>
-                        <RNPickerSelect
-                            onValueChange={(value, indx) => setCoBusinessPartner(value)}
-                            items={customerList}
-                            placeholder={{
-                                label: "Select Business Partner",
-                                value: null,
-                            }}
-                            useNativeAndroidPickerStyle={false}
-                            style={pickerStyle}
-                        />
-                    </View>
-                </View> */}
-      
-      <View style={{ marginTop: 40 , }}>
+
+
+      <View style={{ marginTop: 20, }}>
         <TouchableOpacity onPress={() => getSaleReport()}>
           <AppButton
             text="Get Data"
@@ -522,7 +330,7 @@ const getAllCustomers = async (code, territory) => {
       <View>
         <AppHeader
           doubleBtn
-          doubleBtnContainerStyle={{}}                                                                                                        
+          doubleBtnContainerStyle={{}}
           doubleBtnImg1={require("../assets/back-button.png")}
           titleImg1="Back"
           styleImg1={{
@@ -610,7 +418,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderColor: colors.white,
     backgroundColor: colors.white,
-},
+  },
 
   customTxtStyle1: {
     color: colors.BLACK,
@@ -744,7 +552,7 @@ const styles = StyleSheet.create({
   routetwo: {
     backgroundColor: "#F1F1F1",
     flex: 1,
-   // marginBottom:100,
+    // marginBottom:100,
   },
 
   p3: {

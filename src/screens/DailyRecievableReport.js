@@ -19,6 +19,11 @@ const DailyRecievableReport = ({ navigation, route }) => {
   const [slp, setSlp] = useState(0);
   const [loading, setloading] = useState(false);
 
+  const [overDueBalance, setoverDueBalance] = useState("");
+  const [totalAmount, settotalAmount] = useState("");
+  const [totalPaid, settotalPaid] = useState("");
+  const [totalRecievable, settotalRecievable] = useState("");
+
   const getUserDetails = async () => {
     const jsonValue = await AsyncStorage.getItem("@user_Details");
     setSlp(JSON.parse(jsonValue).salePersonCode);
@@ -29,8 +34,12 @@ const DailyRecievableReport = ({ navigation, route }) => {
     //  alert(slpCode);
     setprogressVisible(true);
     const response = await POHeaderDetailsApi.getDailyRecievableHeaderDetails(slpCode);
-    console.log(response?.data.data, "DalyRecivble ------>");
-    console.log(response?.data.data[0].details, "details ------>");
+    console.log(response?.data.overDueBalance, "DalyRecivble ------>");
+    // console.log(response?.data.data[0].details, "details ------>");
+    setoverDueBalance(response?.data?.overDueBalance);
+    settotalAmount(response?.data?.totalAmount);
+    settotalPaid(response?.data?.totalPaid);
+    settotalRecievable(response?.data?.totalRecievable);
     setPOHeaderData(response?.data.data);
     setprogressVisible(false);
   };
@@ -98,11 +107,11 @@ const DailyRecievableReport = ({ navigation, route }) => {
       let GroupMtrsReqTotal = 0;
 
       let sNum = 0;
- 
+
       const tableRows1 = p_oHeaderData
         .map((object) => {
-          let paidToDate=0
-          let docTotal=0;
+          let paidToDate = 0
+          let docTotal = 0;
           let Balance = 0;
 
           sNum++;
@@ -129,14 +138,14 @@ const DailyRecievableReport = ({ navigation, route }) => {
            ${object.details
               .map((innerObj) => {
                 GroupMtrsReqTotal = 0;
-             //   Balance = innerObj.balance;
+                //    Balance = innerObj.balance;
 
                 return `
                 <tr>
                 <td rowspan="1" class="txtCenter">${innerObj.docNum} </td>
                 <td rowspan="1" class="txtCenter">${innerObj.invoiceDate}</td>
-                <td rowspan="1" class="txtCenter">${innerObj.docTotal}</td>
-                <td rowspan="1" class="txtCenter">${innerObj.paidToDate}</td>
+                <td rowspan="1" class="txtCenter">${innerObj.docTotalString}</td>
+                <td rowspan="1" class="txtCenter">${innerObj.paidToDateString}</td>
                 <td rowspan="1" class="txtCenter">${innerObj.balance}</td>
                 <td rowspan="1" class="txtCenter">${innerObj.dueDate}</td>
                 <td rowspan="1" class="txtCenter">${innerObj.dueDays}</td>
@@ -146,18 +155,18 @@ const DailyRecievableReport = ({ navigation, route }) => {
               .join("")}
 
               <tr>
-              <td rowspan="1" class="txtCenter"> </td>
               <td rowspan="1" class="txtCenter"></td>
-              <td rowspan="1" class="txtCenter">${docTotal}</td>
-              <td rowspan="1" class="txtCenter">${paidToDate}</td>
-              <td rowspan="1" class="txtCenter">${Balance}</td>
+              <td rowspan="1" class="txtCenter"></td>
+              <td rowspan="1" class="fBoldCenter">${object.invoiceTotalString}</td>
+              <td rowspan="1" class="fBoldCenter">${object.paidTotalString}</td>
+              <td rowspan="1" class="fBoldCenter">${object.totalBalanceString}</td>
               <td rowspan="1" class="txtCenter"></td>
               <td rowspan="1" class="txtCenter"></td>
               </tr>
 
               <tr>
               <td colspan="7" style="padding-left: 10%; text-align: center; font-weight: 600; font-size: small;border: 0px">
-                OverDue Balance:<span style="padding-left: 14%;">${Balance}</span>
+                OverDue Balance:<span style="padding-left: 14%;">${object.totalBalanceString}</span>
               </td>
                </tr>
 
@@ -200,7 +209,22 @@ const DailyRecievableReport = ({ navigation, route }) => {
             font-weight: bold;
             text-align: center;
           }
-      
+          .t3 {
+
+            color: black;
+            font-family: Calibri, sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 10pt;
+            margin-left: 20px;
+            margin-right: 20px;
+            }
+            .lastTable2 {
+            border-style: solid;
+            border-width: 1pt;
+            
+            }
+            
           .txtCenter {
             text-align: center;
           }
@@ -303,16 +327,57 @@ const DailyRecievableReport = ({ navigation, route }) => {
         ${tableRows1}
       </tbody>
     </table>
-    
-    <div class="tDiv">
-    <p class="fBoldCenter">Total</p>
-  </div>
+ 
+    <table style="float: right;margin-right: 2%;margin-top: 20px;">
+        <tr>
+            <td class="lastTable2">
+                <p class="t3" style="text-align: left">Total Amount:</p>
+                <p class="t3" style="text-align: left">Total Paid:</p>
+                <p class="t3" style="text-align: left">Total Receivable:</p>
+                <p class="t3" style="text-align: left;">Overdue Balance:</p>
+            </td>
+
+            <td class="lastTable2">
+                <p class="t3" style="text-align: right">${totalAmount}</p>
+                <p class="t3" style="text-align: right">${totalPaid}</p>
+                <p class="t3" style="text-align: right">${totalRecievable}</p>
+                <p class="t3" style="text-align: right;">${overDueBalance}</p>
+
+
+            </td>
+        </tr>
+    </table>
+
         </body>
       </html>
     `;
 
       return htmlTemplate;
     }
+
+
+    /*     <div style="float: right;margin-right: 2%;margin-top: 20px;">
+        <table>
+            <tr style="height: 0px">
+                <td class="lastTable2">
+                    <p class="t3" style="text-align: left">Total Amount:</p>
+                    <p class="t3" style="text-align: left">Total Paid:</p>
+                    <p class="t3" style="text-align: left">Total Receivable:</p>
+                    <p class="t3" style="text-align: left;">Overdue Balance:</p>
+                </td>
+    
+                <td class="lastTable2">
+                    <p class="t3" style="text-align: right">totalDebit1</p>
+                    <p class="t3" style="text-align: right">totalCredit1</p>
+                    <p class="t3" style="text-align: right">closingBalance1</p>
+                    <p class="t3" style="text-align: right;">totalOverdue1</p>
+    
+    
+                </td>
+            </tr>
+        </table>
+    
+    </div> */
 
     const pdfTemplate = generatePDFTemplate();
     try {

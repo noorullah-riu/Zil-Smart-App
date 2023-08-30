@@ -106,7 +106,7 @@ const PostOrderEdit = ({ route, navigation }) => {
       sosq["customerCode"] = itemx.customerCode;
       sosq["customerName"] = itemx.customerName;
       sosq["deliveryDate"] = todaysdate,//"2023/05/24",//date;
-      sosq["series"] = 181;
+        sosq["series"] = 181;
       sosq["remarks"] = remarks;
       sosq["docDueDate"] = todaysdate;
       sosq["docDate"] = todaysdate;
@@ -496,11 +496,10 @@ const PostOrderEdit = ({ route, navigation }) => {
             itemx: itemx,
           })
         }
-        //  onPress={() => alert("go to items page")}
-        style={{ marginTop: 10, alignItems: "flex-end", marginRight: 10 }}
+        style={{ marginTop: 10, alignSelf: "flex-end",justifyContent:"center", borderRadius: 10, marginRight: 10, backgroundColor: colors.secondary, height: 30, width: "50%" }}
       >
-        {/*  <Text style={{ color: "green" }}>Add Items</Text> */}
-        <Text style={{ color: "green" }}>T{Total}--RT{subTotal}--Add Items</Text>
+        <Text style={{ color: "#fff", textAlign: "center",fontWeight:"bold" }}>Add Items</Text>
+        {/*    <Text style={{ color: "green" }}>T{Total}--RT{subTotal}--Add Items</Text> */}
       </TouchableOpacity>
       <AppRow style={styles.r1}>
         <AppText style={styles.p1_0}>Item Name</AppText>

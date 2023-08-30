@@ -19,19 +19,19 @@ const InvoiceDetailCard = ({item}) => {
             <AppRow>
                 <AppColumn style={styles.c1}>
                     <AppText numberOfLines={2} style={styles.p2}>
-                        {item.itemName ? item.itemName : item.itemCode}
+                        {item.description}
                     </AppText>
                 </AppColumn>
 
                 <AppColumn style={styles.c2}>
-                    <AppText style={styles.p6b}>{item.cartons == 0 ? item.totalPcs : item.cartons}</AppText>
+                    <AppText style={styles.p6b}>{item.ctns}</AppText>
                 </AppColumn>
                 <AppColumn style={styles.c3}>
-                    <AppText style={styles.p7b}>{parseFloat(item.price).toFixed(2)}</AppText>
+                    <AppText style={styles.p7b}>{item.pieces}</AppText>
                 </AppColumn>
-                <AppColumn style={styles.c3}>
-                    <AppText style={styles.p7b}>{parseFloat(item.price * item.totalPcs).toFixed(2)}</AppText>
-                </AppColumn>
+           {/*      <AppColumn style={styles.c3}>
+                    <AppText style={styles.p7b}>{item.price * item.totalPcs}</AppText>
+                </AppColumn> */}
             </AppRow>
         </View>
     );
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         // borderWidth:1
     },
     c2: {
-        width: "20%",
+        width: "40%",
         flexDirection: "row",
         marginLeft: 3
         // borderWidth:1
