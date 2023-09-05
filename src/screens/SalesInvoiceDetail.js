@@ -436,7 +436,7 @@ const SalesInvoiceDetail = ({ route, navigation }) => {
       setDraftTableDetail(response.data.data.invoiceDetail);
       setDateC(response?.data.data?.docDate);
       setInvoiceC(response?.data.data?.cardCode);
-      setDeliveryC(response?.data.data?.dscription);
+      setDeliveryC(response?.data.data?.deliveryNo);
       
       setCNIC(response?.data.data?.cnic);
       setNameC(response?.data.data?.cardName);
@@ -459,7 +459,7 @@ const SalesInvoiceDetail = ({ route, navigation }) => {
           <td style="width: 40%;">${item.description}</td>
           <td style="text-align: center;">${item.ctns}</td>
           <td style="text-align: center;">${item.pieces}</td>
-          <td style="text-align: center;">item.price}</td>
+          <td style="text-align: center;">${item.unitPrice}</td>
           <td style="text-align: center;">${item.totalString}</td>
           <td style="text-align: center;">${item.rate}</td>
           <td style="text-align: center;">${item.amount}</td>
